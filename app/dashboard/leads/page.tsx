@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { Plus, Search, Kanban, List, Filter, Trash2, Calendar, Phone, ArrowRightLeft, Sparkles, X } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { StatusBadge } from "@/components/shared/StatusBadge";
