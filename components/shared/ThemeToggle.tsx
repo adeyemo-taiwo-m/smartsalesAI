@@ -15,7 +15,7 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="fixed bottom-6 right-24 z-[99999] w-12 h-12 rounded-full bg-dark-card border border-dark-border flex items-center justify-center opacity-40">
+      <div className="fixed bottom-6 left-6 z-[99999] w-12 h-12 rounded-full bg-dark-card border border-dark-border flex items-center justify-center opacity-40">
         <Sparkles size={18} className="text-slate-400" />
       </div>
     );
@@ -26,7 +26,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="fixed bottom-6 right-24 z-[99999] w-12 h-12 rounded-full bg-dark-card/90 border border-dark-border shadow-widget flex items-center justify-center text-text-primary hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer backdrop-blur-md hover:border-blue-500/30 group"
+      className="fixed bottom-6 left-6 z-[99999] w-12 h-12 rounded-full bg-dark-card/90 border border-dark-border shadow-widget flex items-center justify-center text-text-primary hover:scale-110 active:scale-95 transition-all duration-200 cursor-pointer backdrop-blur-md hover:border-blue-500/30 group"
       title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
       aria-label="Toggle Theme"
     >
@@ -38,3 +38,4 @@ export function ThemeToggle() {
     </button>
   );
 }
+

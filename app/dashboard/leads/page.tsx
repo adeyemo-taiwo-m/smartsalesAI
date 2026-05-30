@@ -84,18 +84,18 @@ export default function LeadsPage() {
   return (
     <div className="space-y-6 relative">
       {/* Title zone */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-slate-700/30 select-none">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-dark-border select-none">
         <div>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-50 tracking-tight">Leads Pipeline</h1>
-          <p className="text-xs text-slate-400 mt-1">Qualify chats, update pipelines stages, and close Nigerian SME shoppers.</p>
+          <h1 className="text-xl sm:text-2xl font-extrabold text-text-primary tracking-tight">Leads Pipeline</h1>
+          <p className="text-xs text-text-muted mt-1">Qualify chats, update pipelines stages, and close Nigerian SME shoppers.</p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
           {/* Toggle Kanban/Table */}
-          <div className="flex bg-dark border border-slate-700/50 rounded-xl p-1 shrink-0 mr-1.5">
+          <div className="flex bg-dark border border-dark-border rounded-xl p-1 shrink-0 mr-1.5">
             <button
               onClick={() => setViewMode("kanban")}
               className={`p-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all ${
-                viewMode === "kanban" ? "bg-dark-card text-blue-400 shadow-sm" : "text-slate-400 hover:text-slate-200"
+                viewMode === "kanban" ? "bg-dark-card text-blue-400 shadow-sm" : "text-text-muted hover:text-text-primary"
               }`}
             >
               <Kanban size={14} /> Kanban
@@ -103,7 +103,7 @@ export default function LeadsPage() {
             <button
               onClick={() => setViewMode("table")}
               className={`p-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all ${
-                viewMode === "table" ? "bg-dark-card text-blue-400 shadow-sm" : "text-slate-400 hover:text-slate-200"
+                viewMode === "table" ? "bg-dark-card text-blue-400 shadow-sm" : "text-text-muted hover:text-text-primary"
               }`}
             >
               <List size={14} /> List View
@@ -120,15 +120,15 @@ export default function LeadsPage() {
       </div>
 
       {/* SEARCH & FILTERS BAR */}
-      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-dark-card border border-slate-700/50 rounded-xl p-4 select-none">
+      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-dark-card border border-dark-border rounded-xl p-4 select-none">
         {/* Search */}
         <div className="relative w-full md:max-w-sm">
-          <Search size={14} className="absolute left-3 top-2.5 text-slate-500" />
+          <Search size={14} className="absolute left-3 top-2.5 text-text-muted" />
           <Input
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search by name or number..."
-            className="h-8.5 pl-8.5 bg-dark border-slate-800 text-slate-200 placeholder:text-slate-600 rounded-lg focus-visible:ring-1 focus-visible:ring-blue-500 text-xs"
+            className="h-8.5 pl-8.5 bg-dark border-dark-border text-text-primary placeholder:text-text-muted/50 rounded-lg focus-visible:ring-1 focus-visible:ring-blue-500 text-xs"
           />
         </div>
 

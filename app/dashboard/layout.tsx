@@ -39,7 +39,7 @@ export default function DashboardLayout({
   }, [leads, sendMessage]);
 
   return (
-    <div className="flex min-h-screen bg-dark overflow-hidden selection:bg-brand-blue/30 select-none text-slate-100">
+    <div className="flex min-h-screen bg-dark overflow-hidden selection:bg-brand-blue/30 select-none text-text-primary">
       {/* Dashboard sidebar navigation pane */}
       <Sidebar />
 

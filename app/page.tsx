@@ -55,12 +55,12 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="flex min-h-screen flex-col bg-dark text-slate-50 relative selection:bg-brand-blue/30 selection:text-white">
+    <div className="flex min-h-screen flex-col bg-dark text-text-primary relative selection:bg-brand-blue/30 selection:text-white">
       {/* Radial Background Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-blue-600/15 via-purple-600/5 to-transparent blur-3xl pointer-events-none -z-10" />
 
       {/* STICKY GLASS NAVBAR */}
-      <header className="sticky top-0 z-50 w-full border-b border-slate-700/50 bg-dark/80 backdrop-blur-md">
+      <header className="sticky top-0 z-50 w-full border-b border-dark-border bg-dark-card/80 backdrop-blur-md">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
@@ -73,14 +73,14 @@ export default function LandingPage() {
           </Link>
 
           {/* Navigation Links (Desktop) */}
-          <nav className="hidden md:flex gap-8 text-sm font-medium text-slate-400">
-            <Link href="#features" className="hover:text-slate-100 transition-colors">
+          <nav className="hidden md:flex gap-8 text-sm font-medium text-text-muted">
+            <Link href="#features" className="hover:text-text-primary transition-colors">
               Features
             </Link>
-            <Link href="#testimonials" className="hover:text-slate-100 transition-colors">
+            <Link href="#testimonials" className="hover:text-text-primary transition-colors">
               Reviews
             </Link>
-            <Link href="#pricing" className="hover:text-slate-100 transition-colors">
+            <Link href="#pricing" className="hover:text-text-primary transition-colors">
               Pricing
             </Link>
           </nav>
@@ -90,7 +90,7 @@ export default function LandingPage() {
             <Link href="/dashboard">
               <Button
                 variant="ghost"
-                className="text-slate-400 hover:text-slate-100 hover:bg-slate-800/40 text-xs font-semibold"
+                className="text-text-muted hover:text-text-primary hover:bg-dark text-xs font-semibold"
               >
                 Log In
               </Button>
@@ -105,7 +105,7 @@ export default function LandingPage() {
           {/* Hamburger Mobile Menu Toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-slate-400 hover:text-slate-100 focus:outline-none"
+            className="md:hidden p-2 text-text-muted hover:text-text-primary focus:outline-none"
           >
             <Menu size={22} />
           </button>

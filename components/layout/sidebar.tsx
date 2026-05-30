@@ -46,7 +46,7 @@ export function Sidebar() {
       {/* Left Sidebar desktop */}
       <aside
         className={cn(
-          "fixed top-0 left-0 z-50 h-screen bg-dark-card border-r border-slate-700/50 flex flex-col justify-between transition-all duration-300 ease-in-out select-none",
+          "fixed top-0 left-0 z-50 h-screen bg-dark-card border-r border-dark-border flex flex-col justify-between transition-all duration-300 ease-in-out select-none",
           sidebarOpen
             ? "w-64 translate-x-0"
             : "w-64 -translate-x-full md:w-20 md:translate-x-0"
@@ -54,7 +54,7 @@ export function Sidebar() {
       >
         <div>
           {/* Logo Zone */}
-          <div className="flex h-16 items-center px-6 border-b border-slate-700/50">
+          <div className="flex h-16 items-center px-6 border-b border-dark-border">
             <Link
               href="/dashboard"
               className="flex items-center gap-2.5 overflow-hidden whitespace-nowrap group"
@@ -84,7 +84,7 @@ export function Sidebar() {
                     "flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 relative",
                     isActive
                       ? "bg-blue-600/10 text-blue-400"
-                      : "text-slate-400 hover:text-slate-50 hover:bg-slate-800/40",
+                      : "text-text-muted hover:text-text-primary hover:bg-brand-blue/5 dark:hover:bg-slate-800/40",
                     !sidebarOpen && "md:justify-center md:px-0"
                   )}
                   title={!sidebarOpen ? link.label : undefined}
@@ -101,13 +101,13 @@ export function Sidebar() {
         </div>
 
         {/* User Card Zone */}
-        <div className="p-4 border-t border-slate-700/50 space-y-3 bg-dark/20">
+        <div className="p-4 border-t border-dark-border space-y-3 bg-dark/20">
           <div className={cn("flex items-center gap-3", !sidebarOpen && "md:justify-center")}>
             <div className="relative shrink-0">
               <img
                 src={user?.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${user?.name || 'A'}`}
                 alt={user?.name || "User Avatar"}
-                className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700"
+                className="w-10 h-10 rounded-full bg-dark-card border border-dark-border"
               />
               <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-dark-card animate-pulse" />
             </div>
@@ -141,7 +141,7 @@ export function Sidebar() {
       </aside>
 
       {/* Floating Bottom Nav bar strictly on mobile */}
-      <nav className="fixed bottom-0 left-0 right-0 h-16 bg-dark-card/90 backdrop-blur-md border-t border-slate-700/50 flex items-center justify-around md:hidden z-40 px-2 shadow-lg">
+      <nav className="fixed bottom-0 left-0 right-0 h-16 bg-dark-card/90 backdrop-blur-md border-t border-dark-border flex items-center justify-around md:hidden z-40 px-2 shadow-lg">
         {links.map((link) => {
           const Icon = link.icon;
           const isActive = pathname === link.href;

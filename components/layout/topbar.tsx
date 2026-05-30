@@ -35,22 +35,22 @@ export function Topbar() {
   const totalUnreadCount = leads.reduce((acc, lead) => acc + lead.unreadCount, 0);
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-slate-700/50 bg-dark/80 px-4 backdrop-blur-md md:px-6">
+    <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-dark-border bg-dark-card/85 px-4 backdrop-blur-md md:px-6">
       {/* Left side: Mobile Toggle & Page Titles */}
       <div className="flex items-center gap-3">
         <Button
           variant="ghost"
           size="icon"
           onClick={toggleSidebar}
-          className="md:hidden text-slate-400 hover:text-slate-50 hover:bg-slate-800/50"
+          className="md:hidden text-text-muted hover:text-text-primary hover:bg-dark/40"
         >
           <Menu className="h-5 w-5" />
         </Button>
         <div className="flex flex-col">
-          <span className="text-xs text-slate-500 font-medium hidden sm:block">
+          <span className="text-xs text-text-muted font-medium hidden sm:block">
             {pageTitle.bread}
           </span>
-          <h2 className="text-base sm:text-lg font-bold text-slate-50 tracking-tight leading-tight">
+          <h2 className="text-base sm:text-lg font-bold text-text-primary tracking-tight leading-tight">
             {pageTitle.title}
           </h2>
         </div>
@@ -60,25 +60,25 @@ export function Topbar() {
       <div className="flex items-center gap-4">
         {/* Search Field (Hidden on small mobile) */}
         <div className="relative hidden md:block">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-text-muted" />
           <Input
             type="search"
             placeholder="Search leads, payments..."
-            className="w-60 pl-9 rounded-full bg-dark-card border-slate-700 text-slate-200 placeholder:text-slate-600 focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:border-blue-500 text-xs py-1"
+            className="w-60 pl-9 rounded-full bg-dark border-dark-border text-text-primary placeholder:text-text-muted/50 text-xs py-1"
           />
         </div>
 
         {/* Business Store indicator */}
-        <div className="hidden lg:flex items-center gap-2 bg-slate-800/40 border border-slate-700/40 rounded-full px-3 py-1.5 text-xs text-slate-300">
+        <div className="hidden lg:flex items-center gap-2 bg-dark/40 border border-dark-border rounded-full px-3 py-1.5 text-xs text-text-primary">
           <Store size={14} className="text-blue-400" />
-          <span className="font-semibold text-slate-200">Kene Fashion Hub</span>
+          <span className="font-semibold text-text-primary">Kene Fashion Hub</span>
         </div>
 
         {/* Notifications Icon Button */}
         <Button
           variant="ghost"
           size="icon"
-          className="relative text-slate-400 hover:text-slate-100 hover:bg-slate-800/50 rounded-full shrink-0"
+          className="relative text-text-muted hover:text-text-primary hover:bg-dark rounded-full shrink-0"
         >
           <Bell className="h-4.5 w-4.5" />
           {totalUnreadCount > 0 && (
@@ -87,17 +87,17 @@ export function Topbar() {
         </Button>
 
         {/* Dynamic User Profile Header */}
-        <div className="flex items-center gap-2.5 pl-3 border-l border-slate-700/50 shrink-0">
+        <div className="flex items-center gap-2.5 pl-3 border-l border-dark-border shrink-0">
           <div className="text-right hidden sm:block">
-            <p className="text-xs font-semibold text-slate-200">{user?.name || "Admin Manager"}</p>
-            <p className="text-[10px] text-slate-500 font-medium capitalize mt-0.5">
+            <p className="text-xs font-semibold text-text-primary">{user?.name || "Admin Manager"}</p>
+            <p className="text-[10px] text-text-muted font-medium capitalize mt-0.5">
               {user?.role || "Owner"}
             </p>
           </div>
           <img
             src={user?.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${user?.name || 'A'}`}
             alt={user?.name || "Avatar"}
-            className="w-8 h-8 rounded-full border border-slate-700 bg-slate-800 shrink-0 ring-2 ring-transparent hover:ring-blue-500/20 duration-200 transition-all cursor-pointer"
+            className="w-8 h-8 rounded-full border border-dark-border bg-dark-card shrink-0 ring-2 ring-transparent hover:ring-blue-500/20 duration-200 transition-all cursor-pointer"
           />
         </div>
       </div>

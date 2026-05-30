@@ -58,10 +58,10 @@ export function StatCard({
   };
 
   return (
-    <div className="bg-dark-card rounded-xl border border-slate-700/50 shadow-card p-5 hover:border-blue-500/30 hover:shadow-card-hover transition-all duration-200 group">
+    <div className="bg-dark-card rounded-xl border border-dark-border shadow-card p-5 hover:border-blue-500/30 hover:shadow-card-hover transition-all duration-200 group">
       <div className="flex items-start justify-between">
         <div className="space-y-1.5">
-          <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+          <p className="text-xs font-semibold text-text-muted uppercase tracking-wider">
             {label}
           </p>
           <h4 className="text-2xl font-bold text-text-primary tabular-nums">
@@ -79,12 +79,12 @@ export function StatCard({
                 <span>{change}%</span>
               </span>
             ) : (
-              <span className="flex items-center gap-0.5 text-slate-400 font-medium">
+              <span className="flex items-center gap-0.5 text-text-muted font-medium">
                 <Minus size={14} />
                 <span>0%</span>
               </span>
             )}
-            <span className="text-slate-500">vs yesterday</span>
+            <span className="text-text-muted/70">vs yesterday</span>
           </div>
         </div>
         <div

@@ -44,33 +44,33 @@ export function LiveConversationsPanel({ className = "" }: LiveConversationsPane
   };
 
   return (
-    <div className={cn("bg-dark-card rounded-xl border border-slate-700/50 shadow-card flex flex-col overflow-hidden h-[540px] group hover:border-slate-600 transition-colors", className)}>
+    <div className={cn("bg-dark-card rounded-xl border border-dark-border shadow-card flex flex-col overflow-hidden h-[540px] group hover:border-blue-500/30 transition-colors", className)}>
       {/* Panel Header */}
-      <div className="px-5 py-4 border-b border-slate-700/50 flex items-center justify-between">
+      <div className="px-5 py-4 border-b border-dark-border flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
           <h3 className="text-sm font-bold text-text-primary uppercase tracking-wider">Live Conversations</h3>
         </div>
-        <span className="bg-slate-800/80 border border-slate-700/50 text-[10px] font-bold px-2 py-0.5 rounded-full text-slate-400">
+        <span className="bg-dark border border-dark-border text-[10px] font-bold px-2 py-0.5 rounded-full text-text-muted">
           {leads.length} Active
         </span>
       </div>
 
       {/* Search Filter Box */}
-      <div className="p-3 border-b border-slate-700/40 bg-dark/15">
+      <div className="p-3 border-b border-dark-border bg-dark/15">
         <div className="relative">
-          <Search size={14} className="absolute left-3 top-2.5 text-slate-500" />
+          <Search size={14} className="absolute left-3 top-2.5 text-text-muted" />
           <Input
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search active chats..."
-            className="h-8 pl-8 pr-3 text-xs bg-dark border-slate-800 text-slate-200 placeholder:text-slate-600 rounded-full focus-visible:ring-1 focus-visible:ring-blue-500"
+            className="h-8 pl-8 pr-3 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/50 rounded-full focus-visible:ring-1 focus-visible:ring-blue-500"
           />
         </div>
       </div>
 
       {/* Leads Chat List */}
-      <div className="flex-1 overflow-y-auto divide-y divide-slate-800/30">
+      <div className="flex-1 overflow-y-auto divide-y divide-dark-border/40">
         {filteredLeads.length > 0 ? (
           filteredLeads.map((lead) => {
             const isSelected = selectedLeadId === lead.id;
@@ -84,7 +84,7 @@ export function LiveConversationsPanel({ className = "" }: LiveConversationsPane
                   "flex items-start gap-3.5 px-4 py-3.5 cursor-pointer transition-all duration-150 relative select-none",
                   isSelected
                     ? "bg-blue-600/10 border-l-3 border-l-blue-500"
-                    : "hover:bg-slate-800/30 border-l-3 border-l-transparent"
+                    : "hover:bg-dark/40 border-l-3 border-l-transparent"
                 )}
               >
                 {/* Initial Avatar with Pulsing Active state */}
@@ -106,11 +106,11 @@ export function LiveConversationsPanel({ className = "" }: LiveConversationsPane
                     <h4 className="text-xs font-bold text-text-primary truncate">
                       {lead.name}
                     </h4>
-                    <span className="text-[10px] text-slate-500 font-medium">
+                    <span className="text-[10px] text-text-muted font-medium">
                       {formatTime(lead.lastMessageTime)}
                     </span>
                   </div>
-                  <p className="text-[11px] text-slate-400 truncate leading-relaxed">
+                  <p className="text-[11px] text-text-muted truncate leading-relaxed">
                     {lead.lastMessage}
                   </p>
                   <div className="flex items-center justify-between pt-1">
@@ -126,7 +126,7 @@ export function LiveConversationsPanel({ className = "" }: LiveConversationsPane
             );
           })
         ) : (
-          <div className="py-20 text-center text-slate-500 text-xs">
+          <div className="py-20 text-center text-text-muted text-xs">
             No chats matched your search query.
           </div>
         )}
