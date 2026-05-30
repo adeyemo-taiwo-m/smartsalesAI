@@ -26,9 +26,9 @@ export default function RootLayout({
       <body className="antialiased bg-dark text-text-primary min-h-screen font-sans transition-colors duration-300">
         <Providers>
           {children}
+          <Toaster />
+          <ThemeToggle />
         </Providers>
-        <Toaster />
-        <ThemeToggle />
       </body>
     </html>
   );
