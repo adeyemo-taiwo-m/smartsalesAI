@@ -4,65 +4,67 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  
+
   --font-sans: 'Inter', sans-serif;
 
-  --color-brand-blue: #2563eb;
-  --color-brand-purple: #7c3aed;
-  --color-brand-green: #22c55e;
-  --color-brand-orange: #f97316;
-  
-  --color-dark: var(--background);
-  --color-dark-card: var(--card-bg);
+  /* Brand colors — v1.1 */
+  --color-brand-green:       #1D6B4A;
+  --color-brand-green-light: #22C55E;
+  --color-brand-purple:      #7C3AED;
+  --color-brand-orange:      #F97316;
+
+  /* Surface tokens */
+  --color-dark:        var(--background);
+  --color-dark-card:   var(--card-bg);
   --color-dark-border: var(--border-color);
-  
+
+  /* Text tokens */
   --color-text-primary: var(--text-primary);
-  --color-text-muted: var(--text-muted);
+  --color-text-muted:   var(--text-muted);
 
-  --color-primary: #2563eb;
+  /* Semantic */
+  --color-primary:            #1D6B4A;
   --color-primary-foreground: #ffffff;
-
-  --color-accent: #7c3aed;
-  --color-accent-foreground: #ffffff;
-
-  --color-success: #22c55e;
+  --color-accent:             #7C3AED;
+  --color-accent-foreground:  #ffffff;
+  --color-success:            #22C55E;
   --color-success-foreground: #ffffff;
+  --color-muted:              var(--card-bg);
+  --color-muted-foreground:   var(--text-muted);
+  --color-card:               var(--card-bg);
+  --color-card-foreground:    var(--text-primary);
+  --color-border:             var(--border-color);
 
-  --color-muted: var(--card-bg);
-  --color-muted-foreground: var(--text-muted);
-
-  --color-card: var(--card-bg);
-  --color-card-foreground: var(--text-primary);
-
-  --color-border: var(--border-color);
-  
-  --shadow-card: 0 1px 3px rgba(0,0,0,0.1), 0 0 0 1px var(--border-color);
-  --shadow-card-hover: 0 4px 24px rgba(0,0,0,0.15), 0 0 0 1px rgba(37,99,235,0.15);
-  --shadow-blue: 0 0 20px rgba(37,99,235,0.2);
-  --shadow-purple: 0 0 20px rgba(124,58,237,0.2);
-  --shadow-green: 0 0 20px rgba(34,197,94,0.15);
-  --shadow-widget: 0 25px 60px rgba(0,0,0,0.3);
-  --shadow-pricing-glow: 0 8px 40px rgba(37,99,235,0.25);
+  /* Shadows — v1.1 */
+  --shadow-card:         0 1px 3px rgba(0,0,0,0.4), 0 0 0 1px rgba(51,65,85,0.5);
+  --shadow-card-hover:   0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(29,107,74,0.15);
+  --shadow-green:        0 0 20px rgba(29,107,74,0.25);
+  --shadow-green-soft:   0 0 20px rgba(34,197,94,0.15);
+  --shadow-purple:       0 0 20px rgba(124,58,237,0.2);
+  --shadow-widget:       0 25px 60px rgba(0,0,0,0.7);
+  --shadow-pricing-glow: 0 8px 40px rgba(29,107,74,0.3);
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ── Light mode (default) ── */
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --card-bg: #ffffff;
+  --background:   #f8fafc;
+  --foreground:   #0f172a;
+  --card-bg:      #ffffff;
   --border-color: #e2e8f0;
   --text-primary: #0f172a;
-  --text-muted: #64748b;
+  --text-muted:   #64748b;
 }
 
+/* ── Dark mode ── */
 .dark {
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  --card-bg: #1e293b;
+  --background:   #0F172A;
+  --foreground:   #F8FAFC;
+  --card-bg:      #1E293B;
   --border-color: #334155;
-  --text-primary: #f8fafc;
-  --text-muted: #94a3b8;
+  --text-primary: #F8FAFC;
+  --text-muted:   #94A3B8;
 }
 
 body {
@@ -72,6 +74,26 @@ body {
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
+
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar              { width: 6px; height: 6px; }
+::-webkit-scrollbar-track        { background: #0F172A; }
+::-webkit-scrollbar-thumb        { background: #334155; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover  { background: #475569; }
+
+/* ── Float animation (hero mockup) ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+.animate-float { animation: float 4s ease-in-out infinite; }
+
+/* ── Slide-up (chat widget panel) ── */
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.animate-slide-up { animation: slide-up 0.25s ease-out; }
 
 @layer utilities {
   .text-balance {
