@@ -29,18 +29,18 @@ export function Toaster() {
           <div
             key={toast.id}
             className={cn(
-              "pointer-events-auto bg-dark-card border border-slate-700/50 rounded-xl p-3.5 shadow-widget flex items-start gap-3 transition-all duration-300 animate-in slide-in-from-right-5",
+              "pointer-events-auto bg-dark-card border border-dark-border rounded-xl p-3.5 shadow-widget flex items-start gap-3 transition-all duration-300 animate-in slide-in-from-right-5",
               borders[toast.type]
             )}
           >
             {icons[toast.type]}
             <div className="flex-1 space-y-0.5 text-left">
-              <h5 className="text-xs font-bold text-slate-100">{toast.title}</h5>
-              <p className="text-[10px] text-slate-400 leading-normal font-medium">{toast.description}</p>
+              <h5 className="text-xs font-bold text-text-primary">{toast.title}</h5>
+              <p className="text-[10px] text-text-muted leading-normal font-medium">{toast.description}</p>
             </div>
             <button
               onClick={() => removeToast(toast.id)}
-              className="text-slate-500 hover:text-slate-300 transition-colors shrink-0"
+              className="text-text-muted hover:text-text-primary transition-colors shrink-0"
             >
               <X size={14} />
             </button>

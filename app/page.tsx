@@ -193,11 +193,11 @@ export default function LandingPage() {
                   Get Started Free <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 px-8 text-sm font-semibold border-dark-border text-text-muted hover:text-text-primary hover:bg-dark-card rounded-full">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 px-8 text-sm font-semibold !bg-transparent border-dark-border text-text-muted hover:text-text-primary hover:bg-dark-card rounded-full">
                 <Play className="mr-2 h-4 w-4" /> Watch Live Demo
               </Button>
             </div>
-            <p className="text-xs text-slate-500">No credit card required • Instant setup in 5 minutes</p>
+            <p className="text-xs text-text-muted">No credit card required • Instant setup in 5 minutes</p>
 
             {/* FLOATING MOCKUP OF THE CHAT WINDOW */}
             <div className="mt-16 relative mx-auto max-w-4xl rounded-2xl bg-dark-card/80 p-2 border border-dark-border shadow-widget overflow-hidden">
@@ -535,7 +535,7 @@ export default function LandingPage() {
                 </Button>
               </Link>
               <Link href="#pricing" className="w-full sm:w-auto">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 px-8 border-white/40 text-white hover:bg-white/10 rounded-full font-semibold">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 px-8 !bg-transparent border-white/40 text-white hover:bg-white/10 rounded-full font-semibold">
                   View Pricing Plans
                 </Button>
               </Link>
