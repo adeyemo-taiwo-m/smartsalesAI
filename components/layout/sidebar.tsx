@@ -84,7 +84,7 @@ export function Sidebar() {
                     "flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 relative",
                     isActive
                       ? "bg-blue-600/10 text-blue-400"
-                      : "text-text-muted hover:text-text-primary hover:bg-brand-blue/5 dark:hover:bg-slate-800/40",
+                      : "text-text-muted hover:text-text-primary hover:bg-dark",
                     !sidebarOpen && "md:justify-center md:px-0"
                   )}
                   title={!sidebarOpen ? link.label : undefined}
@@ -152,7 +152,7 @@ export function Sidebar() {
               href={link.href}
               className={cn(
                 "flex flex-col items-center gap-1 py-1.5 px-3 rounded-lg text-[10px] font-medium transition-colors",
-                isActive ? "text-blue-400 font-semibold" : "text-slate-400"
+                isActive ? "text-blue-400 font-semibold" : "text-text-muted"
               )}
             >
               <Icon size={18} />
