@@ -144,7 +144,7 @@ export default function SettingsPage() {
                 </div>
               </div>
 
-              <Button type="submit" className="h-9 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-lg shadow-blue flex items-center gap-1.5">
+              <Button type="submit" className="h-9 text-xs font-bold bg-brand-green hover:bg-brand-green/80 text-white rounded-lg shadow-green flex items-center gap-1.5">
                 <Save size={13} /> Save Business Profile
               </Button>
             </form>
@@ -224,7 +224,7 @@ export default function SettingsPage() {
                 </div>
               </div>
 
-              <Button type="submit" className="h-9 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-lg shadow-blue flex items-center gap-1.5">
+              <Button type="submit" className="h-9 text-xs font-bold bg-brand-green hover:bg-brand-green/80 text-white rounded-lg shadow-green flex items-center gap-1.5">
                 <Save size={13} /> Update Aria Settings
               </Button>
             </form>
@@ -365,7 +365,7 @@ export default function SettingsPage() {
                 </div>
               </div>
 
-              <Button type="submit" className="h-9 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-lg shadow-blue flex items-center gap-1.5">
+              <Button type="submit" className="h-9 text-xs font-bold bg-brand-green hover:bg-brand-green/80 text-white rounded-lg shadow-green flex items-center gap-1.5">
                 <Save size={13} /> Save Alerts Config
               </Button>
             </form>
@@ -375,3 +375,4 @@ export default function SettingsPage() {
     </div>
   );
 }
+

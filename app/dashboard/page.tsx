@@ -35,7 +35,7 @@ export default function DashboardPage() {
         </div>
         <div className="flex items-center gap-2 shrink-0">
           {/* Create new simulation context trigger */}
-          <Button className="h-9 text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white rounded-lg shadow-blue hover:-translate-y-0.5 transition-all duration-200">
+          <Button className="h-9 text-xs font-semibold bg-brand-green hover:bg-brand-green/80 text-white rounded-lg shadow-green hover:-translate-y-0.5 transition-all duration-200">
             <Plus size={14} className="mr-1.5" /> Add New Lead
           </Button>
         </div>

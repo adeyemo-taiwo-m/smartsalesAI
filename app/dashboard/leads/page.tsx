@@ -112,7 +112,7 @@ export default function LeadsPage() {
 
           <Button
             onClick={() => setIsModalOpen(true)}
-            className="h-9 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-lg shadow-blue hover:-translate-y-0.5 transition-all duration-200"
+            className="h-9 text-xs font-bold bg-brand-green hover:bg-brand-green/80 text-white rounded-lg shadow-green hover:-translate-y-0.5 transition-all duration-200"
           >
             <Plus size={15} className="mr-1.5" /> Add Lead
           </Button>
@@ -461,7 +461,7 @@ export default function LeadsPage() {
                 </Button>
                 <Button
                   type="submit"
-                  className="w-1/2 h-9 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-lg shadow-blue"
+                  className="w-1/2 h-9 text-xs font-bold bg-brand-green hover:bg-brand-green/80 text-white rounded-lg shadow-green"
                 >
                   Save Lead
                 </Button>
@@ -473,3 +473,4 @@ export default function LeadsPage() {
     </div>
   );
 }
+

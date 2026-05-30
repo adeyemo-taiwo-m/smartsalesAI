@@ -98,7 +98,7 @@ export default function SalesPage() {
               <TrendingUp size={10} className="mr-0.5" /> +8% vs last month
             </p>
           </div>
-          <div className="w-9 h-9 rounded-lg bg-blue-600/10 flex items-center justify-center text-blue-400 shrink-0 group-hover:scale-105 duration-200 transition-transform">
+          <div className="w-9 h-9 rounded-lg bg-brand-green/10 flex items-center justify-center text-brand-green shrink-0 group-hover:scale-105 duration-200 transition-transform">
             <ShoppingCart size={16} />
           </div>
         </div>
@@ -300,3 +300,4 @@ export default function SalesPage() {
     </div>
   );
 }
+

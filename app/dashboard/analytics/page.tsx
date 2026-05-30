@@ -73,7 +73,7 @@ export default function AnalyticsPage() {
           <button
             onClick={() => setTimeRange("7d")}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              timeRange === "7d" ? "bg-dark-card text-blue-400 shadow-sm" : "text-slate-400 hover:text-slate-200"
+              timeRange === "7d" ? "bg-dark-card text-brand-green shadow-sm" : "text-slate-400 hover:text-slate-200"
             }`}
           >
             Last 7 Days
@@ -81,7 +81,7 @@ export default function AnalyticsPage() {
           <button
             onClick={() => setTimeRange("30d")}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-              timeRange === "30d" ? "bg-dark-card text-blue-400 shadow-sm" : "text-slate-400 hover:text-slate-200"
+              timeRange === "30d" ? "bg-dark-card text-brand-green shadow-sm" : "text-slate-400 hover:text-slate-200"
             }`}
           >
             Last 30 Days
@@ -93,7 +93,7 @@ export default function AnalyticsPage() {
       <div className="bg-dark-card rounded-xl border border-slate-700/50 shadow-card p-5 group hover:border-slate-600 transition-colors">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-blue-600/10 flex items-center justify-center text-blue-400 group-hover:scale-105 duration-200 transition-transform">
+            <div className="w-8 h-8 rounded-lg bg-brand-green/10 flex items-center justify-center text-brand-green group-hover:scale-105 duration-200 transition-transform">
               <TrendingUp size={16} />
             </div>
             <div>
@@ -345,3 +345,4 @@ export default function AnalyticsPage() {
     </div>
   );
 }
+
