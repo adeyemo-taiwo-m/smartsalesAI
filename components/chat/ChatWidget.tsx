@@ -111,7 +111,7 @@ export function ChatWidget() {
       {/* Floating Toggle Bubble */}
       <button
         onClick={handleToggle}
-        className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-widget text-white hover:scale-110 duration-200 transition-transform relative focus:outline-none"
+        className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-green to-purple-600 flex items-center justify-center shadow-widget text-white hover:scale-110 duration-200 transition-transform relative focus:outline-none"
       >
         {isOpen ? <X size={22} /> : <MessageCircle size={22} className="fill-white/10" />}
         {unreadCount > 0 && !isOpen && (
@@ -125,7 +125,7 @@ export function ChatWidget() {
       {isOpen && (
         <div className="absolute bottom-18 right-0 w-80 sm:w-85 h-[480px] bg-dark-card border border-slate-700/50 rounded-2xl shadow-widget flex flex-col justify-between overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
           {/* Header */}
-          <div className="px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white flex items-center justify-between">
+          <div className="px-4 py-3 bg-gradient-to-r from-brand-green to-purple-600 text-white flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white">
                 <Sparkles size={16} className="fill-white/20 text-purple-200 animate-pulse" />
@@ -173,7 +173,7 @@ export function ChatWidget() {
                     className="h-9 text-xs bg-dark-card border-slate-700 text-slate-200 rounded-lg"
                   />
                 </div>
-                <Button type="submit" className="w-full h-9 mt-2 text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white rounded-lg shadow-blue">
+                <Button type="submit" className="w-full h-9 mt-2 text-xs font-bold bg-brand-green hover:bg-brand-green/80 text-white rounded-lg shadow-green">
                   Start Chat
                 </Button>
               </form>
@@ -189,12 +189,12 @@ export function ChatWidget() {
                         <div
                           className={`max-w-[80%] px-3.5 py-2.5 rounded-lg text-xs leading-relaxed ${
                             isAi
-                              ? "bg-slate-800 text-slate-100 rounded-tl-none border border-slate-700/30"
-                              : "bg-blue-600 text-white rounded-tr-none shadow-blue"
+                              ? "bg-dark-card text-slate-100 rounded-tl-none border border-dark-border"
+                              : "bg-gradient-to-br from-brand-green to-brand-green/70 text-white rounded-tr-none shadow-green"
                           }`}
                         >
                           <p>{msg.content}</p>
-                          <span className={`block text-[9px] text-right mt-1.5 opacity-60 ${!isAi && "text-blue-200"}`}>
+                          <span className={`block text-[9px] text-right mt-1.5 opacity-60 ${!isAi && "text-green-100"}`}>
                             {new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                           </span>
                         </div>
@@ -209,7 +209,7 @@ export function ChatWidget() {
                     <button
                       key={btn}
                       onClick={() => handleQuickReply(btn)}
-                      className="px-2.5 py-1 text-[10px] font-medium bg-slate-800/80 border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white rounded-full transition-colors active:scale-95 duration-100"
+                      className="px-2.5 py-1 text-[10px] font-medium bg-dark border border-dark-border hover:border-brand-green/50 text-slate-400 hover:text-slate-50 rounded-full transition-colors active:scale-95 duration-100"
                     >
                       {btn}
                     </button>
@@ -226,7 +226,7 @@ export function ChatWidget() {
                     onChange={e => setInputValue(e.target.value)}
                     onKeyDown={e => e.key === "Enter" && handleSend()}
                     placeholder="Type a message to Aria..."
-                    className="flex-1 h-8 text-xs bg-dark border-slate-800 text-slate-200 rounded-lg placeholder:text-slate-600 focus-visible:ring-1 focus-visible:ring-blue-500"
+                    className="flex-1 h-8 text-xs bg-dark border-slate-700 text-slate-50 rounded-lg placeholder:text-slate-600 focus:border-brand-green/60 focus:ring-2 focus:ring-brand-green/15 transition-colors duration-150"
                   />
                   <button className="text-slate-500 hover:text-slate-300 transition-colors shrink-0">
                     <Paperclip size={16} />
@@ -234,7 +234,7 @@ export function ChatWidget() {
                   <Button
                     onClick={() => handleSend()}
                     disabled={!inputValue.trim()}
-                    className="h-8 w-8 rounded-full bg-blue-600 text-white shrink-0"
+                    className="h-8 w-8 rounded-full bg-brand-green hover:bg-brand-green/80 text-white shrink-0"
                     size="icon"
                   >
                     <Send size={12} />
