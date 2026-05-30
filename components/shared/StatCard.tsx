@@ -64,7 +64,7 @@ export function StatCard({
           <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
             {label}
           </p>
-          <h4 className="text-2xl font-bold text-slate-50 tabular-nums">
+          <h4 className="text-2xl font-bold text-text-primary tabular-nums">
             {formatValue(value)}
           </h4>
           <div className="flex items-center gap-1.5 text-xs">

@@ -26,7 +26,7 @@ export default function DashboardPage() {
       {/* Top Page Header (Overview page) */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-2">
         <div>
-          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-50 tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-text-primary tracking-tight">
             Dashboard Overview
           </h1>
           <p className="text-xs text-slate-400 mt-1">

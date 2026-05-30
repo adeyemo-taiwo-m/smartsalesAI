@@ -93,7 +93,7 @@ export function ChatWindow({ className = "" }: ChatWindowProps) {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h4 className="text-xs font-bold text-slate-100">{selectedLead.name}</h4>
+              <h4 className="text-xs font-bold text-text-primary">{selectedLead.name}</h4>
               <span className="scale-85 origin-left">
                 <ChannelIcon channel={selectedLead.channel} />
               </span>

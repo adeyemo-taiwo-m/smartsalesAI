@@ -49,7 +49,7 @@ export function LiveConversationsPanel({ className = "" }: LiveConversationsPane
       <div className="px-5 py-4 border-b border-slate-700/50 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
-          <h3 className="text-sm font-bold text-slate-100 uppercase tracking-wider">Live Conversations</h3>
+          <h3 className="text-sm font-bold text-text-primary uppercase tracking-wider">Live Conversations</h3>
         </div>
         <span className="bg-slate-800/80 border border-slate-700/50 text-[10px] font-bold px-2 py-0.5 rounded-full text-slate-400">
           {leads.length} Active
@@ -103,7 +103,7 @@ export function LiveConversationsPanel({ className = "" }: LiveConversationsPane
                 {/* Text details */}
                 <div className="flex-1 min-w-0 space-y-1">
                   <div className="flex items-center justify-between">
-                    <h4 className="text-xs font-bold text-slate-100 truncate">
+                    <h4 className="text-xs font-bold text-text-primary truncate">
                       {lead.name}
                     </h4>
                     <span className="text-[10px] text-slate-500 font-medium">

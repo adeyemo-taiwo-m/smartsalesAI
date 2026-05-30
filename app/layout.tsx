@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/providers";
 import { Toaster } from "@/components/shared/Toaster";
+import { ThemeToggle } from "@/components/shared/ThemeToggle";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,12 +22,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} dark`} style={{ colorScheme: "dark" }} suppressHydrationWarning>
-      <body className="antialiased bg-dark text-slate-50 min-h-screen font-sans">
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body className="antialiased bg-dark text-text-primary min-h-screen font-sans transition-colors duration-300">
         <Providers>
           {children}
         </Providers>
         <Toaster />
+        <ThemeToggle />
       </body>
     </html>
   );

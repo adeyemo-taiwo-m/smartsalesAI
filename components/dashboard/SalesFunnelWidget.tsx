@@ -16,7 +16,7 @@ export function SalesFunnelWidget() {
           <Filter size={16} />
         </div>
         <div>
-          <h3 className="text-sm font-semibold text-slate-50">Sales Conversion Funnel</h3>
+          <h3 className="text-sm font-semibold text-text-primary">Sales Conversion Funnel</h3>
           <p className="text-xs text-slate-400 mt-0.5">Performance from lead capture to payment close</p>
         </div>
       </div>
@@ -42,7 +42,7 @@ export function SalesFunnelWidget() {
               )}
               <div className="flex items-center justify-between text-xs">
                 <span className="text-slate-300 font-medium">{stage.stage}</span>
-                <span className="text-slate-50 font-bold tabular-nums">
+                <span className="text-text-primary font-bold tabular-nums">
                   {stage.count} <span className="text-slate-500 font-normal text-[10px]">({percentage}%)</span>
                 </span>
               </div>

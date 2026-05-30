@@ -114,7 +114,7 @@ export function Sidebar() {
 
             {sidebarOpen && (
               <div className="flex-1 min-w-0">
-                <h5 className="text-sm font-semibold text-slate-100 truncate">
+                <h5 className="text-sm font-semibold text-text-primary truncate">
                   {user?.name || "Admin Owner"}
                 </h5>
                 <div className="flex items-center gap-1.5 mt-0.5">

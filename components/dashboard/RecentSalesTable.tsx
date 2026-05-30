@@ -20,7 +20,7 @@ export function RecentSalesTable() {
             <DollarSign size={16} />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-slate-50">Recent Sales Ledger</h3>
+            <h3 className="text-sm font-semibold text-text-primary">Recent Sales Ledger</h3>
             <p className="text-xs text-slate-400 mt-0.5">Latest transactions processed across channels</p>
           </div>
         </div>
@@ -83,7 +83,7 @@ export function RecentSalesTable() {
                     </div>
                   </td>
                   {/* Naira formatted amount */}
-                  <td className="px-5 py-3 text-right font-bold text-slate-50 tabular-nums">
+                  <td className="px-5 py-3 text-right font-bold text-text-primary tabular-nums">
                     ₦{sale.amount.toLocaleString()}
                   </td>
                   {/* Status Badge */}
