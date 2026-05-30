@@ -6,7 +6,6 @@ import { DollarSign, ArrowUpRight } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { ChannelIcon } from "@/components/shared/ChannelIcon";
-import { getAvatarColor } from "@/lib/utils";
 
 export function RecentSalesTable() {
   const { sales } = useStore();
