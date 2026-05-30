@@ -2,6 +2,13 @@ import { create } from "zustand";
 import { User, Lead, Message, Sale, DashboardStats, LeadStatus, Channel, IntentTag } from "@/lib/types";
 import { MOCK_USERS, MOCK_LEADS, MOCK_MESSAGES, MOCK_SALES, MOCK_STATS } from "@/lib/mock-data";
 
+export interface ToastItem {
+  id: string;
+  type: "success" | "info" | "error";
+  title: string;
+  description: string;
+}
+
 interface AppState {
   // Auth & UI state
   user: User | null;
@@ -12,6 +19,11 @@ interface AppState {
   setTheme: (theme: "light" | "dark") => void;
   login: () => void;
   logout: () => void;
+
+  // Custom Toast State
+  toasts: ToastItem[];
+  addToast: (type: "success" | "info" | "error", title: string, description: string) => void;
+  removeToast: (id: string) => void;
 
   // SmartSales AI State
   leads: Lead[];
@@ -32,7 +44,7 @@ interface AppState {
 }
 
 export const useStore = create<AppState>((set, get) => ({
-  // Auth & UI Defaults (Logged in by default for smoother UX)
+  // Auth & UI Defaults
   user: MOCK_USERS[0],
   sidebarOpen: true,
   theme: "dark", // Locked to dark mode by default
@@ -41,6 +53,20 @@ export const useStore = create<AppState>((set, get) => ({
   setTheme: (theme) => set({ theme }),
   login: () => set({ user: MOCK_USERS[0] }),
   logout: () => set({ user: null }),
+
+  // Custom Toasts Logic
+  toasts: [],
+  addToast: (type, title, description) => {
+    const id = `toast-${Date.now()}`;
+    const newToast = { id, type, title, description };
+    set((state) => ({ toasts: [...state.toasts, newToast] }));
+    
+    // Auto remove after 4 seconds
+    setTimeout(() => {
+      get().removeToast(id);
+    }, 4000);
+  },
+  removeToast: (id) => set((state) => ({ toasts: state.toasts.filter((t) => t.id !== id) })),
 
   // SmartSales State Initialization
   leads: MOCK_LEADS,
@@ -78,8 +104,9 @@ export const useStore = create<AppState>((set, get) => ({
       intentTag,
     };
 
+    const targetLead = get().leads.find((l) => l.id === leadId);
+
     set((state) => {
-      // Get previous messages
       const previousMessages = state.conversations[leadId] || [];
       const updatedMessages = [...previousMessages, newMessage];
 
@@ -105,6 +132,15 @@ export const useStore = create<AppState>((set, get) => ({
       };
     });
 
+    // Fire unread message notifications when arriving in the background!
+    if (sender === "customer" && get().selectedLeadId !== leadId && targetLead) {
+      get().addToast(
+        "info",
+        `New ${targetLead.channel === "whatsapp" ? "WhatsApp" : targetLead.channel === "instagram" ? "Instagram" : "Web"} Inquiry`,
+        `"${content.substring(0, 35)}${content.length > 35 ? "..." : ""}" from ${targetLead.name}`
+      );
+    }
+
     // Auto-Simulate AI Responses when customer sends a message and AI mode is active
     if (sender === "customer" && get().isAIMode) {
       setTimeout(() => {
@@ -126,7 +162,15 @@ export const useStore = create<AppState>((set, get) => ({
   },
 
   // Toggle AI Mode
-  toggleAIMode: () => set((state) => ({ isAIMode: !state.isAIMode })),
+  toggleAIMode: () => {
+    const nextMode = !get().isAIMode;
+    set({ isAIMode: nextMode });
+    get().addToast(
+      "info",
+      nextMode ? "🤖 AI Mode Activated" : "🧑‍💼 Human Takeover Mode",
+      nextMode ? "Aria will now automatically reply to incoming messages." : "You have full control of all replies now."
+    );
+  },
 
   // Add Lead
   addLead: (lead) => {
@@ -146,16 +190,19 @@ export const useStore = create<AppState>((set, get) => ({
         newLeads: state.stats.newLeads + 1,
       },
     }));
+
+    get().addToast("success", "Lead Added Pipeline", `${lead.name} has been successfully recorded.`);
   },
 
   // Update Lead Status
   updateLeadStatus: (leadId, status) => {
+    const lead = get().leads.find((l) => l.id === leadId);
+    
     set((state) => {
       const updatedLeads = state.leads.map((l) =>
         l.id === leadId ? { ...l, status } : l
       );
 
-      // Recalculate closed sales stats if changed to closed
       const isNewlyClosed = status === "closed" && state.leads.find((l) => l.id === leadId)?.status !== "closed";
       
       return {
@@ -166,6 +213,10 @@ export const useStore = create<AppState>((set, get) => ({
         },
       };
     });
+
+    if (lead) {
+      get().addToast("success", "Stage Moved", `${lead.name} updated to ${status.toUpperCase()} stage.`);
+    }
   },
 
   // Add Sale
@@ -184,5 +235,7 @@ export const useStore = create<AppState>((set, get) => ({
         revenueGenerated: sale.status === "completed" ? state.stats.revenueGenerated + sale.amount : state.stats.revenueGenerated,
       },
     }));
+
+    get().addToast("success", "Payment Captured Ledger", `₦${sale.amount.toLocaleString()} received from ${sale.customer}! 💰`);
   },
 }));
