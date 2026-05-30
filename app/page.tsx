@@ -19,6 +19,7 @@ import {
   Send,
   HelpCircle,
   Menu,
+  Globe,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ChatWidget } from "@/components/chat/ChatWidget";
