@@ -64,7 +64,7 @@ export function Topbar() {
           <Input
             type="search"
             placeholder="Search leads, payments..."
-            className="w-60 pl-9 rounded-full bg-dark border-dark-border text-text-primary placeholder:text-text-muted/50 text-xs py-1"
+            className="w-60 pl-9 rounded-full bg-dark border-slate-700 text-slate-50 placeholder:text-slate-600 text-xs py-1 focus:border-brand-green/60 focus:ring-2 focus:ring-brand-green/15 transition-colors duration-150"
           />
         </div>
 
