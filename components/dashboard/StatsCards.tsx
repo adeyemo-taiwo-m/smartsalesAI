@@ -10,35 +10,14 @@ export function StatsCards() {
 
   return (
     <div className="grid gap-5 grid-cols-2 lg:grid-cols-4">
-      <StatCard
-        label="Total Chats Today"
-        value={stats.totalChatsToday}
-        change={stats.chatsChange}
-        icon={MessageSquare}
-        variant="blue"
-      />
-      <StatCard
-        label="New Leads"
-        value={stats.newLeads}
-        change={stats.leadsChange}
-        icon={Users}
-        variant="purple"
-      />
-      <StatCard
-        label="Sales Closed"
-        value={stats.salesClosed}
-        change={stats.salesChange}
-        icon={CheckCircle}
-        variant="green"
-      />
-      <StatCard
-        label="Revenue Generated"
-        value={stats.revenueGenerated}
-        change={stats.revenueChange}
-        icon={TrendingUp}
-        variant="orange"
-        isCurrency
-      />
+      {/* Chats: brand-green per §7.8 */}
+      <StatCard label="Total Chats Today"   value={stats.totalChatsToday}    change={stats.chatsChange}   icon={MessageSquare} variant="green"  />
+      {/* Leads: purple per §7.8 */}
+      <StatCard label="New Leads"           value={stats.newLeads}           change={stats.leadsChange}   icon={Users}         variant="purple" />
+      {/* Sales: lime green per §7.8 */}
+      <StatCard label="Sales Closed"        value={stats.salesClosed}        change={stats.salesChange}   icon={CheckCircle}   variant="lime"   />
+      {/* Revenue: orange per §7.8 */}
+      <StatCard label="Revenue Generated"   value={stats.revenueGenerated}   change={stats.revenueChange} icon={TrendingUp}    variant="orange" isCurrency />
     </div>
   );
 }

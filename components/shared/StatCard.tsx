@@ -7,7 +7,7 @@ interface StatCardProps {
   value: string | number;
   change: number;
   icon: LucideIcon;
-  variant: "blue" | "purple" | "green" | "orange";
+  variant: "green" | "purple" | "lime" | "orange";
   isCurrency?: boolean;
 }
 
@@ -22,26 +22,23 @@ export function StatCard({
   const isPositive = change > 0;
   const isNegative = change < 0;
 
+  // v1.1 §7.8 icon container colors
   const colorVariants = {
-    blue: {
-      bg: "bg-blue-500/10",
-      text: "text-blue-400",
-      border: "border-blue-500/10",
+    green: {
+      bg:   "bg-brand-green/10",
+      text: "text-brand-green",
     },
     purple: {
-      bg: "bg-purple-500/10",
+      bg:   "bg-purple-600/10",
       text: "text-purple-400",
-      border: "border-purple-500/10",
     },
-    green: {
-      bg: "bg-green-500/10",
+    lime: {
+      bg:   "bg-green-500/10",
       text: "text-green-400",
-      border: "border-green-500/10",
     },
     orange: {
-      bg: "bg-orange-500/10",
+      bg:   "bg-orange-500/10",
       text: "text-orange-400",
-      border: "border-orange-500/10",
     },
   };
 
@@ -58,7 +55,7 @@ export function StatCard({
   };
 
   return (
-    <div className="bg-dark-card rounded-xl border border-dark-border shadow-card p-5 hover:border-blue-500/30 hover:shadow-card-hover transition-all duration-200 group">
+    <div className="bg-dark-card rounded-xl border border-dark-border shadow-card p-5 hover:border-brand-green/30 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 group">
       <div className="flex items-start justify-between">
         <div className="space-y-1.5">
           <p className="text-xs font-semibold text-text-muted uppercase tracking-wider">

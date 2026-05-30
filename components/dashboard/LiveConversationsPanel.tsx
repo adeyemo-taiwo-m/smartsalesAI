@@ -29,9 +29,10 @@ export function LiveConversationsPanel({ className = "" }: LiveConversationsPane
   );
 
   const getInitialsBg = (name: string) => {
-    const colors = ["#2563EB", "#7C3AED", "#22C55E", "#F97316", "#EC4899", "#0891B2"];
-    const sum = name.charCodeAt(0) + (name.charCodeAt(1) || 0);
-    return colors[sum % colors.length];
+    // v1.1 §7.11 avatar color utility
+    const colors = ['#1D6B4A', '#7C3AED', '#059669', '#D97706', '#DC2626', '#0F6E56', '#7C3AED', '#BE185D'];
+    const index = name.charCodeAt(0) % colors.length;
+    return colors[index];
   };
 
   const formatTime = (timeStr: string) => {
@@ -44,7 +45,7 @@ export function LiveConversationsPanel({ className = "" }: LiveConversationsPane
   };
 
   return (
-    <div className={cn("bg-dark-card rounded-xl border border-dark-border shadow-card flex flex-col overflow-hidden h-[540px] group hover:border-blue-500/30 transition-colors", className)}>
+    <div className={cn("bg-dark-card rounded-xl border border-dark-border shadow-card flex flex-col overflow-hidden h-[540px] hover:border-brand-green/30 transition-colors", className)}>
       {/* Panel Header */}
       <div className="px-5 py-4 border-b border-dark-border flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -64,7 +65,7 @@ export function LiveConversationsPanel({ className = "" }: LiveConversationsPane
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search active chats..."
-            className="h-8 pl-8 pr-3 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/50 rounded-full focus-visible:ring-1 focus-visible:ring-blue-500"
+            className="h-8 pl-8 pr-3 text-xs bg-dark border-slate-700 text-slate-50 placeholder:text-slate-600 rounded-full focus:border-brand-green/60 focus:ring-2 focus:ring-brand-green/15 transition-colors duration-150"
           />
         </div>
       </div>
@@ -83,8 +84,8 @@ export function LiveConversationsPanel({ className = "" }: LiveConversationsPane
                 className={cn(
                   "flex items-start gap-3.5 px-4 py-3.5 cursor-pointer transition-all duration-150 relative select-none",
                   isSelected
-                    ? "bg-blue-600/10 border-l-3 border-l-blue-500"
-                    : "hover:bg-dark/40 border-l-3 border-l-transparent"
+                    ? "bg-brand-green/10 border-l-4 border-l-brand-green"
+                    : "hover:bg-slate-700/30 border-l-4 border-l-transparent"
                 )}
               >
                 {/* Initial Avatar with Pulsing Active state */}

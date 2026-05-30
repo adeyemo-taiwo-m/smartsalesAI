@@ -48,9 +48,10 @@ export function ChatWindow({ className = "" }: ChatWindowProps) {
   };
 
   const getInitialsBg = (name: string) => {
-    const colors = ["#2563EB", "#7C3AED", "#22C55E", "#F97316", "#EC4899", "#0891B2"];
-    const sum = name.charCodeAt(0) + (name.charCodeAt(1) || 0);
-    return colors[sum % colors.length];
+    // v1.1 §7.11 avatar color utility
+    const colors = ['#1D6B4A', '#7C3AED', '#059669', '#D97706', '#DC2626', '#0F6E56', '#7C3AED', '#BE185D'];
+    const index = name.charCodeAt(0) % colors.length;
+    return colors[index];
   };
 
   const formatTime = (timeStr: string) => {
@@ -81,7 +82,7 @@ export function ChatWindow({ className = "" }: ChatWindowProps) {
   const leadInitial = selectedLead.name.charAt(0).toUpperCase();
 
   return (
-    <div className={cn("bg-dark-card rounded-xl border border-dark-border shadow-card flex flex-col justify-between overflow-hidden h-[540px] group hover:border-blue-500/30 transition-colors", className)}>
+    <div className={cn("bg-dark-card rounded-xl border border-dark-border shadow-card flex flex-col justify-between overflow-hidden h-[540px] hover:border-brand-green/30 transition-colors", className)}>
       {/* Header Info */}
       <div className="px-5 py-3 border-b border-dark-border flex items-center justify-between bg-dark/15 select-none">
         <div className="flex items-center gap-3">
@@ -140,7 +141,7 @@ export function ChatWindow({ className = "" }: ChatWindowProps) {
                     <div className={cn("flex items-center gap-1.5 text-[9px] mb-0.5", isAi ? "justify-end text-purple-400 font-bold" : "justify-end text-text-muted font-bold")}>
                       <span>{isAi ? "🤖 Aria AI" : "🧑‍💼 Live Agent"}</span>
                       {isAi && message.intentTag && (
-                        <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-1.5 py-0.2 rounded-full font-bold uppercase tracking-wider scale-90">
+                        <span className="bg-brand-green/10 text-brand-green border border-brand-green/20 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider text-[9px]">
                           {message.intentTag}
                         </span>
                       )}
@@ -152,9 +153,9 @@ export function ChatWindow({ className = "" }: ChatWindowProps) {
                     className={cn(
                       "px-3.5 py-2.5 rounded-lg text-xs leading-relaxed shadow-sm",
                       isCustomer
-                        ? "bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-tl-none border border-slate-200 dark:border-slate-700/40"
+                        ? "bg-slate-700/50 text-slate-100 rounded-tl-none"
                         : isAi
-                        ? "bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-tr-none shadow-blue"
+                        ? "bg-gradient-to-br from-brand-green to-brand-green/70 text-white rounded-tr-none shadow-green"
                         : "bg-gradient-to-br from-slate-600 to-slate-700 text-white rounded-tr-none"
                     )}
                   >
@@ -162,7 +163,7 @@ export function ChatWindow({ className = "" }: ChatWindowProps) {
                     <span
                       className={cn(
                         "block text-[8px] text-right mt-1.5 opacity-60",
-                        isCustomer ? "text-slate-400 dark:text-slate-500" : isAi ? "text-blue-200" : "text-slate-300"
+                        isCustomer ? "text-slate-500" : isAi ? "text-green-100/70" : "text-slate-300"
                       )}
                     >
                       {formatTime(message.timestamp)}
@@ -208,7 +209,7 @@ export function ChatWindow({ className = "" }: ChatWindowProps) {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder={isAIMode ? "Aria will automatically respond to customer messages..." : "Type your message as Live Agent..."}
-            className="flex-1 h-9 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/50 rounded-full focus-visible:ring-1 focus-visible:ring-blue-500"
+            className="flex-1 h-9 text-xs bg-dark border-slate-700 text-slate-50 placeholder:text-slate-600 rounded-full focus:border-brand-green/60 focus:ring-2 focus:ring-brand-green/15 transition-colors duration-150"
           />
           <button type="button" className="text-text-muted hover:text-text-primary transition-colors shrink-0">
             <Paperclip size={16} />
@@ -218,7 +219,7 @@ export function ChatWindow({ className = "" }: ChatWindowProps) {
             disabled={!inputValue.trim()}
             className={cn(
               "h-8 w-8 rounded-full text-white shrink-0",
-              isAIMode ? "bg-purple-600 hover:bg-purple-500" : "bg-blue-600 hover:bg-blue-500"
+              isAIMode ? "bg-purple-600 hover:bg-purple-500" : "bg-brand-green hover:bg-brand-green/80"
             )}
             size="icon"
           >
