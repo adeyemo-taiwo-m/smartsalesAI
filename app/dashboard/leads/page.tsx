@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Plus, Search, KanBan, List, Filter, Trash2, Calendar, Phone, ArrowRightLeft, Sparkles, X } from "lucide-react";
+import { Plus, Search, Kanban, List, Filter, Trash2, Calendar, Phone, ArrowRightLeft, Sparkles, X } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { ChannelIcon } from "@/components/shared/ChannelIcon";
@@ -97,7 +97,7 @@ export default function LeadsPage() {
                 viewMode === "kanban" ? "bg-dark-card text-blue-400 shadow-sm" : "text-slate-400 hover:text-slate-200"
               }`}
             >
-              <KanBan size={14} /> Kanban
+              <Kanban size={14} /> Kanban
             </button>
             <button
               onClick={() => setViewMode("table")}
