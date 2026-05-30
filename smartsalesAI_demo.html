@@ -1,0 +1,2483 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartSales AI — Team Kickoff</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --blue:    #2563EB;
+        --purple:  #7C3AED;
+        --green:   #22C55E;
+        --orange:  #F97316;
+        --dark:    #0F172A;
+        --card:    #1E293B;
+        --border:  #334155;
+        --text:    #F8FAFC;
+        --muted:   #94A3B8;
+        --soft:    #CBD5E1;s
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        background: var(--dark);
+        color: var(--text);
+        font-family: 'DM Sans', sans-serif;
+        font-size: 16px;
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      h1, h2, h3, h4 {
+        font-family: 'Syne', sans-serif;
+        line-height: 1.2;
+      }
+
+      /* ── NOISE OVERLAY ── */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* ── SIDEBAR NAV ── */
+      .sidebar {
+        position: fixed;
+        left: 0; top: 0; bottom: 0;
+        width: 220px;
+        background: rgba(30, 41, 59, 0.95);
+        border-right: 1px solid var(--border);
+        padding: 2rem 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        z-index: 100;
+        backdrop-filter: blur(12px);
+      }
+
+      .sidebar-logo {
+        font-family: 'Syne', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 800;
+        background: linear-gradient(90deg, var(--blue), var(--purple));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+      }
+
+      .sidebar-logo span {
+        display: block;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 300;
+        -webkit-text-fill-color: var(--muted);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-top: 2px;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.55rem 0.75rem;
+        border-radius: 8px;
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 0.85rem;
+        font-weight: 400;
+        transition: all 0.2s;
+        cursor: pointer;
+      }
+
+      .nav-item:hover, .nav-item.active {
+        background: rgba(37, 99, 235, 0.15);
+        color: #93C5FD;
+      }
+
+      .nav-dot {
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: var(--border);
+        flex-shrink: 0;
+        transition: background 0.2s;
+      }
+
+      .nav-item:hover .nav-dot, .nav-item.active .nav-dot {
+        background: var(--blue);
+      }
+
+      .nav-section {
+        font-size: 0.65rem;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--border);
+        padding: 0.75rem 0.75rem 0.25rem;
+        margin-top: 0.5rem;
+      }
+
+      .sidebar-footer {
+        margin-top: auto;
+        font-size: 0.72rem;
+        color: var(--border);
+        padding: 0.75rem;
+        line-height: 1.5;
+        border-top: 1px solid var(--border);
+      }
+
+      /* ── MAIN CONTENT ── */
+      main {
+        margin-left: 220px;
+        position: relative;
+        z-index: 1;
+      }
+
+      section {
+        min-height: 100vh;
+        padding: 5rem 4rem;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      /* ── HERO ── */
+      #hero {
+        background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(37,99,235,0.18) 0%, transparent 70%),
+                    radial-gradient(ellipse 40% 40% at 90% 60%, rgba(124,58,237,0.12) 0%, transparent 60%),
+                    var(--dark);
+        min-height: 100vh;
+        align-items: flex-start;
+        justify-content: flex-end;
+        padding-bottom: 5rem;
+      }
+
+      .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(37, 99, 235, 0.1);
+        border: 1px solid rgba(37, 99, 235, 0.3);
+        border-radius: 100px;
+        padding: 0.35rem 1rem;
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: #93C5FD;
+        letter-spacing: 0.04em;
+        margin-bottom: 2rem;
+      }
+
+      .pulse-dot {
+        width: 6px; height: 6px;
+        border-radius: 50%;
+        background: var(--green);
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(1.5); }
+      }
+
+      .hero-title {
+        font-size: clamp(3rem, 6vw, 5.5rem);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 1.0;
+        margin-bottom: 1.5rem;
+        max-width: 800px;
+      }
+
+      .hero-title .gradient {
+        background: linear-gradient(135deg, var(--blue) 0%, var(--purple) 60%, #EC4899 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-desc {
+        font-size: 1.15rem;
+        color: var(--muted);
+        max-width: 560px;
+        margin-bottom: 2.5rem;
+        font-weight: 300;
+        line-height: 1.8;
+      }
+
+      .hero-meta {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+
+      .meta-item {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .meta-label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--border);
+        font-weight: 500;
+      }
+
+      .meta-value {
+        font-family: 'Syne', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--soft);
+      }
+
+      .hero-stack-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 2.5rem;
+      }
+
+      .chip {
+        padding: 0.3rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        border: 1px solid;
+      }
+
+      .chip-blue   { border-color: rgba(37,99,235,0.4);  color: #93C5FD;  background: rgba(37,99,235,0.08); }
+      .chip-purple { border-color: rgba(124,58,237,0.4); color: #C4B5FD;  background: rgba(124,58,237,0.08); }
+      .chip-green  { border-color: rgba(34,197,94,0.4);  color: #86EFAC;  background: rgba(34,197,94,0.08); }
+      .chip-orange { border-color: rgba(249,115,22,0.4); color: #FDBA74;  background: rgba(249,115,22,0.08); }
+      .chip-gray   { border-color: var(--border);        color: var(--muted); background: rgba(51,65,85,0.3); }
+
+      /* ── SECTION LABELS ── */
+      .section-label {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 1.25rem;
+      }
+
+      .section-label::before {
+        content: '';
+        display: block;
+        width: 24px; height: 1px;
+        background: var(--border);
+      }
+
+      .section-title {
+        font-size: clamp(2rem, 3.5vw, 3rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        margin-bottom: 1rem;
+        line-height: 1.15;
+      }
+
+      .section-desc {
+        color: var(--muted);
+        max-width: 580px;
+        font-size: 1.05rem;
+        font-weight: 300;
+        margin-bottom: 3rem;
+      }
+
+      /* ── CARDS ── */
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 1.75rem;
+        transition: border-color 0.25s;
+      }
+
+      .card:hover {
+        border-color: rgba(37, 99, 235, 0.4);
+      }
+
+      /* ── WHAT IS IT SECTION ── */
+      .what-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-top: 0.5rem;
+      }
+
+      .what-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 1.75rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .what-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--blue), var(--purple));
+      }
+
+      .what-card.green::before  { background: linear-gradient(90deg, var(--green), #0EA5E9); }
+      .what-card.orange::before { background: linear-gradient(90deg, var(--orange), #EF4444); }
+      .what-card.purple::before { background: linear-gradient(90deg, var(--purple), #EC4899); }
+
+      .what-number {
+        font-family: 'Syne', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--border);
+        margin-bottom: 0.75rem;
+      }
+
+      .what-heading {
+        font-family: 'Syne', sans-serif;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 0.6rem;
+        color: var(--text);
+      }
+
+      .what-body {
+        font-size: 0.9rem;
+        color: var(--muted);
+        line-height: 1.75;
+        font-weight: 300;
+      }
+
+      .what-body strong {
+        color: var(--soft);
+        font-weight: 500;
+      }
+
+      /* ── ARCHITECTURE ── */
+      .arch-flow {
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+      }
+
+      .arch-step {
+        flex: 1;
+        padding: 1.5rem 1.25rem;
+        border-right: 1px solid var(--border);
+        position: relative;
+      }
+
+      .arch-step:last-child { border-right: none; }
+
+      .arch-step-num {
+        width: 28px; height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Syne', sans-serif;
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+      }
+
+      .num-blue   { background: rgba(37,99,235,0.15);  color: #60A5FA; }
+      .num-purple { background: rgba(124,58,237,0.15); color: #A78BFA; }
+      .num-green  { background: rgba(34,197,94,0.15);  color: #4ADE80; }
+      .num-orange { background: rgba(249,115,22,0.15); color: #FB923C; }
+      .num-pink   { background: rgba(236,72,153,0.15); color: #F472B6; }
+
+      .arch-step-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 0.4rem;
+        color: var(--text);
+      }
+
+      .arch-step-body {
+        font-size: 0.78rem;
+        color: var(--muted);
+        line-height: 1.6;
+        font-weight: 300;
+      }
+
+      .arch-arrow {
+        position: absolute;
+        right: -12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 24px; height: 24px;
+        background: var(--dark);
+        border: 1px solid var(--border);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        color: var(--muted);
+        font-size: 0.7rem;
+      }
+
+      .arch-step:last-child .arch-arrow { display: none; }
+
+      /* ── ROLES SECTION ── */
+      .roles-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+
+      .role-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        transition: transform 0.25s, border-color 0.25s;
+      }
+
+      .role-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(37, 99, 235, 0.4);
+      }
+
+      .role-header {
+        padding: 1.5rem 1.75rem 1rem;
+        position: relative;
+      }
+
+      .role-header.fe { background: linear-gradient(135deg, rgba(37,99,235,0.12), transparent); border-bottom: 1px solid rgba(37,99,235,0.2); }
+      .role-header.be { background: linear-gradient(135deg, rgba(34,197,94,0.1), transparent); border-bottom: 1px solid rgba(34,197,94,0.2); }
+      .role-header.ai { background: linear-gradient(135deg, rgba(124,58,237,0.12), transparent); border-bottom: 1px solid rgba(124,58,237,0.2); }
+
+      .role-icon-wrap {
+        width: 44px; height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .icon-fe { background: rgba(37,99,235,0.15); }
+      .icon-be { background: rgba(34,197,94,0.12); }
+      .icon-ai { background: rgba(124,58,237,0.15); }
+
+      .role-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+      }
+
+      .role-subtitle {
+        font-size: 0.78rem;
+        font-weight: 300;
+        color: var(--muted);
+      }
+
+      .role-body {
+        padding: 1.25rem 1.75rem 1.75rem;
+      }
+
+      .task-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .task-list li {
+        display: flex;
+        gap: 0.6rem;
+        font-size: 0.85rem;
+        color: var(--muted);
+        font-weight: 300;
+        line-height: 1.5;
+        align-items: flex-start;
+      }
+
+      .task-list li::before {
+        content: '';
+        width: 5px; height: 5px;
+        border-radius: 50%;
+        background: var(--border);
+        flex-shrink: 0;
+        margin-top: 7px;
+      }
+
+      .task-list.fe li::before { background: rgba(37,99,235,0.5); }
+      .task-list.be li::before { background: rgba(34,197,94,0.5); }
+      .task-list.ai li::before { background: rgba(124,58,237,0.5); }
+
+      .task-list li strong {
+        color: var(--soft);
+        font-weight: 500;
+      }
+
+      .role-tech-strip {
+        padding: 0 1.75rem 1.25rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+
+      /* ── BACKEND SECTION ── */
+      .be-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      .module-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.4rem 1.5rem;
+      }
+
+      .module-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin-bottom: 0.3rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      .module-dot {
+        width: 8px; height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      .module-desc {
+        font-size: 0.82rem;
+        color: var(--muted);
+        line-height: 1.65;
+        font-weight: 300;
+        margin-left: 1.4rem;
+      }
+
+      .module-sub {
+        margin-top: 0.6rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        margin-left: 1.4rem;
+      }
+
+      .module-sub-item {
+        font-size: 0.78rem;
+        color: var(--border);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      .module-sub-item::before {
+        content: '→';
+        color: var(--border);
+        font-size: 0.7rem;
+      }
+
+      /* ── AI SECTION ── */
+      .ai-pipeline {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+      }
+
+      .ai-step {
+        background: var(--card);
+        padding: 1.1rem 1.5rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      .ai-step-badge {
+        flex-shrink: 0;
+        padding: 0.2rem 0.6rem;
+        border-radius: 6px;
+        font-family: 'Syne', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+      }
+
+      .badge-in   { background: rgba(37,99,235,0.15);  color: #60A5FA; }
+      .badge-ctx  { background: rgba(249,115,22,0.15); color: #FB923C; }
+      .badge-ai   { background: rgba(124,58,237,0.15); color: #A78BFA; }
+      .badge-cls  { background: rgba(34,197,94,0.12);  color: #4ADE80; }
+      .badge-out  { background: rgba(236,72,153,0.15); color: #F472B6; }
+      .badge-rt   { background: rgba(6,182,212,0.15);  color: #22D3EE; }
+
+      .ai-step-content { flex: 1; }
+
+      .ai-step-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        color: var(--text);
+      }
+
+      .ai-step-body {
+        font-size: 0.82rem;
+        color: var(--muted);
+        font-weight: 300;
+        line-height: 1.55;
+      }
+
+      /* ── ROADMAP ── */
+      .phases-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+      }
+
+      .phase-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 1.4rem;
+        position: relative;
+      }
+
+      .phase-label {
+        font-family: 'Syne', sans-serif;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
+
+      .phase-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        color: var(--text);
+      }
+
+      .phase-items {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.45rem;
+      }
+
+      .phase-items li {
+        font-size: 0.78rem;
+        color: var(--muted);
+        display: flex;
+        gap: 0.5rem;
+        align-items: flex-start;
+        font-weight: 300;
+      }
+
+      .phase-items li::before {
+        content: '';
+        width: 4px; height: 4px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        margin-top: 6px;
+      }
+
+      .p1 .phase-label { color: #60A5FA; }
+      .p1 .phase-items li::before { background: rgba(37,99,235,0.5); }
+      .p2 .phase-label { color: #A78BFA; }
+      .p2 .phase-items li::before { background: rgba(124,58,237,0.5); }
+      .p3 .phase-label { color: #4ADE80; }
+      .p3 .phase-items li::before { background: rgba(34,197,94,0.5); }
+      .p4 .phase-label { color: #FB923C; }
+      .p4 .phase-items li::before { background: rgba(249,115,22,0.5); }
+
+      /* ── GOALS SECTION ── */
+      .goals-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+
+      .goal-block {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .goal-title {
+        font-family: 'Syne', sans-serif;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 0.25rem;
+      }
+
+      .goal-item {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1rem 1.25rem;
+        display: flex;
+        gap: 0.75rem;
+        align-items: flex-start;
+      }
+
+      .goal-icon {
+        font-size: 1.1rem;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .goal-item-title {
+        font-size: 0.88rem;
+        font-weight: 500;
+        color: var(--text);
+        margin-bottom: 0.2rem;
+      }
+
+      .goal-item-desc {
+        font-size: 0.78rem;
+        color: var(--muted);
+        font-weight: 300;
+        line-height: 1.55;
+      }
+
+      /* ── API TABLE ── */
+      .api-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.82rem;
+        margin-top: 1rem;
+      }
+
+      .api-table th {
+        font-family: 'Syne', sans-serif;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        padding: 0.6rem 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .api-table td {
+        padding: 0.65rem 1rem;
+        border-bottom: 1px solid rgba(51,65,85,0.5);
+        color: var(--muted);
+        font-weight: 300;
+      }
+
+      .api-table td:first-child {
+        color: var(--text);
+        font-weight: 500;
+        font-family: 'DM Mono', monospace;
+      }
+
+      .api-table tr:last-child td { border-bottom: none; }
+
+      .method {
+        display: inline-block;
+        padding: 0.1rem 0.45rem;
+        border-radius: 5px;
+        font-family: 'Syne', sans-serif;
+        font-size: 0.65rem;
+        font-weight: 700;
+        margin-right: 0.5rem;
+      }
+
+      .get  { background: rgba(37,99,235,0.15);  color: #60A5FA; }
+      .post { background: rgba(34,197,94,0.12);  color: #4ADE80; }
+      .patch{ background: rgba(249,115,22,0.15); color: #FB923C; }
+      .put  { background: rgba(124,58,237,0.15); color: #A78BFA; }
+
+      /* ── RISKS ── */
+      .risks-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+
+      .risk-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1.25rem;
+      }
+
+      .risk-badge {
+        display: inline-flex;
+        padding: 0.2rem 0.6rem;
+        border-radius: 100px;
+        font-size: 0.65rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-bottom: 0.65rem;
+      }
+
+      .risk-high   { background: rgba(239,68,68,0.12);  color: #FCA5A5; border: 1px solid rgba(239,68,68,0.25); }
+      .risk-medium { background: rgba(249,115,22,0.12); color: #FDBA74; border: 1px solid rgba(249,115,22,0.25); }
+      .risk-low    { background: rgba(34,197,94,0.1);   color: #86EFAC; border: 1px solid rgba(34,197,94,0.25); }
+
+      .risk-title { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text); }
+      .risk-body  { font-size: 0.78rem; color: var(--muted); font-weight: 300; line-height: 1.6; }
+
+      /* ── FOOTER ── */
+      #footer {
+        min-height: auto;
+        padding: 3rem 4rem;
+        background: rgba(15, 23, 42, 0.95);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        border-bottom: none;
+      }
+
+      .footer-brand {
+        font-family: 'Syne', sans-serif;
+        font-size: 1.1rem;
+        font-weight: 800;
+        background: linear-gradient(90deg, var(--blue), var(--purple));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .footer-note {
+        font-size: 0.8rem;
+        color: var(--border);
+        font-weight: 300;
+      }
+
+      /* ── HORIZONTAL RULE / DIVIDER ── */
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 2.5rem 0;
+      }
+
+      /* ── CODE BLOCK ── */
+      .code-pill {
+        font-family: 'DM Mono', 'Courier New', monospace;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 0.15rem 0.5rem;
+        font-size: 0.78rem;
+        color: #93C5FD;
+      }
+
+      /* ── INTEGRATION DIAGRAM ── */
+      .int-diagram {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr auto 1fr;
+        align-items: center;
+        gap: 0;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        margin: 1.5rem 0;
+      }
+
+      .int-box {
+        padding: 1.75rem 1.5rem;
+        text-align: center;
+      }
+
+      .int-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .int-name {
+        font-family: 'Syne', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 0.3rem;
+        color: var(--text);
+      }
+
+      .int-sub {
+        font-size: 0.75rem;
+        color: var(--muted);
+        font-weight: 300;
+      }
+
+      .int-arrow {
+        font-size: 1.25rem;
+        color: var(--border);
+        padding: 0 0.5rem;
+      }
+
+      /* ── SCROLL ANIMATION ── */
+      .fade-up {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+
+      .fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 1100px) {
+        .sidebar { display: none; }
+        main { margin-left: 0; }
+        section { padding: 3.5rem 2rem; }
+        .roles-grid { grid-template-columns: 1fr; }
+        .phases-grid { grid-template-columns: 1fr 1fr; }
+        .what-grid { grid-template-columns: 1fr; }
+        .arch-flow { flex-direction: column; }
+        .arch-step { border-right: none; border-bottom: 1px solid var(--border); }
+        .arch-step:last-child { border-bottom: none; }
+        .int-diagram { grid-template-columns: 1fr; }
+        .int-arrow { transform: rotate(90deg); padding: 0.5rem 0; }
+        .goals-grid { grid-template-columns: 1fr; }
+        .risks-grid { grid-template-columns: 1fr 1fr; }
+        .be-grid { grid-template-columns: 1fr; }
+      }
+
+      @media (max-width: 640px) {
+        .phases-grid { grid-template-columns: 1fr; }
+        .risks-grid { grid-template-columns: 1fr; }
+        #footer { flex-direction: column; align-items: flex-start; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="sidebar-logo">
+        SmartSales AI
+        <span>Team Kickoff Deck</span>
+      </div>
+
+      <div class="nav-section">Overview</div>
+      <a class="nav-item" href="#hero"
+        ><span class="nav-dot"></span> Introduction</a
+      >
+      <a class="nav-item" href="#what"
+        ><span class="nav-dot"></span> What We're Building</a
+      >
+      <a class="nav-item" href="#architecture"
+        ><span class="nav-dot"></span> System Architecture</a
+      >
+
+      <div class="nav-section">Team</div>
+      <a class="nav-item" href="#roles"
+        ><span class="nav-dot"></span> Roles & Responsibilities</a
+      >
+      <a class="nav-item" href="#backend"
+        ><span class="nav-dot"></span> Backend Deep-dive</a
+      >
+      <a class="nav-item" href="#ai"
+        ><span class="nav-dot"></span> AI Pipeline</a
+      >
+      <a class="nav-item" href="#frontend"
+        ><span class="nav-dot"></span> Frontend Deep-dive</a
+      >
+
+      <div class="nav-section">Delivery</div>
+      <a class="nav-item" href="#api"
+        ><span class="nav-dot"></span> API Contract</a
+      >
+      <a class="nav-item" href="#roadmap"
+        ><span class="nav-dot"></span> Build Roadmap</a
+      >
+      <a class="nav-item" href="#risks"
+        ><span class="nav-dot"></span> Risks & Best Practices</a
+      >
+
+      <div class="sidebar-footer">
+        Confidential · Internal Use<br />SmartSales AI — 2025
+      </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main>
+      <!-- ── HERO ── -->
+      <section id="hero">
+        <div class="hero-eyebrow">
+          <span class="pulse-dot"></span>
+          Team Kickoff — Project Brief
+        </div>
+        <h1 class="hero-title">
+          Building <span class="gradient">SmartSales AI</span><br />From Zero to
+          Launch
+        </h1>
+        <p class="hero-desc">
+          A full-stack AI-powered sales automation platform for Nigerian
+          businesses — WhatsApp-native, real-time, and designed to close deals
+          while you sleep. This document is your team's single source of truth.
+        </p>
+        <div class="hero-meta">
+          <div class="meta-item">
+            <span class="meta-label">Project Type</span>
+            <span class="meta-value">SaaS Platform</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Primary Channel</span>
+            <span class="meta-value">WhatsApp Business</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Currency</span>
+            <span class="meta-value">₦ Nigerian Naira</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Team Size</span>
+            <span class="meta-value">3 Engineers</span>
+          </div>
+        </div>
+        <div class="hero-stack-chips">
+          <span class="chip chip-blue">Next.js 14</span>
+          <span class="chip chip-blue">TypeScript</span>
+          <span class="chip chip-orange">FastAPI</span>
+          <span class="chip chip-orange">Python</span>
+          <span class="chip chip-purple">Google Gemini</span>
+          <span class="chip chip-green">WhatsApp Cloud API</span>
+          <span class="chip chip-gray">PostgreSQL</span>
+          <span class="chip chip-gray">Redis</span>
+          <span class="chip chip-gray">Socket.IO</span>
+          <span class="chip chip-gray">Docker</span>
+        </div>
+      </section>
+
+      <!-- ── WHAT ── -->
+      <section id="what">
+        <div class="section-label">01 — The Product</div>
+        <h2 class="section-title">What We're Building</h2>
+        <p class="section-desc">
+          SmartSales AI is a sales automation platform that lets any business
+          run a 24/7 AI sales agent on WhatsApp — no human needed to respond to
+          product questions, pricing, or orders.
+        </p>
+
+        <div class="what-grid fade-up">
+          <div class="what-card">
+            <div class="what-number">Core Problem</div>
+            <div class="what-heading">Nigerian SMEs lose sales overnight</div>
+            <div class="what-body">
+              Most businesses miss
+              <strong>60–80% of WhatsApp inquiries</strong> that come in outside
+              business hours. Customers ask "how much?", get silence, and buy
+              from a competitor. SmartSales fixes this by putting an AI agent on
+              every WhatsApp conversation, 24/7.
+            </div>
+          </div>
+          <div class="what-card green">
+            <div class="what-number">Our Solution</div>
+            <div class="what-heading">AI agent that knows your products</div>
+            <div class="what-body">
+              Business owners paste their price list and FAQs into the Settings
+              page. Our AI (powered by <strong>Google Gemini</strong>) reads
+              this knowledge base and answers customer questions, handles
+              pricing, and nudges toward a purchase — all in a conversational
+              WhatsApp style.
+            </div>
+          </div>
+          <div class="what-card orange">
+            <div class="what-number">The Dashboard</div>
+            <div class="what-heading">Real-time CRM for sales teams</div>
+            <div class="what-body">
+              Agents get a live dashboard to monitor all conversations, see AI
+              replies as they happen, take over from the AI with one click
+              (<strong>Human Takeover</strong>), track lead status, and view
+              revenue analytics — updated in real-time via Socket.IO.
+            </div>
+          </div>
+          <div class="what-card purple">
+            <div class="what-number">Business Model</div>
+            <div class="what-heading">SaaS with 3-tier pricing</div>
+            <div class="what-body">
+              Free tier for web-only chat, <strong>₦25,000/month</strong> Growth
+              plan for WhatsApp + Instagram + auto-follow-ups, and custom
+              Business pricing for multi-agent teams. The knowledge base is the
+              lock-in — once a client configures their product catalogue,
+              switching costs are high.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── ARCHITECTURE ── -->
+      <section id="architecture">
+        <div class="section-label">02 — System Design</div>
+        <h2 class="section-title">How the System Works</h2>
+        <p class="section-desc">
+          Every message a customer sends on WhatsApp passes through a 5-step
+          pipeline before a reply is generated. Here's the full flow end-to-end.
+        </p>
+
+        <div class="arch-flow fade-up">
+          <div class="arch-step">
+            <div class="arch-step-num num-blue">1</div>
+            <div class="arch-step-title">Customer Message</div>
+            <div class="arch-step-body">
+              Customer sends a WhatsApp message. Meta Cloud API delivers it as a
+              POST request to our FastAPI webhook endpoint.
+            </div>
+            <div class="arch-arrow">→</div>
+          </div>
+          <div class="arch-step">
+            <div class="arch-step-num num-purple">2</div>
+            <div class="arch-step-title">Lead Upsert</div>
+            <div class="arch-step-body">
+              We look up the lead by phone number in PostgreSQL. If new, we
+              create the record. Message is saved and checked for duplicates
+              using the WhatsApp message ID.
+            </div>
+            <div class="arch-arrow">→</div>
+          </div>
+          <div class="arch-step">
+            <div class="arch-step-num num-orange">3</div>
+            <div class="arch-step-title">AI Processing</div>
+            <div class="arch-step-body">
+              Conversation history is pulled from Redis. Gemini Pro generates a
+              reply using the business knowledge base + history. Gemini Flash
+              separately classifies intent.
+            </div>
+            <div class="arch-arrow">→</div>
+          </div>
+          <div class="arch-step">
+            <div class="arch-step-num num-green">4</div>
+            <div class="arch-step-title">Send Reply</div>
+            <div class="arch-step-body">
+              AI reply is saved to PostgreSQL, sent back to WhatsApp via Meta's
+              API, and the Redis conversation history is updated for the next
+              turn.
+            </div>
+            <div class="arch-arrow">→</div>
+          </div>
+          <div class="arch-step">
+            <div class="arch-step-num num-pink">5</div>
+            <div class="arch-step-title">Dashboard Update</div>
+            <div class="arch-step-body">
+              Socket.IO pushes a real-time event to the Next.js frontend. The
+              agent's dashboard updates live — no page refresh needed.
+            </div>
+          </div>
+        </div>
+
+        <div class="int-diagram fade-up">
+          <div class="int-box">
+            <span class="int-icon">📱</span>
+            <div class="int-name">WhatsApp</div>
+            <div class="int-sub">Customer sends message</div>
+          </div>
+          <div class="int-arrow">→</div>
+          <div class="int-box" style="background: rgba(37, 99, 235, 0.05)">
+            <span class="int-icon">⚡</span>
+            <div class="int-name">FastAPI Backend</div>
+            <div class="int-sub">Webhook → AI → Send</div>
+          </div>
+          <div class="int-arrow">→</div>
+          <div class="int-box">
+            <span class="int-icon">🖥️</span>
+            <div class="int-name">Next.js Dashboard</div>
+            <div class="int-sub">Live updates via Socket.IO</div>
+          </div>
+        </div>
+
+        <div
+          style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem"
+          class="fade-up"
+        >
+          <div class="module-card">
+            <div class="module-title">
+              <span class="module-dot" style="background: var(--blue)"></span>
+              PostgreSQL
+            </div>
+            <div class="module-desc">
+              Permanent storage for leads, messages, sales, settings. Source of
+              truth for everything.
+            </div>
+          </div>
+          <div class="module-card">
+            <div class="module-title">
+              <span class="module-dot" style="background: var(--orange)"></span>
+              Redis
+            </div>
+            <div class="module-desc">
+              Fast conversation context cache. Holds the last 20 message turns
+              per lead. 24h auto-expiry. Also stores human takeover flags.
+            </div>
+          </div>
+          <div class="module-card">
+            <div class="module-title">
+              <span class="module-dot" style="background: var(--purple)"></span>
+              Socket.IO
+            </div>
+            <div class="module-desc">
+              Persistent WebSocket connection between FastAPI and the Next.js
+              dashboard. Pushes new messages and lead updates in real-time.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── ROLES ── -->
+      <section id="roles">
+        <div class="section-label">03 — The Team</div>
+        <h2 class="section-title">Who Does What</h2>
+        <p class="section-desc">
+          Three engineers, three clear lanes. Responsibilities are intentionally
+          non-overlapping — the API contract (Part 14 of the backend guide) is
+          the boundary between the frontend and backend teams.
+        </p>
+
+        <div class="roles-grid fade-up">
+          <!-- FRONTEND -->
+          <div class="role-card">
+            <div class="role-header fe">
+              <div class="role-icon-wrap icon-fe">🎨</div>
+              <div class="role-title">Frontend Engineer</div>
+              <div class="role-subtitle">
+                Next.js · TypeScript · Tailwind · Recharts
+              </div>
+            </div>
+            <div class="role-body">
+              <ul class="task-list fe">
+                <li>
+                  <div>
+                    <strong>Landing page</strong> — Hero, Features, Pricing (3
+                    tiers in ₦), Testimonials, CTA, Footer. Full Framer Motion
+                    animations.
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>Dashboard shell</strong> — Sidebar navigation +
+                    TopBar with search and notifications. Mobile bottom nav for
+                    screens under 1100px.
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>Overview page</strong> — Stats cards, Live
+                    Conversations panel, ChatWindow, Sales Funnel widget, Recent
+                    Sales table. All wired to mock data first, then real API.
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong
+                      >Conversations, Leads (Kanban), Sales, Analytics,
+                      Settings</strong
+                    >
+                    — 5 full dashboard pages with filters and charts using
+                    Recharts.
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>Chat Widget</strong> — Embeddable floating bubble +
+                    popup panel with lead capture form. Must be standalone (no
+                    dashboard layout dependency).
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>Real-time integration</strong> — Replace simulated
+                    Socket.IO with real backend connection. Show toast
+                    notifications on new messages.
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>Replace mock data</strong> — All fetch() calls point
+                    to the FastAPI backend endpoints once backend is ready.
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="role-tech-strip">
+              <span
+                class="chip chip-blue"
+                style="font-size: 0.68rem; padding: 0.2rem 0.55rem"
+                >Next.js 14</span
+              >
+              <span
+                class="chip chip-blue"
+                style="font-size: 0.68rem; padding: 0.2rem 0.55rem"
+                >Zustand</span
+              >
+              <span
+                class="chip chip-blue"
+                style="font-size: 0.68rem; padding: 0.2rem 0.55rem"
+                >TanStack Query</span
+              >
+              <span
+                class="chip chip-gray"
+                style="font-size: 0.68rem; padding: 0.2rem 0.55rem"
+                >Framer Motion</span
+              >
+              <span
+                class="chip chip-gray"
+                style="font-size: 0.68rem; padding: 0.2rem 0.55rem"
+                >Recharts</span
+              >
+            </div>
+          </div>
+
+          <!-- BACKEND -->
+          <div class="role-card">
+            <div class="role-header be">
+              <div class="role-icon-wrap icon-be">⚙️</div>
+              <div class="role-title">Backend Engineer</div>
+              <div class="role-subtitle">
+                FastAPI · PostgreSQL · Redis · Docker
+              </div>
+            </div>
+            <div class="role-body">
+              <ul class="task-list be">
+                <li>
+                  <div>
+                    <strong>Project setup</strong> — FastAPI app, Pydantic
+                    Settings, folder structure, requirements.txt, Dockerfile,
+                    docker-compose.yml.
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>Database layer</strong> — 4 SQLAlchemy models (Lead,
+                    Message, Sale, BusinessSettings) + Alembic migrations. Async
+                    sessions via asyncpg.
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>WhatsApp webhook</strong> — GET verify + POST
+                    receive. Parse Meta payload, deduplicate by wa_message_id,
+                    always return 200.
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>REST API</strong> — Leads CRUD, Messages (get +
+                    agent-reply + handoff), Analytics (stats + funnel), Settings
+                    (get + put). Full Pydantic schemas.
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>Socket.IO server</strong> — Mount on same port as
+                    FastAPI using ASGI. Emit new_message, lead_updated,
+                    stats_updated events.
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>Lead Service</strong> — get_or_create, save_message
+                    (with dedup), update_lead_intent (auto-upgrade new→hot for
+                    Buying intent).
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>Human Handoff</strong> — Redis flag per lead_id.
+                    Webhook checks flag before calling AI. POST /handoff
+                    endpoint toggles it.
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="role-tech-strip">
+              <span
+                class="chip chip-green"
+                style="font-size: 0.68rem; padding: 0.2rem 0.55rem"
+                >FastAPI</span
+              >
+              <span
+                class="chip chip-green"
+                style="font-size: 0.68rem; padding: 0.2rem 0.55rem"
+                >SQLAlchemy 2.0</span
+              >
+              <span
+                class="chip chip-orange"
+                style="font-size: 0.68rem; padding: 0.2rem 0.55rem"
+                >asyncpg</span
+              >
+              <span
+                class="chip chip-gray"
+                style="font-size: 0.68rem; padding: 0.2rem 0.55rem"
+                >Alembic</span
+              >
+              <span
+                class="chip chip-gray"
+                style="font-size: 0.68rem; padding: 0.2rem 0.55rem"
+                >httpx</span
+              >
+            </div>
+          </div>
+
+          <!-- AI -->
+          <div class="role-card">
+            <div class="role-header ai">
+              <div class="role-icon-wrap icon-ai">🤖</div>
+              <div class="role-title">AI / Integration Engineer</div>
+              <div class="role-subtitle">
+                Google Gemini · Redis Context · Meta API
+              </div>
+            </div>
+            <div class="role-body">
+              <ul class="task-list ai">
+                <li>
+                  <div>
+                    <strong>AI Service</strong> — Gemini 1.5 Pro for reply
+                    generation. System prompt with business knowledge base,
+                    customer name, 9 strict rules. Cap context at 10 turns.
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>Intent Service</strong> — Gemini 1.5 Flash (faster,
+                    cheaper) classifies each message into: Buying / Pricing /
+                    Support / Inquiry / Complaint.
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>Context Manager</strong> — Redis-backed conversation
+                    memory. get_history(), add_turn(), clear_history(). 24h TTL,
+                    capped at 20 turns. Also manages human_mode flags.
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>WhatsApp Service</strong> — send_text() and
+                    send_interactive_buttons() (max 3 buttons per WhatsApp spec)
+                    using Meta Graph API.
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>Meta Developer Portal</strong> — App setup, webhook
+                    registration, subscribe to messages field. Generate
+                    permanent System User token (not temp 24h token).
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>ngrok setup</strong> — Local tunnel for dev webhook
+                    delivery. Document URL update process for team.
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <strong>Knowledge base integration</strong> — Wire
+                    _get_knowledge_base() in AIService to pull the
+                    knowledge_base field from BusinessSettings in PostgreSQL.
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="role-tech-strip">
+              <span
+                class="chip chip-purple"
+                style="font-size: 0.68rem; padding: 0.2rem 0.55rem"
+                >Gemini 1.5 Pro</span
+              >
+              <span
+                class="chip chip-purple"
+                style="font-size: 0.68rem; padding: 0.2rem 0.55rem"
+                >Gemini Flash</span
+              >
+              <span
+                class="chip chip-green"
+                style="font-size: 0.68rem; padding: 0.2rem 0.55rem"
+                >Meta Cloud API</span
+              >
+              <span
+                class="chip chip-orange"
+                style="font-size: 0.68rem; padding: 0.2rem 0.55rem"
+                >Redis</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── BACKEND DEEP-DIVE ── -->
+      <section id="backend">
+        <div class="section-label">04 — Backend Engineer Guide</div>
+        <h2 class="section-title">Backend Deep-dive</h2>
+        <p class="section-desc">
+          The backend is a FastAPI app that runs everything on one port — REST,
+          webhooks, and Socket.IO all share port 8000. Build in this order.
+        </p>
+
+        <div class="be-grid fade-up">
+          <div class="module-card">
+            <div class="module-title">
+              <span class="module-dot" style="background: #60a5fa"></span> 1.
+              Foundation First
+            </div>
+            <div class="module-desc">
+              Start with config.py (Pydantic Settings reads .env), then
+              database.py (async SQLAlchemy engine + context manager). Never
+              call os.environ directly — always use the settings object.
+            </div>
+            <div class="module-sub">
+              <div class="module-sub-item">
+                config.py → settings object, imported everywhere
+              </div>
+              <div class="module-sub-item">
+                database.py → Base class, get_db() context manager
+              </div>
+              <div class="module-sub-item">.env → never committed to git</div>
+            </div>
+          </div>
+
+          <div class="module-card">
+            <div class="module-title">
+              <span class="module-dot" style="background: #a78bfa"></span> 2.
+              Models + Migrations
+            </div>
+            <div class="module-desc">
+              4 SQLAlchemy models. Lead uses PostgreSQL ARRAY for intent_tags.
+              Message has wa_message_id for deduplication. Run Alembic after all
+              4 models are complete — not one at a time.
+            </div>
+            <div class="module-sub">
+              <div class="module-sub-item">
+                Lead → phone unique, ARRAY intent_tags, status enum
+              </div>
+              <div class="module-sub-item">
+                Message → ForeignKey to lead, wa_message_id
+              </div>
+              <div class="module-sub-item">
+                Sale → Numeric(12,2) for amount, never float
+              </div>
+              <div class="module-sub-item">
+                BusinessSettings → knowledge_base as Text field
+              </div>
+            </div>
+          </div>
+
+          <div class="module-card">
+            <div class="module-title">
+              <span class="module-dot" style="background: #4ade80"></span> 3.
+              Webhook Handler
+            </div>
+            <div class="module-desc">
+              The most critical file. Always return 200 — even on errors. Meta
+              retries on any non-200 response, which floods your server. Check
+              human_mode flag in Redis before calling AI.
+            </div>
+            <div class="module-sub">
+              <div class="module-sub-item">
+                GET /webhook/whatsapp → echo hub.challenge
+              </div>
+              <div class="module-sub-item">
+                POST /webhook/whatsapp → full 5-step pipeline
+              </div>
+              <div class="module-sub-item">
+                KeyError/IndexError → silently pass, return 200
+              </div>
+            </div>
+          </div>
+
+          <div class="module-card">
+            <div class="module-title">
+              <span class="module-dot" style="background: #fb923c"></span> 4.
+              Main Entry Point
+            </div>
+            <div class="module-desc">
+              The uvicorn command must point to socket_app, not app. This
+              ensures FastAPI and Socket.IO share the same port. CORS must allow
+              the frontend URL — in production restrict to your exact domain,
+              remove the wildcard "*".
+            </div>
+            <div class="module-sub">
+              <div class="module-sub-item">
+                uvicorn app.main:socket_app --port 8000
+              </div>
+              <div class="module-sub-item">
+                socket_app = socketio.ASGIApp(sio, other_asgi_app=app)
+              </div>
+              <div class="module-sub-item">All routers mounted in main.py</div>
+            </div>
+          </div>
+
+          <div class="module-card" style="grid-column: span 2">
+            <div class="module-title">
+              <span class="module-dot" style="background: #f472b6"></span> 5.
+              Key Data Rules
+            </div>
+            <div class="module-desc">
+              These decisions affect the whole team — agree on them now.
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0.75rem;
+                margin-top: 0.75rem;
+                margin-left: 1.4rem;
+              "
+            >
+              <div>
+                <div
+                  style="
+                    font-size: 0.8rem;
+                    font-weight: 500;
+                    color: var(--soft);
+                    margin-bottom: 0.3rem;
+                  "
+                >
+                  UUID everywhere
+                </div>
+                <div
+                  style="
+                    font-size: 0.78rem;
+                    color: var(--muted);
+                    font-weight: 300;
+                  "
+                >
+                  All primary keys are PostgreSQL UUIDs, not integers. Frontend
+                  TypeScript types use string to represent UUIDs.
+                </div>
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 0.8rem;
+                    font-weight: 500;
+                    color: var(--soft);
+                    margin-bottom: 0.3rem;
+                  "
+                >
+                  Deduplication is mandatory
+                </div>
+                <div
+                  style="
+                    font-size: 0.78rem;
+                    color: var(--muted);
+                    font-weight: 300;
+                  "
+                >
+                  Always check wa_message_id before inserting a Message. Meta
+                  re-delivers webhooks during network issues. No dedup = double
+                  replies.
+                </div>
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 0.8rem;
+                    font-weight: 500;
+                    color: var(--soft);
+                    margin-bottom: 0.3rem;
+                  "
+                >
+                  Amounts as Numeric(12,2)
+                </div>
+                <div
+                  style="
+                    font-size: 0.78rem;
+                    color: var(--muted);
+                    font-weight: 300;
+                  "
+                >
+                  Never store money as float — floating point precision errors
+                  cause rounding bugs. Use PostgreSQL Numeric, return as Python
+                  float in API responses.
+                </div>
+              </div>
+              <div>
+                <div
+                  style="
+                    font-size: 0.8rem;
+                    font-weight: 500;
+                    color: var(--soft);
+                    margin-bottom: 0.3rem;
+                  "
+                >
+                  No shared in-memory state
+                </div>
+                <div
+                  style="
+                    font-size: 0.78rem;
+                    color: var(--muted);
+                    font-weight: 300;
+                  "
+                >
+                  With 2+ uvicorn workers, Python class instance variables are
+                  not shared. All shared state (context, flags) must live in
+                  Redis, not in class properties.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── AI DEEP-DIVE ── -->
+      <section id="ai">
+        <div class="section-label">05 — AI Engineer Guide</div>
+        <h2 class="section-title">The AI Pipeline</h2>
+        <p class="section-desc">
+          Every customer message triggers two Gemini calls — one for the reply,
+          one for intent classification. Using two models cuts cost by ~70% vs
+          using Pro for everything.
+        </p>
+
+        <div class="ai-pipeline fade-up">
+          <div class="ai-step">
+            <span class="ai-step-badge badge-in">INPUT</span>
+            <div class="ai-step-content">
+              <div class="ai-step-title">Incoming WhatsApp message</div>
+              <div class="ai-step-body">
+                phone, customer_name, message text, wa_message_id. The webhook
+                extracts these from Meta's JSON payload.
+              </div>
+            </div>
+          </div>
+          <div class="ai-step">
+            <span class="ai-step-badge badge-ctx">CONTEXT</span>
+            <div class="ai-step-content">
+              <div class="ai-step-title">
+                Load conversation history from Redis
+              </div>
+              <div class="ai-step-body">
+                ContextManager.get_history(lead_id) returns the last N turns as
+                [{customer: "...", ai: "..."}] dicts. Capped at 10 turns for the
+                Gemini call (last 20 stored).
+              </div>
+            </div>
+          </div>
+          <div class="ai-step">
+            <span class="ai-step-badge badge-ai">GEMINI PRO</span>
+            <div class="ai-step-content">
+              <div class="ai-step-title">
+                Generate reply — gemini-1.5-pro, temp 0.7
+              </div>
+              <div class="ai-step-body">
+                System prompt includes: AI persona name, business name, customer
+                name, full knowledge base, and 9 strict rules (keep it short,
+                Nigerian tone, no hallucination, human handoff phrase). History
+                formatted as alternating user/model turns.
+              </div>
+            </div>
+          </div>
+          <div class="ai-step">
+            <span class="ai-step-badge badge-cls">FLASH</span>
+            <div class="ai-step-content">
+              <div class="ai-step-title">
+                Classify intent — gemini-1.5-flash, temp 0.0
+              </div>
+              <div class="ai-step-body">
+                Separate lightweight call. Returns exactly one word: Buying /
+                Pricing / Support / Inquiry / Complaint. Flash is 5–10x cheaper
+                than Pro for this simple task. Invalid response defaults to
+                "Inquiry".
+              </div>
+            </div>
+          </div>
+          <div class="ai-step">
+            <span class="ai-step-badge badge-out">SAVE</span>
+            <div class="ai-step-content">
+              <div class="ai-step-title">
+                Persist reply + update Redis context
+              </div>
+              <div class="ai-step-body">
+                AI reply saved to PostgreSQL messages table.
+                ContextManager.add_turn() appends this exchange to Redis
+                (trimmed to MAX_HISTORY_TURNS=20). Lead intent_tags array
+                updated, status auto-upgraded if Buying intent detected.
+              </div>
+            </div>
+          </div>
+          <div class="ai-step">
+            <span class="ai-step-badge badge-rt">SEND</span>
+            <div class="ai-step-content">
+              <div class="ai-step-title">
+                Reply to WhatsApp + push to dashboard
+              </div>
+              <div class="ai-step-body">
+                WhatsAppService.send_text() posts to Meta Graph API.
+                SocketManager.emit_new_message() pushes to all connected
+                dashboard clients. Both happen concurrently.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem"
+          class="fade-up"
+        >
+          <div class="module-card">
+            <div class="module-title">
+              <span class="module-dot" style="background: var(--orange)"></span>
+              The Knowledge Base
+            </div>
+            <div class="module-desc">
+              This is the most important field in the whole system. When the
+              _get_knowledge_base() method (currently a stub returning "") is
+              wired to the DB, the AI becomes genuinely useful for each client.
+              Advise every client to include:
+            </div>
+            <div class="module-sub">
+              <div class="module-sub-item">
+                Full product catalogue with prices
+              </div>
+              <div class="module-sub-item">Frequently asked questions</div>
+              <div class="module-sub-item">Return / refund policy</div>
+              <div class="module-sub-item">Delivery timelines and fees</div>
+              <div class="module-sub-item">
+                Business contact and location info
+              </div>
+            </div>
+          </div>
+          <div class="module-card">
+            <div class="module-title">
+              <span class="module-dot" style="background: var(--purple)"></span>
+              Human Handoff Logic
+            </div>
+            <div class="module-desc">
+              When a customer says "I want to speak to a human" — the AI is
+              instructed to reply with a specific phrase. The dashboard agent
+              then clicks "Human Takeover" which calls the /handoff endpoint.
+              From that point, the webhook skips AI and routes messages directly
+              to the dashboard.
+            </div>
+            <div class="module-sub">
+              <div class="module-sub-item">
+                Redis key: human_mode:{lead_id} = "1"
+              </div>
+              <div class="module-sub-item">
+                Auto-expires after 1 hour if agent forgets
+              </div>
+              <div class="module-sub-item">
+                POST /api/messages/{id}/handoff toggles it
+              </div>
+              <div class="module-sub-item">
+                Agent sends replies via POST /agent-reply
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── FRONTEND DEEP-DIVE ── -->
+      <section id="frontend">
+        <div class="section-label">06 — Frontend Engineer Guide</div>
+        <h2 class="section-title">Frontend Deep-dive</h2>
+        <p class="section-desc">
+          Build with mock data first — every component works before the backend
+          is ready. Then swap mock data for real API calls once endpoints are
+          live. This lets both teams work in parallel.
+        </p>
+
+        <div class="goals-grid fade-up">
+          <div class="goal-block">
+            <div class="goal-title">Design Tokens — Use These Exactly</div>
+            <div class="goal-item">
+              <div
+                class="goal-icon"
+                style="
+                  width: 18px;
+                  height: 18px;
+                  border-radius: 4px;
+                  background: #2563eb;
+                  flex-shrink: 0;
+                  margin-top: 4px;
+                "
+              ></div>
+              <div>
+                <div class="goal-item-title">Primary Blue — #2563EB</div>
+                <div class="goal-item-desc">
+                  Buttons, active nav items, links, send button, stat card
+                  icons. The main action color.
+                </div>
+              </div>
+            </div>
+            <div class="goal-item">
+              <div
+                class="goal-icon"
+                style="
+                  width: 18px;
+                  height: 18px;
+                  border-radius: 4px;
+                  background: #7c3aed;
+                  flex-shrink: 0;
+                  margin-top: 4px;
+                "
+              ></div>
+              <div>
+                <div class="goal-item-title">Accent Purple — #7C3AED</div>
+                <div class="goal-item-desc">
+                  Hero gradient, AI message bubbles, logo gradient. Pairs with
+                  blue on headings.
+                </div>
+              </div>
+            </div>
+            <div class="goal-item">
+              <div
+                class="goal-icon"
+                style="
+                  width: 18px;
+                  height: 18px;
+                  border-radius: 4px;
+                  background: #22c55e;
+                  flex-shrink: 0;
+                  margin-top: 4px;
+                "
+              ></div>
+              <div>
+                <div class="goal-item-title">Success Green — #22C55E</div>
+                <div class="goal-item-desc">
+                  Online indicators, completed sale badges, WhatsApp icon color,
+                  positive change %.
+                </div>
+              </div>
+            </div>
+            <div class="goal-item">
+              <div
+                class="goal-icon"
+                style="
+                  width: 18px;
+                  height: 18px;
+                  border-radius: 4px;
+                  background: #f97316;
+                  flex-shrink: 0;
+                  margin-top: 4px;
+                "
+              ></div>
+              <div>
+                <div class="goal-item-title">Warning Orange — #F97316</div>
+                <div class="goal-item-desc">
+                  Pending status, warm lead badge, revenue stat card,
+                  negotiating funnel stage.
+                </div>
+              </div>
+            </div>
+            <div class="goal-item">
+              <div
+                class="goal-icon"
+                style="
+                  width: 18px;
+                  height: 18px;
+                  border-radius: 4px;
+                  background: #0f172a;
+                  border: 1px solid #334155;
+                  flex-shrink: 0;
+                  margin-top: 4px;
+                "
+              ></div>
+              <div>
+                <div class="goal-item-title">
+                  Dark Backgrounds — #0F172A / #1E293B
+                </div>
+                <div class="goal-item-desc">
+                  Page background (#0F172A), card background (#1E293B), border
+                  (#334155), muted text (#94A3B8).
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="goal-block">
+            <div class="goal-title">Key Implementation Notes</div>
+            <div class="goal-item">
+              <div class="goal-icon">📱</div>
+              <div>
+                <div class="goal-item-title">
+                  Mobile: Bottom Nav replaces Sidebar
+                </div>
+                <div class="goal-item-desc">
+                  On screens under 1100px, hide the 220px sidebar. Show a fixed
+                  bottom navigation bar with icon-only links. ChatWindow becomes
+                  full-screen overlay when a conversation is selected.
+                </div>
+              </div>
+            </div>
+            <div class="goal-item">
+              <div class="goal-icon">📊</div>
+              <div>
+                <div class="goal-item-title">
+                  Charts must use dynamic() with ssr: false
+                </div>
+                <div class="goal-item-desc">
+                  Recharts does not support server-side rendering. Every chart
+                  component must be imported using Next.js dynamic() with ssr:
+                  false, otherwise the build fails.
+                </div>
+              </div>
+            </div>
+            <div class="goal-item">
+              <div class="goal-icon">🔄</div>
+              <div>
+                <div class="goal-item-title">
+                  Socket.IO — one socket instance
+                </div>
+                <div class="goal-item-desc">
+                  The socket.ts file creates a singleton. getSocket() returns
+                  the existing connection — never create a new io() on every
+                  component render. Join lead rooms with emit('join_room',
+                  {lead_id}).
+                </div>
+              </div>
+            </div>
+            <div class="goal-item">
+              <div class="goal-icon">💰</div>
+              <div>
+                <div class="goal-item-title">
+                  All amounts in ₦ Nigerian Naira
+                </div>
+                <div class="goal-item-desc">
+                  Use Intl.NumberFormat with style: 'currency', currency: 'NGN'
+                  for formatting. The backend returns raw floats — format at the
+                  UI layer. Never hardcode currency symbols in backend code.
+                </div>
+              </div>
+            </div>
+            <div class="goal-item">
+              <div class="goal-icon">🎭</div>
+              <div>
+                <div class="goal-item-title">Avatars from DiceBear API</div>
+                <div class="goal-item-desc">
+                  Use https://api.dicebear.com/7.x/initials/svg?seed={name} for
+                  all user avatars. No uploads required for MVP. Memoize Avatar
+                  components — they're rendered in long lists.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── API CONTRACT ── -->
+      <section id="api">
+        <div class="section-label">07 — API Contract</div>
+        <h2 class="section-title">REST Endpoints Reference</h2>
+        <p class="section-desc">
+          The backend exposes these endpoints. The frontend consumes them. This
+          is the official handoff boundary between the two teams — agree on this
+          before building.
+        </p>
+
+        <div class="card fade-up" style="padding: 0; overflow: hidden">
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th>Method + URL</th>
+                <th>Who Calls It</th>
+                <th>What It Does</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="method get">GET</span>/health</td>
+                <td>DevOps</td>
+                <td>Health check — returns {"status": "ok"}</td>
+              </tr>
+              <tr>
+                <td><span class="method get">GET</span>/webhook/whatsapp</td>
+                <td>Meta (verification)</td>
+                <td>Echo hub.challenge to verify the webhook URL</td>
+              </tr>
+              <tr>
+                <td><span class="method post">POST</span>/webhook/whatsapp</td>
+                <td>Meta (incoming messages)</td>
+                <td>
+                  Full AI pipeline — receive, process, reply, push to dashboard
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method get">GET</span>/api/leads/</td>
+                <td>Frontend (Leads page)</td>
+                <td>
+                  All leads, newest first. Filter by ?channel= and ?status=
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method get">GET</span>/api/leads/{id}</td>
+                <td>Frontend (Conversation)</td>
+                <td>Single lead by UUID</td>
+              </tr>
+              <tr>
+                <td><span class="method patch">PATCH</span>/api/leads/{id}</td>
+                <td>Frontend (Edit lead)</td>
+                <td>Update name, status, or reset unread_count</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="method get">GET</span>/api/messages/{lead_id}
+                </td>
+                <td>Frontend (ChatWindow)</td>
+                <td>All messages for a conversation, chronological order</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="method post">POST</span
+                  >/api/messages/{lead_id}/agent-reply
+                </td>
+                <td>Frontend (ChatWindow input)</td>
+                <td>
+                  Agent sends a manual message — saves to DB + sends to WhatsApp
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="method post">POST</span
+                  >/api/messages/{lead_id}/handoff
+                </td>
+                <td>Frontend (Human Takeover toggle)</td>
+                <td>
+                  Body: {isHuman: true/false}. Sets/clears Redis human_mode flag
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="method get">GET</span
+                  >/api/analytics/dashboard-stats
+                </td>
+                <td>Frontend (Overview stats cards)</td>
+                <td>
+                  Today's totals: chats, new leads, sales closed, revenue
+                  generated
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="method get">GET</span>/api/analytics/funnel
+                </td>
+                <td>Frontend (SalesFunnelWidget)</td>
+                <td>Lead count per funnel stage with colors for charting</td>
+              </tr>
+              <tr>
+                <td><span class="method get">GET</span>/api/settings/</td>
+                <td>Frontend (Settings page)</td>
+                <td>
+                  Current business settings. Auto-creates default row on first
+                  run
+                </td>
+              </tr>
+              <tr>
+                <td><span class="method put">PUT</span>/api/settings/</td>
+                <td>Frontend (Settings save)</td>
+                <td>
+                  Update business name, AI persona, tone, knowledge base,
+                  toggles
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="divider"></div>
+
+        <h3
+          style="
+            font-family: &quot;Syne&quot;, sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+          "
+        >
+          Socket.IO Events
+        </h3>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+          "
+          class="fade-up"
+        >
+          <div class="module-card">
+            <div class="module-title" style="font-size: 0.82rem">
+              <span class="code-pill">join_room</span>
+            </div>
+            <div class="module-desc">
+              Client → Server. Frontend emits this when a conversation is
+              opened. Payload: {lead_id}. Only clients in the room receive that
+              lead's events.
+            </div>
+          </div>
+          <div class="module-card">
+            <div class="module-title" style="font-size: 0.82rem">
+              <span class="code-pill">new_message</span>
+            </div>
+            <div class="module-desc">
+              Server → Client. Emitted after every AI reply. Payload: leadId,
+              customerMessage, aiReply, leadName, leadPhone. Triggers toast
+              notification.
+            </div>
+          </div>
+          <div class="module-card">
+            <div class="module-title" style="font-size: 0.82rem">
+              <span class="code-pill">lead_updated</span>
+            </div>
+            <div class="module-desc">
+              Server → Client. Emitted when a lead's status changes. Payload:
+              leadId, status, name. Used to update the conversations list
+              without a full refetch.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── ROADMAP ── -->
+      <section id="roadmap">
+        <div class="section-label">08 — Delivery Plan</div>
+        <h2 class="section-title">Build Roadmap</h2>
+        <p class="section-desc">
+          Four phases. Frontend and backend build in parallel once foundation is
+          done. Integration happens in Phase 3. All teams QA together in Phase
+          4.
+        </p>
+
+        <div class="phases-grid fade-up">
+          <div class="phase-card p1">
+            <div class="phase-label">Phase 1 — Foundation</div>
+            <div class="phase-title">Setup & Core Infrastructure</div>
+            <ul class="phase-items">
+              <li>FastAPI project + folder structure</li>
+              <li>Environment variables + .env</li>
+              <li>PostgreSQL models + Alembic migration</li>
+              <li>Redis ContextManager + human mode</li>
+              <li>Next.js project + Tailwind + shadcn</li>
+              <li>Type definitions + mock data file</li>
+              <li>Shared UI components (Avatar, Badge, etc.)</li>
+            </ul>
+          </div>
+          <div class="phase-card p2">
+            <div class="phase-label">Phase 2 — Core Features</div>
+            <div class="phase-title">AI Pipeline + Dashboard UI</div>
+            <ul class="phase-items">
+              <li>IntentService (Gemini Flash)</li>
+              <li>AIService (Gemini Pro + context)</li>
+              <li>WhatsAppService (send_text)</li>
+              <li>Webhook router (verify + receive)</li>
+              <li>Socket.IO server + SocketManager</li>
+              <li>Landing page (all sections)</li>
+              <li>Dashboard shell + all 6 pages (mock data)</li>
+              <li>Chat Widget (embeddable)</li>
+            </ul>
+          </div>
+          <div class="phase-card p3">
+            <div class="phase-label">Phase 3 — Integration</div>
+            <div class="phase-title">Connect Frontend + Backend</div>
+            <ul class="phase-items">
+              <li>All REST routers (leads, messages, analytics, settings)</li>
+              <li>Pydantic schemas for all models</li>
+              <li>Replace frontend mock data with real fetch() calls</li>
+              <li>Real Socket.IO client in src/lib/socket.ts</li>
+              <li>Human handoff flow end-to-end</li>
+              <li>ngrok setup + Meta webhook registration</li>
+              <li>Knowledge base wired to AIService</li>
+            </ul>
+          </div>
+          <div class="phase-card p4">
+            <div class="phase-label">Phase 4 — Launch Prep</div>
+            <div class="phase-title">QA, Docker & Deploy</div>
+            <ul class="phase-items">
+              <li>Dockerfile + docker-compose.yml</li>
+              <li>Production CORS (no wildcard *)</li>
+              <li>Permanent WhatsApp System User token</li>
+              <li>Deploy to Railway / Render</li>
+              <li>Mobile responsiveness pass</li>
+              <li>Animation + polish pass</li>
+              <li>
+                End-to-end QA: real WhatsApp → Gemini reply → dashboard live
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── RISKS ── -->
+      <section id="risks">
+        <div class="section-label">09 — Risks & Best Practices</div>
+        <h2 class="section-title">What Can Go Wrong & How to Avoid It</h2>
+        <p class="section-desc">
+          These are the most common failure points on projects like this. Read
+          them now, not after something breaks in production.
+        </p>
+
+        <div class="risks-grid fade-up">
+          <div class="risk-card">
+            <span class="risk-badge risk-high">High Risk</span>
+            <div class="risk-title">Duplicate WhatsApp messages</div>
+            <div class="risk-body">
+              Meta re-delivers webhooks on network errors. Without deduplication
+              on wa_message_id, customers get double AI replies. The
+              save_message() function must check this ID before inserting —
+              always.
+            </div>
+          </div>
+          <div class="risk-card">
+            <span class="risk-badge risk-high">High Risk</span>
+            <div class="risk-title">Webhook returning non-200</div>
+            <div class="risk-body">
+              If the webhook handler raises an unhandled exception and returns
+              500, Meta retries delivery for hours. Always wrap the entire POST
+              handler in try/except and return {"status": "ok"} regardless.
+            </div>
+          </div>
+          <div class="risk-card">
+            <span class="risk-badge risk-high">High Risk</span>
+            <div class="risk-title">24-hour WhatsApp message window</div>
+            <div class="risk-body">
+              Meta only allows free-form messages within 24h of the customer's
+              last inbound message. Auto-follow-ups sent after this window will
+              fail silently. Plan to use approved Message Templates for late
+              follow-ups.
+            </div>
+          </div>
+          <div class="risk-card">
+            <span class="risk-badge risk-medium">Medium</span>
+            <div class="risk-title">Gemini rate limits at scale</div>
+            <div class="risk-body">
+              Gemini 1.5 Pro allows 360 requests/min on the free tier. With many
+              concurrent conversations, add asyncio.Semaphore(50) to cap
+              concurrent AI calls. Upgrade to a paid tier for production.
+            </div>
+          </div>
+          <div class="risk-card">
+            <span class="risk-badge risk-medium">Medium</span>
+            <div class="risk-title">Recharts SSR crash</div>
+            <div class="risk-body">
+              Recharts uses browser APIs not available in Node.js. Every chart
+              component must use Next.js dynamic() import with ssr: false.
+              Forgetting this causes a build error that's confusing to debug.
+            </div>
+          </div>
+          <div class="risk-card">
+            <span class="risk-badge risk-medium">Medium</span>
+            <div class="risk-title">ngrok URL changes on restart</div>
+            <div class="risk-body">
+              During development, ngrok generates a new URL every session (free
+              plan). Each restart requires updating the Webhook URL in the Meta
+              Developer Portal. Document this step for every team member.
+            </div>
+          </div>
+          <div class="risk-card">
+            <span class="risk-badge risk-low">Low</span>
+            <div class="risk-title">Temporary access token in production</div>
+            <div class="risk-body">
+              The Meta Developer Portal issues a 24-hour access token by
+              default. Before going live, generate a permanent System User token
+              via Meta Business Suite. The 24h token silently expiring is easy
+              to miss.
+            </div>
+          </div>
+          <div class="risk-card">
+            <span class="risk-badge risk-low">Low</span>
+            <div class="risk-title">Socket.IO wildcard CORS</div>
+            <div class="risk-body">
+              The Socket.IO server is initialized with cors_allowed_origins="*"
+              for development. Before deploying to production, restrict this to
+              your exact frontend domain (settings.FRONTEND_URL). Wildcard CORS
+              is a security risk.
+            </div>
+          </div>
+          <div class="risk-card">
+            <span class="risk-badge risk-low">Low</span>
+            <div class="risk-title">Shared state across workers</div>
+            <div class="risk-body">
+              With 2 uvicorn workers, Python in-memory variables are not shared.
+              All per-lead state (conversation context, human mode flags) must
+              live in Redis. Never store this in class instance variables.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── FOOTER ── -->
+      <section id="footer">
+        <div>
+          <div class="footer-brand">SmartSales AI</div>
+          <div class="footer-note" style="margin-top: 0.4rem">
+            Built to Sell While You Sleep 🚀
+          </div>
+        </div>
+        <div class="footer-note" style="text-align: right; line-height: 1.8">
+          Frontend: Next.js + TypeScript + Tailwind<br />
+          Backend: FastAPI + PostgreSQL + Redis<br />
+          AI: Google Gemini 1.5 Pro + Flash<br />
+          Channel: WhatsApp Cloud API (Meta)
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const items = document.querySelectorAll(".fade-up");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+              observer.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.08 },
+      );
+      items.forEach((el) => observer.observe(el));
+
+      const navLinks = document.querySelectorAll(".nav-item");
+      const sections = document.querySelectorAll("section[id]");
+
+      window.addEventListener("scroll", () => {
+        let current = "";
+        sections.forEach((s) => {
+          if (window.scrollY >= s.offsetTop - 200) current = s.id;
+        });
+        navLinks.forEach((a) => {
+          a.classList.toggle(
+            "active",
+            a.getAttribute("href") === "#" + current,
+          );
+        });
+      });
+    </script>
+  </body>
+</html>
