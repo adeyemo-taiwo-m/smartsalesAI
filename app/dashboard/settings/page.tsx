@@ -58,7 +58,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="space-y-6 select-none w-full max-w-4xl">
+    <div className="space-y-6 select-none w-full max-w-4xl overflow-hidden">
       {/* Title */}
       <div className="pb-4 border-b border-slate-700/30">
         <h1 className="text-xl sm:text-2xl font-extrabold text-slate-50 tracking-tight">System Settings</h1>
@@ -67,7 +67,7 @@ export default function SettingsPage() {
 
       {/* Tabs */}
       <Tabs defaultValue="business" className="space-y-6">
-        <TabsList className="bg-dark border border-slate-800 p-1 rounded-xl flex flex-nowrap overflow-x-auto scrollbar-none w-full max-w-full justify-start">
+        <TabsList className="bg-dark border border-slate-800 p-1 rounded-xl !flex flex-nowrap overflow-x-auto scrollbar-none w-full max-w-full justify-start">
           <TabsTrigger value="business" className="text-xs font-semibold px-4 py-2 rounded-lg shrink-0 data-[state=active]:bg-dark-card data-[state=active]:text-brand-green">
             Business Profile
           </TabsTrigger>
