@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Send, Sparkles, User, Info, Smile, Paperclip, AlertTriangle } from "lucide-react";
+import { Send, Sparkles, User, Info, Smile, Paperclip, AlertTriangle, ChevronLeft } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { ChannelIcon } from "@/components/shared/ChannelIcon";
@@ -19,6 +19,7 @@ export function ChatWindow({ className = "" }: ChatWindowProps) {
     leads,
     conversations,
     selectedLeadId,
+    setSelectedLeadId,
     isAIMode,
     toggleAIMode,
     sendMessage,
@@ -85,7 +86,17 @@ export function ChatWindow({ className = "" }: ChatWindowProps) {
     <div className={cn("bg-dark-card rounded-xl border border-dark-border shadow-card flex flex-col justify-between overflow-hidden h-[540px] hover:border-brand-green/30 transition-colors", className)}>
       {/* Header Info */}
       <div className="px-5 py-3 border-b border-dark-border flex items-center justify-between bg-dark/15 select-none">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
+          {/* Back button on mobile */}
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setSelectedLeadId(null)}
+            className="lg:hidden text-text-muted hover:text-text-primary hover:bg-dark p-0 h-8 w-8 shrink-0"
+          >
+            <ChevronLeft size={20} />
+          </Button>
+
           <div
             className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0 shadow-sm"
             style={{ backgroundColor: getInitialsBg(selectedLead.name) }}
@@ -94,7 +105,7 @@ export function ChatWindow({ className = "" }: ChatWindowProps) {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h4 className="text-xs font-bold text-text-primary">{selectedLead.name}</h4>
+              <h4 className="text-xs font-bold text-text-primary truncate max-w-[120px] sm:max-w-none">{selectedLead.name}</h4>
               <span className="scale-85 origin-left">
                 <ChannelIcon channel={selectedLead.channel} />
               </span>

@@ -9,6 +9,7 @@ import { ChannelIcon } from "@/components/shared/ChannelIcon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Channel, LeadStatus, Lead, IntentTag } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 export default function LeadsPage() {
   const { leads, addLead, updateLeadStatus, setSelectedLeadId } = useStore();
@@ -17,6 +18,7 @@ export default function LeadsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedChannel, setSelectedChannel] = useState<"all" | Channel>("all");
   const [selectedStatus, setSelectedStatus] = useState<"all" | LeadStatus>("all");
+  const [activeKanbanTab, setActiveKanbanTab] = useState<LeadStatus>("new");
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -167,6 +169,33 @@ export default function LeadsPage() {
       </div>
 
       {/* KANBAN BOARD STAGE VIEW */}
+      {viewMode === "kanban" && (
+        <div className="flex md:hidden bg-dark border border-dark-border rounded-xl p-1 gap-1 select-none overflow-x-auto scrollbar-none">
+          {kanbanColumns.map((col) => {
+            const colLeads = filteredLeads.filter((l) => l.status === col.id);
+            const isActive = activeKanbanTab === col.id;
+            return (
+              <button
+                key={col.id}
+                type="button"
+                onClick={() => setActiveKanbanTab(col.id)}
+                className={cn(
+                  "flex-1 py-2 px-2.5 rounded-lg text-[10px] font-bold whitespace-nowrap flex items-center justify-center gap-1.5 transition-all",
+                  isActive
+                    ? "bg-brand-green/10 text-brand-green border border-brand-green/20"
+                    : "text-text-muted hover:text-text-primary"
+                )}
+              >
+                <span>{col.label.split(" / ")[0]}</span>
+                <span className="bg-dark border border-dark-border text-[9px] px-1.5 py-0.5 rounded-full text-text-muted">
+                  {colLeads.length}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+
       {viewMode === "kanban" ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 select-none items-start">
           {kanbanColumns.map((col) => {
@@ -175,7 +204,11 @@ export default function LeadsPage() {
             return (
               <div
                 key={col.id}
-                className={`rounded-xl border border-slate-700/40 p-4 min-h-[400px] flex flex-col space-y-4 ${col.bg}`}
+                className={cn(
+                  "rounded-xl border border-slate-700/40 p-4 min-h-[400px] flex flex-col space-y-4",
+                  col.bg,
+                  activeKanbanTab === col.id ? "flex" : "hidden md:flex"
+                )}
               >
                 {/* Column Title */}
                 <div className="flex items-center justify-between pb-2 border-b border-slate-800">

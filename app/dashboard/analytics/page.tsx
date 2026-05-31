@@ -9,6 +9,11 @@ import { useStore } from "@/store/useStore";
 export default function AnalyticsPage() {
   const { sales, leads } = useStore();
   const [timeRange, setTimeRange] = useState<"7d" | "30d">("7d");
+  const [mounted, setMounted] = useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Calculate Product Sales Performance
   const productPerformance = React.useMemo(() => {
@@ -117,78 +122,80 @@ export default function AnalyticsPage() {
 
         {/* Recharts Container */}
         <div className="h-[280px] w-full text-xs">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={revenueChartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
-              <defs>
-                <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#1D6B4A" stopOpacity={0.25} />
-                  <stop offset="95%" stopColor="#1D6B4A" stopOpacity={0} />
-                </linearGradient>
-                <linearGradient id="colorLeads" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#7C3AED" stopOpacity={0.25} />
-                  <stop offset="95%" stopColor="#7C3AED" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.15} />
-              <XAxis
-                dataKey="day"
-                stroke="#64748B"
-                fontSize={10}
-                tickLine={false}
-                axisLine={false}
-              />
-              <YAxis
-                yAxisId="left"
-                stroke="#64748B"
-                fontSize={10}
-                tickLine={false}
-                axisLine={false}
-                tickFormatter={(val) => `₦${val / 1000}k`}
-              />
-              <YAxis
-                yAxisId="right"
-                orientation="right"
-                stroke="#64748B"
-                fontSize={10}
-                tickLine={false}
-                axisLine={false}
-              />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "#1E293B",
-                  borderColor: "#334155",
-                  borderRadius: "12px",
-                  color: "#F8FAFC",
-                  fontSize: "11px",
-                  padding: "10px 14px",
-                }}
-                formatter={(val: any, name: any) => {
-                  if (name === "revenue") return [`₦${val.toLocaleString()}`, "Revenue"];
-                  return [val, "Leads Captured"];
-                }}
-              />
-              <Area
-                yAxisId="left"
-                type="monotone"
-                dataKey="revenue"
-                name="revenue"
-                stroke="#1D6B4A"
-                strokeWidth={2}
-                fillOpacity={1}
-                fill="url(#colorRevenue)"
-              />
-              <Area
-                yAxisId="right"
-                type="monotone"
-                dataKey="leads"
-                name="leads"
-                stroke="#7C3AED"
-                strokeWidth={2}
-                fillOpacity={1}
-                fill="url(#colorLeads)"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
+          {mounted && (
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={revenueChartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#1D6B4A" stopOpacity={0.25} />
+                    <stop offset="95%" stopColor="#1D6B4A" stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient id="colorLeads" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#7C3AED" stopOpacity={0.25} />
+                    <stop offset="95%" stopColor="#7C3AED" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.15} />
+                <XAxis
+                  dataKey="day"
+                  stroke="#64748B"
+                  fontSize={10}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <YAxis
+                  yAxisId="left"
+                  stroke="#64748B"
+                  fontSize={10}
+                  tickLine={false}
+                  axisLine={false}
+                  tickFormatter={(val) => `₦${val / 1000}k`}
+                />
+                <YAxis
+                  yAxisId="right"
+                  orientation="right"
+                  stroke="#64748B"
+                  fontSize={10}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#1E293B",
+                    borderColor: "#334155",
+                    borderRadius: "12px",
+                    color: "#F8FAFC",
+                    fontSize: "11px",
+                    padding: "10px 14px",
+                  }}
+                  formatter={(val: any, name: any) => {
+                    if (name === "revenue") return [`₦${val.toLocaleString()}`, "Revenue"];
+                    return [val, "Leads Captured"];
+                  }}
+                />
+                <Area
+                  yAxisId="left"
+                  type="monotone"
+                  dataKey="revenue"
+                  name="revenue"
+                  stroke="#1D6B4A"
+                  strokeWidth={2}
+                  fillOpacity={1}
+                  fill="url(#colorRevenue)"
+                />
+                <Area
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="leads"
+                  name="leads"
+                  stroke="#7C3AED"
+                  strokeWidth={2}
+                  fillOpacity={1}
+                  fill="url(#colorLeads)"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          )}
         </div>
       </div>
 
@@ -209,32 +216,34 @@ export default function AnalyticsPage() {
 
           {/* Pie Graph */}
           <div className="h-[220px] w-full flex items-center justify-center">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={channelSplitData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={50}
-                  outerRadius={75}
-                  paddingAngle={5}
-                  dataKey="value"
-                >
-                  {channelSplitData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#1E293B",
-                    borderColor: "#334155",
-                    borderRadius: "12px",
-                    color: "#F8FAFC",
-                    fontSize: "11px",
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+            {mounted && (
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={channelSplitData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={50}
+                    outerRadius={75}
+                    paddingAngle={5}
+                    dataKey="value"
+                  >
+                    {channelSplitData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#1E293B",
+                      borderColor: "#334155",
+                      borderRadius: "12px",
+                      color: "#F8FAFC",
+                      fontSize: "11px",
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            )}
           </div>
 
           {/* Legend Grid */}

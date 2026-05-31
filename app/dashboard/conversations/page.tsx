@@ -3,8 +3,12 @@
 import React from "react";
 import { LiveConversationsPanel } from "@/components/dashboard/LiveConversationsPanel";
 import { ChatWindow } from "@/components/dashboard/ChatWindow";
+import { useStore } from "@/store/useStore";
+import { cn } from "@/lib/utils";
 
 export default function ConversationsPage() {
+  const { selectedLeadId } = useStore();
+
   return (
     <div className="space-y-6 flex flex-col h-[calc(100vh-6rem)]">
       {/* Title */}
@@ -19,8 +23,8 @@ export default function ConversationsPage() {
 
       {/* Main Inbox Panels split */}
       <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[33%_67%] gap-6">
-        <LiveConversationsPanel className="h-full" />
-        <ChatWindow className="h-full" />
+        <LiveConversationsPanel className={cn("h-full", selectedLeadId ? "hidden lg:flex" : "flex")} />
+        <ChatWindow className={cn("h-full", selectedLeadId ? "flex" : "hidden lg:flex")} />
       </div>
     </div>
   );

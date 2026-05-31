@@ -91,11 +91,11 @@ export default function SalesPage() {
       <div className="grid gap-5 grid-cols-2 lg:grid-cols-4">
         {/* KPI: Total Sales */}
         <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 flex items-center justify-between shadow-card hover:border-brand-green/30 duration-200 transition-colors group">
-          <div className="space-y-1">
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Completed Orders</p>
-            <h4 className="text-xl font-bold text-slate-50 tabular-nums">{totalSalesCount}</h4>
-            <p className="text-[9px] text-green-400 font-semibold flex items-center mt-1">
-              <TrendingUp size={10} className="mr-0.5" /> +8% vs last month
+          <div className="space-y-1 min-w-0">
+            <p className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider truncate">Completed Orders</p>
+            <h4 className="text-base sm:text-xl font-bold text-slate-50 tabular-nums truncate">{totalSalesCount}</h4>
+            <p className="text-[9px] text-green-400 font-semibold flex items-center mt-1 truncate">
+              <TrendingUp size={10} className="mr-0.5 shrink-0" /> +8% vs last month
             </p>
           </div>
           <div className="w-9 h-9 rounded-lg bg-brand-green/10 flex items-center justify-center text-brand-green shrink-0 group-hover:scale-105 duration-200 transition-transform">
@@ -105,11 +105,11 @@ export default function SalesPage() {
 
         {/* KPI: Total Revenue */}
         <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 flex items-center justify-between shadow-card hover:border-brand-green/30 duration-200 transition-colors group">
-          <div className="space-y-1">
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Gross Revenue</p>
-            <h4 className="text-xl font-bold text-slate-50 tabular-nums">₦{totalRevenue.toLocaleString()}</h4>
-            <p className="text-[9px] text-green-400 font-semibold flex items-center mt-1">
-              <TrendingUp size={10} className="mr-0.5" /> +14% vs last month
+          <div className="space-y-1 min-w-0">
+            <p className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider truncate">Gross Revenue</p>
+            <h4 className="text-base sm:text-xl font-bold text-slate-50 tabular-nums truncate">₦{totalRevenue.toLocaleString()}</h4>
+            <p className="text-[9px] text-green-400 font-semibold flex items-center mt-1 truncate">
+              <TrendingUp size={10} className="mr-0.5 shrink-0" /> +14% vs last month
             </p>
           </div>
           <div className="w-9 h-9 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400 shrink-0 group-hover:scale-105 duration-200 transition-transform">
@@ -119,11 +119,11 @@ export default function SalesPage() {
 
         {/* KPI: Average Order Value */}
         <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 flex items-center justify-between shadow-card hover:border-brand-green/30 duration-200 transition-colors group">
-          <div className="space-y-1">
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Avg Order Value</p>
-            <h4 className="text-xl font-bold text-slate-50 tabular-nums">₦{avgOrderValue.toLocaleString()}</h4>
-            <p className="text-[9px] text-green-400 font-semibold flex items-center mt-1">
-              <TrendingUp size={10} className="mr-0.5" /> +4% vs last month
+          <div className="space-y-1 min-w-0">
+            <p className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider truncate">Avg Order Value</p>
+            <h4 className="text-base sm:text-xl font-bold text-slate-50 tabular-nums truncate">₦{avgOrderValue.toLocaleString()}</h4>
+            <p className="text-[9px] text-green-400 font-semibold flex items-center mt-1 truncate">
+              <TrendingUp size={10} className="mr-0.5 shrink-0" /> +4% vs last month
             </p>
           </div>
           <div className="w-9 h-9 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400 shrink-0 group-hover:scale-105 duration-200 transition-transform">
@@ -133,10 +133,10 @@ export default function SalesPage() {
 
         {/* KPI: Refund Rate */}
         <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 flex items-center justify-between shadow-card hover:border-brand-green/30 duration-200 transition-colors group">
-          <div className="space-y-1">
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Refund Rate</p>
-            <h4 className="text-xl font-bold text-slate-50 tabular-nums">{refundRate}%</h4>
-            <p className="text-[9px] text-slate-500 font-semibold flex items-center mt-1">
+          <div className="space-y-1 min-w-0">
+            <p className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-wider truncate">Refund Rate</p>
+            <h4 className="text-base sm:text-xl font-bold text-slate-50 tabular-nums truncate">{refundRate}%</h4>
+            <p className="text-[9px] text-slate-500 font-semibold flex items-center mt-1 truncate">
               Stable trend flow
             </p>
           </div>

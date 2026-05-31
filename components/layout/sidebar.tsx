@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { sidebarOpen, user, logout } = useStore();
+  const { sidebarOpen, user, logout, toggleSidebar } = useStore();
 
   const links = [
     { href: "/dashboard",               label: "Overview",       icon: LayoutDashboard },
@@ -33,8 +33,9 @@ export function Sidebar() {
     <>
       {/* Mobile overlay */}
       <div
+        onClick={toggleSidebar}
         className={cn(
-          "fixed inset-0 z-40 bg-black/60 md:hidden backdrop-blur-sm transition-opacity duration-300",
+          "fixed inset-0 z-40 bg-black/60 md:hidden backdrop-blur-sm transition-opacity duration-300 cursor-pointer",
           sidebarOpen ? "opacity-100 block" : "opacity-0 hidden"
         )}
       />
@@ -72,6 +73,11 @@ export function Sidebar() {
                 <Link
                   key={link.href}
                   href={link.href}
+                  onClick={() => {
+                    if (sidebarOpen && typeof window !== "undefined" && window.innerWidth < 768) {
+                      toggleSidebar();
+                    }
+                  }}
                   className={cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 relative",
                     isActive

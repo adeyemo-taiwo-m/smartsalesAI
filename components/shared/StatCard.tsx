@@ -57,31 +57,31 @@ export function StatCard({
   return (
     <div className="bg-dark-card rounded-xl border border-dark-border shadow-card p-5 hover:border-brand-green/30 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 group">
       <div className="flex items-start justify-between">
-        <div className="space-y-1.5">
-          <p className="text-xs font-semibold text-text-muted uppercase tracking-wider">
+        <div className="space-y-1.5 min-w-0">
+          <p className="text-[10px] sm:text-xs font-semibold text-text-muted uppercase tracking-wider truncate">
             {label}
           </p>
-          <h4 className="text-2xl font-bold text-text-primary tabular-nums">
+          <h4 className="text-base sm:text-2xl font-bold text-text-primary tabular-nums truncate">
             {formatValue(value)}
           </h4>
-          <div className="flex items-center gap-1.5 text-xs">
+          <div className="flex flex-wrap items-center gap-1 text-[10px] sm:text-xs leading-none">
             {isPositive ? (
-              <span className="flex items-center gap-0.5 text-green-400 font-medium">
-                <ArrowUpRight size={14} />
+              <span className="flex items-center gap-0.5 text-green-400 font-medium shrink-0">
+                <ArrowUpRight size={12} />
                 <span>+{change}%</span>
               </span>
             ) : isNegative ? (
-              <span className="flex items-center gap-0.5 text-red-400 font-medium">
-                <ArrowDownRight size={14} />
+              <span className="flex items-center gap-0.5 text-red-400 font-medium shrink-0">
+                <ArrowDownRight size={12} />
                 <span>{change}%</span>
               </span>
             ) : (
-              <span className="flex items-center gap-0.5 text-text-muted font-medium">
-                <Minus size={14} />
+              <span className="flex items-center gap-0.5 text-text-muted font-medium shrink-0">
+                <Minus size={12} />
                 <span>0%</span>
               </span>
             )}
-            <span className="text-text-muted/70">vs yesterday</span>
+            <span className="text-text-muted/60 shrink-0">vs yesterday</span>
           </div>
         </div>
         <div

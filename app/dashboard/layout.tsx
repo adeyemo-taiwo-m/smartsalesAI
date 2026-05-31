@@ -46,7 +46,7 @@ export default function DashboardLayout({
       {/* Main Content Area */}
       <div
         className={cn(
-          "flex-1 flex flex-col min-h-screen transition-all duration-300 ease-in-out pb-16 md:pb-0",
+          "flex-1 flex flex-col min-h-screen transition-all duration-300 ease-in-out pb-20 md:pb-0",
           sidebarOpen ? "md:ml-64" : "md:ml-20"
         )}
       >
