@@ -67,18 +67,18 @@ export default function SettingsPage() {
 
       {/* Tabs */}
       <Tabs defaultValue="business" className="space-y-6">
-        <TabsList className="bg-dark border border-slate-800 p-1 rounded-xl !flex flex-nowrap overflow-x-auto scrollbar-none w-full max-w-full justify-start">
-          <TabsTrigger value="business" className="text-xs font-semibold px-4 py-2 rounded-lg shrink-0 data-[state=active]:bg-dark-card data-[state=active]:text-brand-green">
+        <TabsList className="bg-dark border border-slate-800 p-1 rounded-xl grid grid-cols-2 md:flex md:flex-row md:w-fit w-full gap-1 h-auto md:h-10">
+          <TabsTrigger value="business" className="text-xs font-semibold px-2 py-2 rounded-lg data-[state=active]:bg-dark-card data-[state=active]:text-brand-green w-full text-center">
             Business Profile
           </TabsTrigger>
-          <TabsTrigger value="ai" className="text-xs font-semibold px-4 py-2 rounded-lg shrink-0 data-[state=active]:bg-dark-card data-[state=active]:text-brand-green">
+          <TabsTrigger value="ai" className="text-xs font-semibold px-2 py-2 rounded-lg data-[state=active]:bg-dark-card data-[state=active]:text-brand-green w-full text-center">
             Aria AI Agent
           </TabsTrigger>
-          <TabsTrigger value="channels" className="text-xs font-semibold px-4 py-2 rounded-lg shrink-0 data-[state=active]:bg-dark-card data-[state=active]:text-brand-green">
-            Integrations & Channels
+          <TabsTrigger value="channels" className="text-xs font-semibold px-2 py-2 rounded-lg data-[state=active]:bg-dark-card data-[state=active]:text-brand-green w-full text-center truncate">
+            Integrations
           </TabsTrigger>
-          <TabsTrigger value="notifications" className="text-xs font-semibold px-4 py-2 rounded-lg shrink-0 data-[state=active]:bg-dark-card data-[state=active]:text-brand-green">
-            Alerts Notifications
+          <TabsTrigger value="notifications" className="text-xs font-semibold px-2 py-2 rounded-lg data-[state=active]:bg-dark-card data-[state=active]:text-brand-green w-full text-center truncate">
+            Notifications
           </TabsTrigger>
         </TabsList>
 
