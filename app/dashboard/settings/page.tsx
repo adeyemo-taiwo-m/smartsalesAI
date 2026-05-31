@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useStore } from "@/store/useStore";
+import { cn } from "@/lib/utils";
 
 export default function SettingsPage() {
   const { user } = useStore();
@@ -57,7 +58,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="space-y-6 select-none max-w-4xl px-4 sm:px-0">
+    <div className="space-y-6 select-none w-full max-w-4xl">
       {/* Title */}
       <div className="pb-4 border-b border-slate-700/30">
         <h1 className="text-xl sm:text-2xl font-extrabold text-slate-50 tracking-tight">System Settings</h1>
@@ -92,17 +93,17 @@ export default function SettingsPage() {
             </div>
 
             {/* Logo Upload Simulation */}
-            <div className="flex items-center gap-4 border-b border-slate-850 pb-4">
-              <div className="w-16 h-16 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-slate-300 text-lg">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 border-b border-slate-850 pb-4">
+              <div className="w-16 h-16 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center font-bold text-slate-300 text-lg shrink-0 select-none">
                 KF
               </div>
-              <div className="space-y-1">
+              <div className="space-y-1.5 flex-1 min-w-0">
                 <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Business Brand Mark</label>
-                <div className="flex gap-2">
-                  <Button variant="outline" className="h-8 text-xs font-semibold border-slate-700 text-slate-300 hover:text-white">
+                <div className="flex flex-wrap gap-2">
+                  <Button variant="outline" className="h-8 text-xs font-semibold border-slate-700 text-slate-300 hover:text-white shrink-0">
                     <Upload size={12} className="mr-1.5" /> Upload Brand Mark
                   </Button>
-                  <Button variant="ghost" className="h-8 text-xs text-red-400 hover:text-red-300">Remove</Button>
+                  <Button variant="ghost" className="h-8 text-xs text-red-400 hover:text-red-300 shrink-0">Remove</Button>
                 </div>
               </div>
             </div>
@@ -245,38 +246,39 @@ export default function SettingsPage() {
               </div>
 
               {/* Whatsapp Slot */}
-              <div className="flex items-center justify-between p-4 bg-dark/20 border border-slate-800 rounded-xl">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400 border border-green-500/20">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-dark/20 border border-slate-800 rounded-xl gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400 border border-green-500/20 shrink-0">
                     <MessageCircle size={18} className="fill-green-400/10" />
                   </div>
-                  <div>
-                    <h4 className="text-xs font-bold text-slate-200">WhatsApp Business API</h4>
-                    <span className="flex items-center gap-1 text-[9px] text-green-400 font-semibold mt-0.5">
-                      <span className="w-1 h-1 rounded-full bg-green-400 animate-pulse" /> +234 803 111 2222 Connected
+                  <div className="min-w-0">
+                    <h4 className="text-xs font-bold text-slate-200 truncate">WhatsApp Business API</h4>
+                    <span className="flex items-center gap-1 text-[9px] text-green-400 font-semibold mt-0.5 truncate">
+                      <span className="w-1 h-1 rounded-full bg-green-400 animate-pulse shrink-0" /> +234 803 111 2222 Connected
                     </span>
                   </div>
                 </div>
                 <Button
                   variant="outline"
                   onClick={() => { setWhatsappConnected(!whatsappConnected); }}
-                  className={`h-7.5 px-3 rounded-lg text-[10px] font-semibold border-slate-700 ${
+                  className={cn(
+                    "h-7.5 px-3 rounded-lg text-[10px] font-semibold border-slate-700 w-full sm:w-auto shrink-0",
                     whatsappConnected ? "text-red-400 hover:bg-red-500/10" : "text-green-400 hover:bg-green-500/10"
-                  }`}
+                  )}
                 >
                   {whatsappConnected ? "Disconnect" : "Connect"}
                 </Button>
               </div>
 
               {/* Instagram Slot */}
-              <div className="flex items-center justify-between p-4 bg-dark/20 border border-slate-800 rounded-xl">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 border border-pink-500/20">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-dark/20 border border-slate-800 rounded-xl gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-8 h-8 rounded-lg bg-pink-500/10 flex items-center justify-center text-pink-400 border border-pink-500/20 shrink-0">
                     <Instagram size={18} />
                   </div>
-                  <div>
-                    <h4 className="text-xs font-bold text-slate-200">Instagram DM Direct</h4>
-                    <span className="flex items-center gap-1 text-[9px] text-slate-500 font-semibold mt-0.5">
+                  <div className="min-w-0">
+                    <h4 className="text-xs font-bold text-slate-200 truncate">Instagram DM Direct</h4>
+                    <span className="flex items-center gap-1 text-[9px] text-slate-500 font-semibold mt-0.5 truncate">
                       Not Connected
                     </span>
                   </div>
@@ -284,9 +286,10 @@ export default function SettingsPage() {
                 <Button
                   variant="outline"
                   onClick={() => { setInstagramConnected(!instagramConnected); }}
-                  className={`h-7.5 px-3 rounded-lg text-[10px] font-semibold border-slate-700 ${
+                  className={cn(
+                    "h-7.5 px-3 rounded-lg text-[10px] font-semibold border-slate-700 w-full sm:w-auto shrink-0",
                     instagramConnected ? "text-red-400 hover:bg-red-500/10" : "text-pink-400 hover:bg-pink-500/10"
-                  }`}
+                  )}
                 >
                   {instagramConnected ? "Disconnect" : "Connect Store"}
                 </Button>
