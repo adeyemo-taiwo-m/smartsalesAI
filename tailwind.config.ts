@@ -35,7 +35,7 @@ const config: Config = {
       },
       backgroundImage: {
         'hero-glow':      'radial-gradient(ellipse 80% 50% at 50% -10%, rgba(29,107,74,0.25) 0%, transparent 70%)',
-        'brand-gradient': 'linear-gradient(to right, #1D6B4A, #7C3AED)',
+        'brand-gradient': 'linear-gradient(to right, #1D6B4A, #22C55E)',
       },
       animation: {
         'float':    'float 4s ease-in-out infinite',

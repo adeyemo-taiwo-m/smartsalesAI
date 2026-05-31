@@ -111,7 +111,7 @@ export function ChatWidget() {
       {/* Floating Toggle Bubble */}
       <button
         onClick={handleToggle}
-        className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-green to-purple-600 flex items-center justify-center shadow-widget text-white hover:scale-110 duration-200 transition-transform relative focus:outline-none"
+        className="w-14 h-14 rounded-full bg-gradient-to-br from-brand-green to-brand-green-light flex items-center justify-center shadow-widget text-white hover:scale-110 duration-200 transition-transform relative focus:outline-none"
       >
         {isOpen ? <X size={22} /> : <MessageCircle size={22} className="fill-white/10" />}
         {unreadCount > 0 && !isOpen && (
@@ -125,7 +125,7 @@ export function ChatWidget() {
       {isOpen && (
         <div className="absolute bottom-18 right-0 w-80 sm:w-85 h-[480px] bg-dark-card border border-slate-700/50 rounded-2xl shadow-widget flex flex-col justify-between overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
           {/* Header */}
-          <div className="px-4 py-3 bg-gradient-to-r from-brand-green to-purple-600 text-white flex items-center justify-between">
+          <div className="px-4 py-3 bg-gradient-to-r from-brand-green to-brand-green-light text-white flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white">
                 <Sparkles size={16} className="fill-white/20 text-purple-200 animate-pulse" />

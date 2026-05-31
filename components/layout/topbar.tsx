@@ -70,7 +70,7 @@ export function Topbar() {
 
         {/* Business Store indicator */}
         <div className="hidden lg:flex items-center gap-2 bg-dark/40 border border-dark-border rounded-full px-3 py-1.5 text-xs text-text-primary">
-          <Store size={14} className="text-blue-400" />
+          <Store size={14} className="text-brand-green" />
           <span className="font-semibold text-text-primary">Kene Fashion Hub</span>
         </div>
 
@@ -97,7 +97,7 @@ export function Topbar() {
           <img
             src={user?.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${user?.name || 'A'}`}
             alt={user?.name || "Avatar"}
-            className="w-8 h-8 rounded-full border border-dark-border bg-dark-card shrink-0 ring-2 ring-transparent hover:ring-blue-500/20 duration-200 transition-all cursor-pointer"
+            className="w-8 h-8 rounded-full border border-dark-border bg-dark-card shrink-0 ring-2 ring-transparent hover:ring-brand-green/20 duration-200 transition-all cursor-pointer"
           />
         </div>
       </div>

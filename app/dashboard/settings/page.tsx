@@ -41,7 +41,7 @@ export default function SettingsPage() {
   window.SmartSalesConfig = {
     agentId: "aria-kene-fashion",
     businessName: "Kene Fashion Hub",
-    themeColor: "#2563EB"
+    themeColor: "#1D6B4A"
   };
 </script>
 <script src="https://cdn.smartsales.ai/widget.js" async></script>`;
@@ -67,16 +67,16 @@ export default function SettingsPage() {
       {/* Tabs */}
       <Tabs defaultValue="business" className="space-y-6">
         <TabsList className="bg-dark border border-slate-800 p-1 rounded-xl">
-          <TabsTrigger value="business" className="text-xs font-semibold px-4 py-2 rounded-lg data-[state=active]:bg-dark-card data-[state=active]:text-blue-400">
+          <TabsTrigger value="business" className="text-xs font-semibold px-4 py-2 rounded-lg data-[state=active]:bg-dark-card data-[state=active]:text-brand-green">
             Business Profile
           </TabsTrigger>
-          <TabsTrigger value="ai" className="text-xs font-semibold px-4 py-2 rounded-lg data-[state=active]:bg-dark-card data-[state=active]:text-blue-400">
+          <TabsTrigger value="ai" className="text-xs font-semibold px-4 py-2 rounded-lg data-[state=active]:bg-dark-card data-[state=active]:text-brand-green">
             Aria AI Agent
           </TabsTrigger>
-          <TabsTrigger value="channels" className="text-xs font-semibold px-4 py-2 rounded-lg data-[state=active]:bg-dark-card data-[state=active]:text-blue-400">
+          <TabsTrigger value="channels" className="text-xs font-semibold px-4 py-2 rounded-lg data-[state=active]:bg-dark-card data-[state=active]:text-brand-green">
             Integrations & Channels
           </TabsTrigger>
-          <TabsTrigger value="notifications" className="text-xs font-semibold px-4 py-2 rounded-lg data-[state=active]:bg-dark-card data-[state=active]:text-blue-400">
+          <TabsTrigger value="notifications" className="text-xs font-semibold px-4 py-2 rounded-lg data-[state=active]:bg-dark-card data-[state=active]:text-brand-green">
             Alerts Notifications
           </TabsTrigger>
         </TabsList>
@@ -86,7 +86,7 @@ export default function SettingsPage() {
           <div className="bg-dark-card rounded-xl border border-slate-700/50 p-6 space-y-6 shadow-card hover:border-slate-600 transition-colors">
             <div>
               <h3 className="text-sm font-bold text-slate-50 uppercase tracking-widest flex items-center gap-2">
-                <Store size={15} className="text-blue-400" /> Business Profile
+                <Store size={15} className="text-brand-green" /> Business Profile
               </h3>
               <p className="text-[11px] text-slate-400 mt-1">Modify how your sales hub details appear across automated invoices and catalogs.</p>
             </div>
@@ -177,7 +177,7 @@ export default function SettingsPage() {
                   <select
                     value={aiTone}
                     onChange={(e) => setAiTone(e.target.value)}
-                    className="w-full h-9.5 px-3 bg-dark border border-slate-800 text-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="w-full h-9.5 px-3 bg-dark border border-slate-800 text-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-brand-green"
                   >
                     <option value="friendly">Friendly & Energetic</option>
                     <option value="professional">Strictly Professional</option>
@@ -193,7 +193,7 @@ export default function SettingsPage() {
                   value={aiKb}
                   onChange={(e) => setAiKb(e.target.value)}
                   rows={5}
-                  className="w-full p-3 bg-dark border border-slate-800 rounded-lg text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500 font-sans leading-relaxed"
+                  className="w-full p-3 bg-dark border border-slate-800 rounded-lg text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-brand-green font-sans leading-relaxed"
                   placeholder="Paste details of your products, wholesale prices, shipping rates, and refund policies here..."
                 />
                 <span className="text-[10px] text-slate-500 block leading-tight">
@@ -203,7 +203,7 @@ export default function SettingsPage() {
 
               {/* Switches */}
               <div className="space-y-3 pt-2">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div className="flex items-center justify-between border-b border-slate-880 pb-3">
                   <div className="space-y-0.5">
                     <label className="text-xs font-bold text-slate-200">Auto follow-ups on abandoned shopping</label>
                     <p className="text-[10px] text-slate-500 leading-tight">
@@ -285,7 +285,7 @@ export default function SettingsPage() {
                   variant="outline"
                   onClick={() => { setInstagramConnected(!instagramConnected); }}
                   className={`h-7.5 px-3 rounded-lg text-[10px] font-semibold border-slate-700 ${
-                    instagramConnected ? "text-red-400 hover:bg-red-500/10" : "text-blue-400 hover:bg-blue-500/10"
+                    instagramConnected ? "text-red-400 hover:bg-red-500/10" : "text-pink-400 hover:bg-pink-500/10"
                   }`}
                 >
                   {instagramConnected ? "Disconnect" : "Connect Store"}
@@ -297,7 +297,7 @@ export default function SettingsPage() {
             <div className="bg-dark-card rounded-xl border border-slate-700/50 p-6 space-y-5 shadow-card hover:border-slate-600 transition-colors flex flex-col justify-between">
               <div className="space-y-1">
                 <h3 className="text-sm font-bold text-slate-50 uppercase tracking-widest flex items-center gap-2">
-                  <Globe size={15} className="text-blue-400" /> Web Widget Integrations
+                  <Globe size={15} className="text-brand-green" /> Web Widget Integrations
                 </h3>
                 <p className="text-[11px] text-slate-400 mt-1">Copy and paste this secure script code inside your store's HTML header to embed Aria.</p>
               </div>
@@ -326,7 +326,7 @@ export default function SettingsPage() {
           <div className="bg-dark-card rounded-xl border border-slate-700/50 p-6 space-y-6 shadow-card hover:border-slate-600 transition-colors">
             <div>
               <h3 className="text-sm font-bold text-slate-50 uppercase tracking-widest flex items-center gap-2">
-                <Bell size={15} className="text-blue-400" /> Alerts & Notifications
+                <Bell size={15} className="text-brand-green" /> Alerts & Notifications
               </h3>
               <p className="text-[11px] text-slate-400 mt-1">Configure where your team receives pipeline activity checkups and order summaries.</p>
             </div>

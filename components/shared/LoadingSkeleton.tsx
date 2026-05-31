@@ -33,7 +33,7 @@ export function LoadingSkeleton({ variant = "card", className = "" }: LoadingSke
         </div>
         <div className="self-end w-2/3 space-y-2 animate-pulse">
           <div className="h-3.5 bg-dark-border rounded w-1/4 ml-auto" />
-          <div className="h-12 bg-blue-900/20 rounded-lg rounded-tr-none w-full border border-blue-500/10" />
+          <div className="h-12 bg-brand-green/10 rounded-lg rounded-tr-none w-full border border-brand-green/20" />
         </div>
         <div className="self-start w-1/2 space-y-2 animate-pulse">
           <div className="h-3.5 bg-dark-border rounded w-1/4" />

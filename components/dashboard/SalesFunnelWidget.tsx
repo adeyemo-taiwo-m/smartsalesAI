@@ -9,7 +9,7 @@ export function SalesFunnelWidget() {
   const maxCount = stages[0]?.count || 1;
 
   return (
-    <div className="bg-dark-card rounded-xl border border-dark-border shadow-card flex flex-col justify-between h-full group hover:border-blue-500/30 transition-colors">
+    <div className="bg-dark-card rounded-xl border border-dark-border shadow-card flex flex-col justify-between h-full group hover:border-brand-green/30 transition-colors">
       {/* Header */}
       <div className="flex items-center gap-3 px-5 py-4 border-b border-dark-border">
         <div className="w-8 h-8 rounded-lg bg-purple-600/10 flex items-center justify-center text-purple-400 group-hover:scale-110 duration-200 transition-transform">

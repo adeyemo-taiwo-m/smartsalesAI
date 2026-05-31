@@ -15,7 +15,7 @@ export default function DashboardPage() {
       {/* Demo Warning Banner */}
       <div className="w-full bg-slate-800/40 border border-slate-700/50 rounded-xl py-2 px-4 flex items-center justify-between select-none">
         <p className="text-[10px] sm:text-xs text-slate-400 font-medium flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse shrink-0" />
+          <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse shrink-0" />
           <span>SmartSales AI Demo Mode is active. Aria is online and will auto-reply in real-time.</span>
         </p>
         <span className="hidden sm:inline-flex items-center gap-1 text-[10px] text-slate-500 font-semibold uppercase tracking-wider">

@@ -14,10 +14,10 @@ export function StatusBadge({ status, withDot = true, className = "" }: StatusBa
 
   const config: Record<BadgeVariant, { bg: string; text: string; border: string; dot: string; label: string }> = {
     new: {
-      bg: "bg-blue-500/10",
-      text: "text-blue-400",
-      border: "border-blue-500/20",
-      dot: "bg-blue-400",
+      bg: "bg-emerald-500/10",
+      text: "text-emerald-400",
+      border: "border-emerald-500/20",
+      dot: "bg-emerald-400",
       label: "New",
     },
     hot: {

@@ -12,7 +12,7 @@ export function RecentSalesTable() {
   const recentSales = sales.slice(0, 5); // Show last 5 sales
 
   return (
-    <div className="bg-dark-card rounded-xl border border-dark-border shadow-card overflow-hidden group hover:border-blue-500/30 transition-colors">
+    <div className="bg-dark-card rounded-xl border border-dark-border shadow-card overflow-hidden group hover:border-brand-green/30 transition-colors">
       {/* Header */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-dark-border">
         <div className="flex items-center gap-3">
@@ -26,7 +26,7 @@ export function RecentSalesTable() {
         </div>
         <Link
           href="/dashboard/sales"
-          className="inline-flex items-center gap-1 text-xs text-blue-400 hover:text-blue-300 font-semibold transition-colors"
+          className="inline-flex items-center gap-1 text-xs text-brand-green hover:text-brand-green/80 font-semibold transition-colors"
         >
           <span>View All</span>
           <ArrowUpRight size={14} />
@@ -51,7 +51,7 @@ export function RecentSalesTable() {
               const nameInitial = sale.customer.charAt(0).toUpperCase();
               
               // Helper to generate initials background
-              const colors = ["#2563EB", "#7C3AED", "#22C55E", "#F97316", "#EC4899"];
+              const colors = ["#1D6B4A", "#7C3AED", "#22C55E", "#F97316", "#EC4899"];
               const charCodeSum = sale.customer.charCodeAt(0) + (sale.customer.charCodeAt(1) || 0);
               const avatarBg = colors[charCodeSum % colors.length];
 

@@ -24,7 +24,7 @@ export function ChannelIcon({ channel, size = 16, className = "" }: ChannelIconP
       );
     case "web":
       return (
-        <span className={`inline-flex items-center justify-center p-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 ${className}`}>
+        <span className={`inline-flex items-center justify-center p-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 ${className}`}>
           <Globe size={size} />
         </span>
       );

@@ -52,7 +52,7 @@ export default function AnalyticsPage() {
     return [
       { name: "WhatsApp Business", value: whatsapp, color: "#22C55E" },
       { name: "Instagram DM", value: instagram, color: "#EC4899" },
-      { name: "Website Widget", value: web, color: "#3B82F6" },
+      { name: "Website Widget", value: web, color: "#1D9E75" },
     ];
   }, [leads]);
 
@@ -105,7 +105,7 @@ export default function AnalyticsPage() {
           {/* Graph Legend */}
           <div className="flex gap-4 text-xs select-none">
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+              <div className="w-2.5 h-2.5 rounded-full bg-brand-green" />
               <span className="text-slate-300">Revenue (NGN)</span>
             </div>
             <div className="flex items-center gap-1.5">
@@ -121,8 +121,8 @@ export default function AnalyticsPage() {
             <AreaChart data={revenueChartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#2563EB" stopOpacity={0.25} />
-                  <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#1D6B4A" stopOpacity={0.25} />
+                  <stop offset="95%" stopColor="#1D6B4A" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="colorLeads" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#7C3AED" stopOpacity={0.25} />
@@ -172,7 +172,7 @@ export default function AnalyticsPage() {
                 type="monotone"
                 dataKey="revenue"
                 name="revenue"
-                stroke="#2563EB"
+                stroke="#1D6B4A"
                 strokeWidth={2}
                 fillOpacity={1}
                 fill="url(#colorRevenue)"

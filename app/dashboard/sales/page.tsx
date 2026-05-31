@@ -66,7 +66,7 @@ export default function SalesPage() {
   };
 
   const getInitialsBg = (name: string) => {
-    const colors = ["#2563EB", "#7C3AED", "#22C55E", "#F97316", "#EC4899", "#0891B2"];
+    const colors = ["#1D6B4A", "#7C3AED", "#22C55E", "#F97316", "#EC4899", "#0F6E56"];
     const sum = name.charCodeAt(0) + (name.charCodeAt(1) || 0);
     return colors[sum % colors.length];
   };
@@ -90,7 +90,7 @@ export default function SalesPage() {
       {/* TOP MINI SALES KPIS ROWS */}
       <div className="grid gap-5 grid-cols-2 lg:grid-cols-4">
         {/* KPI: Total Sales */}
-        <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 flex items-center justify-between shadow-card hover:border-blue-500/20 duration-200 transition-colors group">
+        <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 flex items-center justify-between shadow-card hover:border-brand-green/30 duration-200 transition-colors group">
           <div className="space-y-1">
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Completed Orders</p>
             <h4 className="text-xl font-bold text-slate-50 tabular-nums">{totalSalesCount}</h4>
@@ -104,7 +104,7 @@ export default function SalesPage() {
         </div>
 
         {/* KPI: Total Revenue */}
-        <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 flex items-center justify-between shadow-card hover:border-blue-500/20 duration-200 transition-colors group">
+        <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 flex items-center justify-between shadow-card hover:border-brand-green/30 duration-200 transition-colors group">
           <div className="space-y-1">
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Gross Revenue</p>
             <h4 className="text-xl font-bold text-slate-50 tabular-nums">₦{totalRevenue.toLocaleString()}</h4>
@@ -118,7 +118,7 @@ export default function SalesPage() {
         </div>
 
         {/* KPI: Average Order Value */}
-        <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 flex items-center justify-between shadow-card hover:border-blue-500/20 duration-200 transition-colors group">
+        <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 flex items-center justify-between shadow-card hover:border-brand-green/30 duration-200 transition-colors group">
           <div className="space-y-1">
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Avg Order Value</p>
             <h4 className="text-xl font-bold text-slate-50 tabular-nums">₦{avgOrderValue.toLocaleString()}</h4>
@@ -132,7 +132,7 @@ export default function SalesPage() {
         </div>
 
         {/* KPI: Refund Rate */}
-        <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 flex items-center justify-between shadow-card hover:border-blue-500/20 duration-200 transition-colors group">
+        <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 flex items-center justify-between shadow-card hover:border-brand-green/30 duration-200 transition-colors group">
           <div className="space-y-1">
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Refund Rate</p>
             <h4 className="text-xl font-bold text-slate-50 tabular-nums">{refundRate}%</h4>
@@ -155,7 +155,7 @@ export default function SalesPage() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search customer, item..."
-            className="h-8.5 pl-8.5 bg-dark border-slate-800 text-slate-200 placeholder:text-slate-600 rounded-lg focus-visible:ring-1 focus-visible:ring-blue-500 text-xs"
+            className="h-8.5 pl-8.5 bg-dark border-slate-800 text-slate-200 placeholder:text-slate-600 rounded-lg focus-visible:ring-1 focus-visible:ring-brand-green text-xs"
           />
         </div>
 

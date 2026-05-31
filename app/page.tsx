@@ -66,8 +66,8 @@ export default function LandingPage() {
             <div className="w-8 h-8 rounded-lg bg-brand-green/10 flex items-center justify-center text-brand-green group-hover:scale-110 duration-200 transition-transform">
               <Zap size={18} className="fill-brand-green" />
             </div>
-            {/* v1.1 §2.3 — green-to-purple gradient for logo */}
-            <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-green-600 to-purple-600 bg-clip-text text-transparent">
+            {/* v1.1 §2.3 — green-to-emerald gradient for logo */}
+            <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-green-600 to-emerald-500 bg-clip-text text-transparent">
               SmartSales AI
             </span>
           </Link>
@@ -134,7 +134,7 @@ export default function LandingPage() {
             {/* Headline — v1.1 §2.3 gradient */}
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-text-primary leading-[1.1] text-balance">
               Turn Chats Into{" "}
-              <span className="bg-gradient-to-r from-green-600 to-purple-600 bg-clip-text text-transparent">Sales</span>{" "}
+              <span className="bg-gradient-to-r from-green-600 to-emerald-500 bg-clip-text text-transparent">Sales</span>{" "}
               Automatically
             </h1>
 
@@ -159,7 +159,7 @@ export default function LandingPage() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
               <Link href="/dashboard" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full sm:w-auto h-12 px-8 text-sm font-bold bg-gradient-to-r from-brand-green to-purple-600 hover:from-brand-green/80 hover:to-purple-500 text-white rounded-full shadow-green hover:-translate-y-0.5 transition-all duration-200">
+                <Button size="lg" className="w-full sm:w-auto h-12 px-8 text-sm font-bold bg-gradient-to-r from-brand-green to-brand-green-light hover:from-brand-green/80 hover:to-brand-green-light/80 text-white rounded-full shadow-green hover:-translate-y-0.5 transition-all duration-200">
                   Get Started Free <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
@@ -357,7 +357,7 @@ export default function LandingPage() {
               {/* Growth — recommended, v1.1 §7.18 green border */}
               <div className="bg-dark-card border-2 border-brand-green shadow-pricing-glow rounded-2xl p-6 flex flex-col justify-between relative scale-105 z-10">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="bg-gradient-to-r from-brand-green to-purple-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Most Popular</span>
+                  <span className="bg-gradient-to-r from-brand-green to-brand-green-light text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Most Popular</span>
                 </div>
                 <div className="space-y-6">
                   <div>
@@ -411,8 +411,8 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* CTA SECTION — v1.1 §13.2 from-brand-green to-purple-700 */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-brand-green to-purple-700 border-t border-brand-green/30 relative">
+        {/* CTA SECTION — v1.1 §13.2 from-brand-green to-emerald-800 */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-brand-green to-emerald-800 border-t border-brand-green/30 relative">
           <div className="container mx-auto max-w-4xl text-center space-y-6">
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">Start Selling Smarter Today</h2>
             <p className="text-green-100 max-w-xl mx-auto text-xs sm:text-sm leading-relaxed opacity-90">

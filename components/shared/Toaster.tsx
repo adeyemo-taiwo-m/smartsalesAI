@@ -15,13 +15,13 @@ export function Toaster() {
       {toasts.map((toast) => {
         const icons = {
           success: <CheckCircle className="h-4.5 w-4.5 text-green-400 shrink-0 mt-0.5" />,
-          info: <Info className="h-4.5 w-4.5 text-blue-400 shrink-0 mt-0.5" />,
+          info: <Info className="h-4.5 w-4.5 text-brand-green shrink-0 mt-0.5" />,
           error: <AlertCircle className="h-4.5 w-4.5 text-red-400 shrink-0 mt-0.5" />,
         };
 
         const borders = {
           success: "border-l-3 border-l-green-500",
-          info: "border-l-3 border-l-blue-500",
+          info: "border-l-3 border-l-brand-green",
           error: "border-l-3 border-l-red-500",
         };
 

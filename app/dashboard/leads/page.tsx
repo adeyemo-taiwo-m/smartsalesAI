@@ -60,14 +60,14 @@ export default function LeadsPage() {
   };
 
   const kanbanColumns: { id: LeadStatus; label: string; color: string; bg: string }[] = [
-    { id: "new", label: "New Leads", color: "text-blue-400 border-blue-500/20", bg: "bg-blue-500/5" },
+    { id: "new", label: "New Leads", color: "text-emerald-400 border-emerald-500/20", bg: "bg-emerald-500/5" },
     { id: "warm", label: "Interested / Warm", color: "text-orange-400 border-orange-500/20", bg: "bg-orange-500/5" },
     { id: "hot", label: "Negotiating / Hot", color: "text-red-400 border-red-500/20", bg: "bg-red-500/5" },
     { id: "closed", label: "Converted / Closed", color: "text-green-400 border-green-500/20", bg: "bg-green-500/5" },
   ];
 
   const getInitialsBg = (name: string) => {
-    const colors = ["#2563EB", "#7C3AED", "#22C55E", "#F97316", "#EC4899", "#0891B2"];
+    const colors = ["#1D6B4A", "#7C3AED", "#22C55E", "#F97316", "#EC4899", "#0F6E56"];
     const sum = name.charCodeAt(0) + (name.charCodeAt(1) || 0);
     return colors[sum % colors.length];
   };
@@ -95,7 +95,7 @@ export default function LeadsPage() {
             <button
               onClick={() => setViewMode("kanban")}
               className={`p-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all ${
-                viewMode === "kanban" ? "bg-dark-card text-blue-400 shadow-sm" : "text-text-muted hover:text-text-primary"
+                viewMode === "kanban" ? "bg-dark-card text-brand-green shadow-sm" : "text-text-muted hover:text-text-primary"
               }`}
             >
               <Kanban size={14} /> Kanban
@@ -103,7 +103,7 @@ export default function LeadsPage() {
             <button
               onClick={() => setViewMode("table")}
               className={`p-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 transition-all ${
-                viewMode === "table" ? "bg-dark-card text-blue-400 shadow-sm" : "text-text-muted hover:text-text-primary"
+                viewMode === "table" ? "bg-dark-card text-brand-green shadow-sm" : "text-text-muted hover:text-text-primary"
               }`}
             >
               <List size={14} /> List View
@@ -128,7 +128,7 @@ export default function LeadsPage() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search by name or number..."
-            className="h-8.5 pl-8.5 bg-dark border-dark-border text-text-primary placeholder:text-text-muted/50 rounded-lg focus-visible:ring-1 focus-visible:ring-blue-500 text-xs"
+            className="h-8.5 pl-8.5 bg-dark border-dark-border text-text-primary placeholder:text-text-muted/50 rounded-lg focus-visible:ring-1 focus-visible:ring-brand-green text-xs"
           />
         </div>
 
@@ -231,7 +231,7 @@ export default function LeadsPage() {
                             {lead.intentTags?.map((tag) => (
                               <span
                                 key={tag}
-                                className="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] px-1.5 py-0.2 rounded-full font-bold uppercase tracking-wider"
+                                className="bg-brand-green/10 text-brand-green border border-brand-green/20 text-[9px] px-1.5 py-0.2 rounded-full font-bold uppercase tracking-wider"
                               >
                                 {tag}
                               </span>
@@ -245,7 +245,7 @@ export default function LeadsPage() {
                                 const nextStat = getNextStatus(lead.status);
                                 updateLeadStatus(lead.id, nextStat);
                               }}
-                              className="inline-flex items-center gap-1 font-bold text-blue-400 hover:text-blue-300 transition-colors"
+                              className="inline-flex items-center gap-1 font-bold text-brand-green hover:text-brand-green/80 transition-colors"
                             >
                               <ArrowRightLeft size={11} />
                               <span>Move to {getNextStatus(lead.status).toUpperCase()}</span>
@@ -325,7 +325,7 @@ export default function LeadsPage() {
                             {lead.intentTags?.map((tag) => (
                               <span
                                 key={tag}
-                                className="bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] px-1.5 py-0.2 rounded-full font-bold uppercase tracking-wider scale-90 origin-left"
+                                className="bg-brand-green/10 text-brand-green border border-brand-green/20 text-[9px] px-1.5 py-0.2 rounded-full font-bold uppercase tracking-wider scale-90 origin-left"
                               >
                                 {tag}
                               </span>
@@ -337,7 +337,7 @@ export default function LeadsPage() {
                             <Link
                               href="/dashboard/conversations"
                               onClick={() => setSelectedLeadId(lead.id)}
-                              className="text-xs text-blue-400 hover:text-blue-300 font-semibold transition-colors px-2 py-1 rounded bg-blue-500/10"
+                              className="text-xs text-brand-green hover:text-brand-green/80 font-semibold transition-colors px-2 py-1 rounded bg-brand-green/10"
                             >
                               Chat Inbox
                             </Link>
@@ -366,7 +366,7 @@ export default function LeadsPage() {
             {/* Header */}
             <div className="px-5 py-4 border-b border-slate-700/50 flex items-center justify-between bg-dark/20">
               <div className="flex items-center gap-2">
-                <Sparkles size={16} className="text-blue-400 animate-pulse" />
+                <Sparkles size={16} className="text-brand-purple animate-pulse" />
                 <h3 className="text-sm font-bold text-slate-100 uppercase tracking-widest">Add New Lead</h3>
               </div>
               <button
@@ -410,7 +410,7 @@ export default function LeadsPage() {
                   <select
                     value={newLeadChannel}
                     onChange={(e) => setNewLeadChannel(e.target.value as any)}
-                    className="w-full h-9.5 px-3 bg-dark border border-slate-800 text-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="w-full h-9.5 px-3 bg-dark border border-slate-800 text-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-brand-green"
                   >
                     <option value="whatsapp">WhatsApp</option>
                     <option value="instagram">Instagram DM</option>
@@ -423,7 +423,7 @@ export default function LeadsPage() {
                   <select
                     value={newLeadStatus}
                     onChange={(e) => setNewLeadStatus(e.target.value as any)}
-                    className="w-full h-9.5 px-3 bg-dark border border-slate-800 text-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="w-full h-9.5 px-3 bg-dark border border-slate-800 text-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-brand-green"
                   >
                     <option value="new">New</option>
                     <option value="warm">Warm / Interested</option>
@@ -439,7 +439,7 @@ export default function LeadsPage() {
                 <select
                   value={newLeadIntent}
                   onChange={(e) => setNewLeadIntent(e.target.value as any)}
-                  className="w-full h-9.5 px-3 bg-dark border border-slate-800 text-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full h-9.5 px-3 bg-dark border border-slate-800 text-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-brand-green"
                 >
                   <option value="Inquiry">General Inquiry</option>
                   <option value="Pricing">Pricing Question</option>
