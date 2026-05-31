@@ -81,12 +81,12 @@ export default function LandingPage() {
 
           {/* Desktop CTAs */}
           <div className="hidden md:flex items-center gap-4">
-            <Link href="/dashboard">
+            <Link href="/login">
               <Button variant="ghost" className="text-text-muted hover:text-text-primary hover:bg-dark text-xs font-semibold">
                 Log In
               </Button>
             </Link>
-            <Link href="/dashboard">
+            <Link href="/register">
               <Button className="bg-brand-green hover:bg-brand-green/80 text-white font-semibold rounded-full shadow-green hover:-translate-y-0.5 transition-all duration-200 text-xs px-5 py-2.5">
                 Start Free Trial
               </Button>
@@ -110,10 +110,10 @@ export default function LandingPage() {
             <Link href="#pricing" onClick={() => setMobileMenuOpen(false)} className="block px-3 py-2 text-text-muted hover:text-text-primary hover:bg-dark rounded-lg text-sm">Pricing</Link>
             <div className="h-px bg-dark-border my-2" />
             <div className="flex items-center justify-between pt-1">
-              <Link href="/dashboard" className="w-1/2 mr-2">
+              <Link href="/login" className="w-1/2 mr-2">
                 <Button variant="outline" className="w-full !bg-transparent text-text-muted border-dark-border text-xs py-2">Log In</Button>
               </Link>
-              <Link href="/dashboard" className="w-1/2">
+              <Link href="/register" className="w-1/2">
                 <Button className="w-full bg-brand-green hover:bg-brand-green/80 text-white font-semibold text-xs py-2">Start Trial</Button>
               </Link>
             </div>
@@ -158,7 +158,7 @@ export default function LandingPage() {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <Link href="/dashboard" className="w-full sm:w-auto">
+              <Link href="/register" className="w-full sm:w-auto">
                 <Button size="lg" className="w-full sm:w-auto h-12 px-8 text-sm font-bold bg-gradient-to-r from-brand-green to-brand-green-light hover:from-brand-green/80 hover:to-brand-green-light/80 text-white rounded-full shadow-green hover:-translate-y-0.5 transition-all duration-200">
                   Get Started Free <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -349,7 +349,7 @@ export default function LandingPage() {
                     ))}
                   </ul>
                 </div>
-                <Link href="/dashboard" className="w-full mt-8">
+                <Link href="/register" className="w-full mt-8">
                   <Button variant="outline" className="w-full !bg-transparent border-dark-border text-xs font-semibold text-text-primary rounded-lg">Get Started Free</Button>
                 </Link>
               </div>
@@ -377,7 +377,7 @@ export default function LandingPage() {
                     ))}
                   </ul>
                 </div>
-                <Link href="/dashboard" className="w-full mt-8">
+                <Link href="/register" className="w-full mt-8">
                   <Button className="w-full bg-brand-green hover:bg-brand-green/80 text-white font-bold rounded-lg shadow-green hover:-translate-y-0.5 transition-all duration-200 text-xs py-2.5">
                     Start 14-Day Free Trial
                   </Button>
@@ -403,7 +403,7 @@ export default function LandingPage() {
                     ))}
                   </ul>
                 </div>
-                <Link href="/dashboard" className="w-full mt-8">
+                <Link href="/register" className="w-full mt-8">
                   <Button variant="outline" className="w-full !bg-transparent border-dark-border text-xs font-semibold text-text-primary rounded-lg">Contact Sales</Button>
                 </Link>
               </div>
@@ -419,7 +419,7 @@ export default function LandingPage() {
               Join 5,000+ businesses using SmartSales AI to convert chats into revenue, completely on autopilot.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-              <Link href="/dashboard" className="w-full sm:w-auto">
+              <Link href="/register" className="w-full sm:w-auto">
                 <Button size="lg" className="w-full sm:w-auto h-12 px-8 bg-white hover:bg-slate-100 text-slate-900 font-bold rounded-full shadow-lg">
                   Get Started Free
                 </Button>
