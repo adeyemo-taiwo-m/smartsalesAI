@@ -57,7 +57,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="space-y-6 select-none max-w-4xl">
+    <div className="space-y-6 select-none max-w-4xl px-4 sm:px-0">
       {/* Title */}
       <div className="pb-4 border-b border-slate-700/30">
         <h1 className="text-xl sm:text-2xl font-extrabold text-slate-50 tracking-tight">System Settings</h1>
@@ -83,7 +83,7 @@ export default function SettingsPage() {
 
         {/* TAB 1: BUSINESS PROFILE */}
         <TabsContent value="business" className="space-y-4 focus-visible:outline-none">
-          <div className="bg-dark-card rounded-xl border border-slate-700/50 p-6 space-y-6 shadow-card hover:border-slate-600 transition-colors">
+          <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 sm:p-6 space-y-6 shadow-card hover:border-slate-600 transition-colors">
             <div>
               <h3 className="text-sm font-bold text-slate-50 uppercase tracking-widest flex items-center gap-2">
                 <Store size={15} className="text-brand-green" /> Business Profile
@@ -153,7 +153,7 @@ export default function SettingsPage() {
 
         {/* TAB 2: AI AGENT ARIA */}
         <TabsContent value="ai" className="space-y-4 focus-visible:outline-none">
-          <div className="bg-dark-card rounded-xl border border-slate-700/50 p-6 space-y-6 shadow-card hover:border-slate-600 transition-colors">
+          <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 sm:p-6 space-y-6 shadow-card hover:border-slate-600 transition-colors">
             <div>
               <h3 className="text-sm font-bold text-slate-50 uppercase tracking-widest flex items-center gap-2">
                 <Sparkles size={15} className="text-purple-400" /> Aria AI Agent Configuration
@@ -236,7 +236,7 @@ export default function SettingsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
             {/* Left: Messaging Connectors */}
-            <div className="bg-dark-card rounded-xl border border-slate-700/50 p-6 space-y-6 shadow-card hover:border-slate-600 transition-colors">
+            <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 sm:p-6 space-y-6 shadow-card hover:border-slate-600 transition-colors">
               <div>
                 <h3 className="text-sm font-bold text-slate-50 uppercase tracking-widest flex items-center gap-2">
                   <MessageCircle size={15} className="text-green-400" /> Messaging Connections
@@ -294,7 +294,7 @@ export default function SettingsPage() {
             </div>
 
             {/* Right: Embed script block widget */}
-            <div className="bg-dark-card rounded-xl border border-slate-700/50 p-6 space-y-5 shadow-card hover:border-slate-600 transition-colors flex flex-col justify-between">
+            <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 sm:p-5 shadow-card hover:border-slate-600 transition-colors flex flex-col justify-between">
               <div className="space-y-1">
                 <h3 className="text-sm font-bold text-slate-50 uppercase tracking-widest flex items-center gap-2">
                   <Globe size={15} className="text-brand-green" /> Web Widget Integrations
@@ -323,7 +323,7 @@ export default function SettingsPage() {
 
         {/* TAB 4: NOTIFICATIONS ALERTS */}
         <TabsContent value="notifications" className="space-y-4 focus-visible:outline-none">
-          <div className="bg-dark-card rounded-xl border border-slate-700/50 p-6 space-y-6 shadow-card hover:border-slate-600 transition-colors">
+          <div className="bg-dark-card rounded-xl border border-slate-700/50 p-4 sm:p-6 space-y-6 shadow-card hover:border-slate-600 transition-colors">
             <div>
               <h3 className="text-sm font-bold text-slate-50 uppercase tracking-widest flex items-center gap-2">
                 <Bell size={15} className="text-brand-green" /> Alerts & Notifications
