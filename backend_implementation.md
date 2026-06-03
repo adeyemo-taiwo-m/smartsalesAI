@@ -317,13 +317,19 @@ import uuid
 class BusinessSettings(Base):
     __tablename__ = "business_settings"
 
-    id                    = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    business_name         = Column(String, default="Acme Store")
-    ai_persona_name       = Column(String, default="Aria")
-    ai_tone               = Column(String, default="Friendly")  # Friendly | Professional | Casual
-    knowledge_base        = Column(Text, default="")
-    auto_followup         = Column(Boolean, default=True)
-    human_handoff_trigger = Column(Boolean, default=True)
+    id                       = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    business_name            = Column(String, default="Acme Store")
+    business_category        = Column(String, nullable=True)
+    website_url              = Column(String, nullable=True)
+    support_phone            = Column(String, nullable=True)
+    ai_persona_name          = Column(String, default="Aria")
+    ai_tone                  = Column(String, default="Friendly")  # Friendly | Professional | Casual
+    knowledge_base           = Column(Text, default="")
+    auto_followup            = Column(Boolean, default=True)
+    human_handoff_trigger    = Column(Boolean, default=True)
+    whatsapp_phone_number_id = Column(String, nullable=True)
+    whatsapp_access_token    = Column(String, nullable=True)
+    whatsapp_verify_token    = Column(String, default="smartsales_aria_verify_token")
 ```
 
 > The `knowledge_base` field is the core of the AI's product knowledge. Clients paste their full price list, FAQs, and product descriptions here via the Settings page.
@@ -1134,6 +1140,73 @@ async def update_settings(
     return settings_row
 ```
 
+### 7.5 Auth Router — `app/routers/auth.py`
+
+```python
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
+from app.database import get_db
+from app.schemas.auth import RegisterIn
+from app.models.settings import BusinessSettings
+
+router = APIRouter(prefix="/api/auth", tags=["Auth"])
+
+
+@router.post("/register", status_code=status.HTTP_201_CREATED)
+async def register_business_owner(
+    data: RegisterIn,
+    db: AsyncSession = Depends(get_db)
+):
+    """
+    Registers a new administrator account and sets up their customized
+    business and AI agent profiles in a single ACID transaction.
+    """
+    # 1. (Security) Verify if email exists (pseudo code)
+    # email_exists = await db.execute(select(User).where(User.email == data.email))
+    # if email_exists.scalar_one_or_none():
+    #     raise HTTPException(status_code=400, detail="Email already registered")
+    
+    try:
+        # 2. Initialize the BusinessSettings record
+        biz_settings = BusinessSettings(
+            business_name=data.business_name,
+            business_category=data.business_category,
+            website_url=data.website_url,
+            support_phone=data.support_phone,
+            ai_persona_name=data.ai_persona_name,
+            ai_tone=data.ai_tone,
+            knowledge_base=data.knowledge_base,
+            whatsapp_phone_number_id=data.whatsapp_phone_number_id,
+            whatsapp_access_token=data.whatsapp_access_token,
+            whatsapp_verify_token=data.whatsapp_verify_token,
+            auto_followup=True,
+            human_handoff_trigger=True
+        )
+        db.add(biz_settings)
+        await db.flush()  # Flush to generate UUID and link with User
+
+        # 3. Create Administrator User record
+        # user = User(
+        #     first_name=data.first_name,
+        #     last_name=data.last_name,
+        #     email=data.email,
+        #     hashed_password=hash_password(data.password),
+        #     role="admin",
+        #     settings_id=biz_settings.id
+        # )
+        # db.add(user)
+        
+        await db.commit()
+        return {"status": "success", "message": "Business profile and AI agent initialized successfully"}
+    except Exception as e:
+        await db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Registration failed: {str(e)}"
+        )
+```
+
 ---
 
 ## PART 8 — Socket.IO Real-Time Server
@@ -1430,24 +1503,36 @@ from pydantic import BaseModel
 from typing import Optional
 
 class SettingsOut(BaseModel):
-    business_name:         str
-    ai_persona_name:       str
-    ai_tone:               str
-    knowledge_base:        str
-    auto_followup:         bool
-    human_handoff_trigger: bool
+    business_name:            str
+    business_category:        Optional[str] = None
+    website_url:              Optional[str] = None
+    support_phone:            Optional[str] = None
+    ai_persona_name:          str
+    ai_tone:                  str
+    knowledge_base:           str
+    auto_followup:            bool
+    human_handoff_trigger:    bool
+    whatsapp_phone_number_id: Optional[str] = None
+    whatsapp_access_token:    Optional[str] = None
+    whatsapp_verify_token:    Optional[str] = None
 
     class Config:
         from_attributes = True
 
 
 class SettingsUpdate(BaseModel):
-    business_name:         Optional[str]  = None
-    ai_persona_name:       Optional[str]  = None
-    ai_tone:               Optional[str]  = None
-    knowledge_base:        Optional[str]  = None
-    auto_followup:         Optional[bool] = None
-    human_handoff_trigger: Optional[bool] = None
+    business_name:            Optional[str]  = None
+    business_category:        Optional[str]  = None
+    website_url:              Optional[str]  = None
+    support_phone:            Optional[str]  = None
+    ai_persona_name:          Optional[str]  = None
+    ai_tone:                  Optional[str]  = None
+    knowledge_base:           Optional[str]  = None
+    auto_followup:            Optional[bool] = None
+    human_handoff_trigger:    Optional[bool] = None
+    whatsapp_phone_number_id: Optional[str]  = None
+    whatsapp_access_token:    Optional[str]  = None
+    whatsapp_verify_token:    Optional[str]  = None
 ```
 
 ### `app/schemas/sale.py`
@@ -1468,6 +1553,29 @@ class SaleOut(BaseModel):
 
     class Config:
         from_attributes = True
+```
+
+### `app/schemas/auth.py`
+
+```python
+from pydantic import BaseModel, EmailStr
+from typing import Optional
+
+class RegisterIn(BaseModel):
+    first_name:               str
+    last_name:                str
+    email:                    EmailStr
+    password:                 str
+    business_name:            str
+    business_category:        str
+    support_phone:            str
+    website_url:              Optional[str] = None
+    ai_persona_name:          Optional[str] = "Aria"
+    ai_tone:                  Optional[str] = "Friendly"
+    knowledge_base:           str
+    whatsapp_phone_number_id: Optional[str] = None
+    whatsapp_access_token:    Optional[str] = None
+    whatsapp_verify_token:    Optional[str] = "smartsales_aria_verify_token"
 ```
 
 ---

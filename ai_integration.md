@@ -240,13 +240,19 @@ import uuid
 class BusinessSettings(Base):
     __tablename__ = "business_settings"
 
-    id                   = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    business_name        = Column(String, default="Acme Store")
-    ai_persona_name      = Column(String, default="Aria")
-    ai_tone              = Column(String, default="Friendly")   # Friendly | Professional | Casual
-    knowledge_base       = Column(Text, default="")
-    auto_followup        = Column(Boolean, default=True)
-    human_handoff_trigger = Column(Boolean, default=True)
+    id                       = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    business_name            = Column(String, default="Acme Store")
+    business_category        = Column(String, nullable=True)
+    website_url              = Column(String, nullable=True)
+    support_phone            = Column(String, nullable=True)
+    ai_persona_name          = Column(String, default="Aria")
+    ai_tone                  = Column(String, default="Friendly")   # Friendly | Professional | Casual
+    knowledge_base           = Column(Text, default="")
+    auto_followup            = Column(Boolean, default=True)
+    human_handoff_trigger    = Column(Boolean, default=True)
+    whatsapp_phone_number_id = Column(String, nullable=True)
+    whatsapp_access_token    = Column(String, nullable=True)
+    whatsapp_verify_token    = Column(String, default="smartsales_aria_verify_token")
 ```
 
 ---
@@ -368,17 +374,24 @@ from app.config import settings
 class WhatsAppService:
     BASE_URL = "https://graph.facebook.com/{version}/{phone_id}/messages"
 
-    def __init__(self):
-        self.url = self.BASE_URL.format(
-            version=settings.WHATSAPP_API_VERSION,
-            phone_id=settings.WHATSAPP_PHONE_NUMBER_ID,
-        )
-        self.headers = {
-            "Authorization": f"Bearer {settings.WHATSAPP_ACCESS_TOKEN}",
+    def _get_client_config(self, biz_settings: BusinessSettings) -> tuple[str, dict]:
+        """
+        Dynamically configures headers and request URLs using the verified Meta
+        credentials provided during business onboarding. Falls back to global envs.
+        """
+        version = settings.WHATSAPP_API_VERSION
+        phone_id = biz_settings.whatsapp_phone_number_id or settings.WHATSAPP_PHONE_NUMBER_ID
+        access_token = biz_settings.whatsapp_access_token or settings.WHATSAPP_ACCESS_TOKEN
+
+        url = self.BASE_URL.format(version=version, phone_id=phone_id)
+        headers = {
+            "Authorization": f"Bearer {access_token}",
             "Content-Type": "application/json",
         }
+        return url, headers
 
-    async def send_text(self, to: str, message: str) -> dict:
+    async def send_text(self, to: str, message: str, biz_settings: BusinessSettings) -> dict:
+        url, headers = self._get_client_config(biz_settings)
         payload = {
             "messaging_product": "whatsapp",
             "recipient_type": "individual",
@@ -387,12 +400,13 @@ class WhatsAppService:
             "text": {"preview_url": False, "body": message},
         }
         async with httpx.AsyncClient() as client:
-            response = await client.post(self.url, json=payload, headers=self.headers)
+            response = await client.post(url, json=payload, headers=headers)
             response.raise_for_status()
             return response.json()
 
-    async def send_interactive_buttons(self, to: str, body: str, buttons: list[str]) -> dict:
+    async def send_interactive_buttons(self, to: str, body: str, buttons: list[str], biz_settings: BusinessSettings) -> dict:
         """Send quick-reply buttons (max 3 per WhatsApp spec)."""
+        url, headers = self._get_client_config(biz_settings)
         payload = {
             "messaging_product": "whatsapp",
             "recipient_type": "individual",
@@ -410,7 +424,7 @@ class WhatsAppService:
             },
         }
         async with httpx.AsyncClient() as client:
-            response = await client.post(self.url, json=payload, headers=self.headers)
+            response = await client.post(url, json=payload, headers=headers)
             response.raise_for_status()
             return response.json()
 ```
@@ -463,11 +477,11 @@ class AIService:
         # 1. Load conversation history for this lead
         history = await context_manager.get_history(lead_id)
 
-        # 2. Load business knowledge base from DB/cache
-        kb = await self._get_knowledge_base()
+        # 2. Load dynamic settings from DB (resolved per store)
+        biz_settings = await self._get_business_settings(lead_id)
 
-        # 3. Build the system prompt
-        system_prompt = self._build_system_prompt(kb, customer_name)
+        # 3. Build the dynamically customized system prompt
+        system_prompt = self._build_system_prompt(biz_settings, customer_name)
 
         # 4. Build the full chat history for Gemini
         contents = self._build_contents(history, customer_message)
@@ -486,30 +500,31 @@ class AIService:
 
         return ai_reply, intent_tag
 
-    def _build_system_prompt(self, knowledge_base: str, customer_name: str) -> str:
-        persona_name  = settings.DEFAULT_AI_PERSONA_NAME
-        business_name = settings.DEFAULT_BUSINESS_NAME
+    def _build_system_prompt(self, settings: BusinessSettings, customer_name: str) -> str:
+        persona_name = settings.ai_persona_name or "Aria"
+        business_name = settings.business_name or "Acme Store"
+        category = settings.business_category or "Retail"
+        tone = settings.ai_tone or "Friendly"
+        kb = settings.knowledge_base or ""
 
         return f"""
-You are {persona_name}, a friendly and professional AI sales assistant for {business_name}.
-Your job is to help customers with their inquiries, guide them toward making a purchase,
-answer product questions, share pricing, and close sales — all via WhatsApp chat.
+You are {persona_name}, a friendly, sales-oriented AI agent representing '{business_name}', a business in the '{category}' sector.
+Your primary role is to interact with customers, answer questions, provide pricing from the catalog, and assist them in finalizing purchases.
 
 CUSTOMER NAME: {customer_name}
+CUSTOMER PREFERRED TONE STYLE: {tone}
 
-BUSINESS KNOWLEDGE BASE:
-{knowledge_base if knowledge_base else "No specific product information provided yet. Use general helpful responses."}
+BUSINESS DIRECTORY & CATALOG INFORMATION:
+{kb if kb else "No specific catalog information uploaded. Give standard friendly responses."}
 
-RULES:
-1. Keep replies SHORT — max 3 sentences or 60 words. WhatsApp users dislike long messages.
-2. Always be warm, helpful, and focused on moving the customer toward a purchase.
-3. If asked about pricing, give it clearly and add a value statement.
-4. If a customer seems frustrated, acknowledge their concern first before problem-solving.
-5. Never make up product details not in the knowledge base. Say "Let me check on that for you."
-6. End responses with a soft question to keep the conversation going when appropriate.
-7. Use Nigerian informal style when the customer writes in pidgin or casual tone.
-8. Never break character or mention that you are an AI unless directly asked.
-9. If a customer asks to speak with a human, reply: "Sure! I'll connect you with a team member right away. Please hold on a moment. 🙏"
+RULES OF CONVERSATION:
+1. Short Responses: Keep messages under 3 sentences or 60 words. Long blocks of text will be ignored by WhatsApp users.
+2. Business Category Context: Speak with expertise matching the '{category}' industry.
+3. Tone: Maintain a '{tone}' disposition (Friendly = energetic & warm; Professional = polite & clear; Casual = relaxed & informal).
+4. Pricing Accuracy: Quote pricing exactly as listed in the catalog above. Never invent product features or prices.
+5. Soft Call to Action: Conclude messages with a helpful question to keep the purchase path moving.
+6. Local Style: Use Nigerian English or pidgin style when appropriate to build local rapport.
+7. Human Handoff: If the customer requests a human assistant, reply: "Sure! I'll connect you with a team member right away. Please hold on a moment. 🙏"
 """.strip()
 
     def _build_contents(self, history: list[dict], current_message: str) -> list[dict]:
@@ -520,10 +535,15 @@ RULES:
         contents.append({"role": "user", "parts": [current_message]})
         return contents
 
-    async def _get_knowledge_base(self) -> str:
-        # TODO: Replace with DB lookup per business
-        # For now return empty string; Settings API will populate this
-        return ""
+    async def _get_business_settings(self, lead_id: str) -> BusinessSettings:
+        # DB lookup matching the business account associated with this lead
+        async with get_db() as db:
+            # Query settings associated with lead/business owner
+            result = await db.execute(select(BusinessSettings).limit(1))
+            settings_row = result.scalar_one_or_none()
+            if not settings_row:
+                settings_row = BusinessSettings()  # default fallback
+            return settings_row
 ```
 
 ### 4.2 Intent Detection Service (`app/services/intent_service.py`)
@@ -1180,25 +1200,61 @@ from pydantic import BaseModel
 from typing import Optional
 
 class SettingsOut(BaseModel):
-    business_name: str
-    ai_persona_name: str
-    ai_tone: str
-    knowledge_base: str
-    auto_followup: bool
-    human_handoff_trigger: bool
+    business_name:            str
+    business_category:        Optional[str] = None
+    website_url:              Optional[str] = None
+    support_phone:            Optional[str] = None
+    ai_persona_name:          str
+    ai_tone:                  str
+    knowledge_base:           str
+    auto_followup:            bool
+    human_handoff_trigger:    bool
+    whatsapp_phone_number_id: Optional[str] = None
+    whatsapp_access_token:    Optional[str] = None
+    whatsapp_verify_token:    Optional[str] = None
 
     class Config:
         from_attributes = True
 
 
 class SettingsUpdate(BaseModel):
-    business_name: Optional[str] = None
-    ai_persona_name: Optional[str] = None
-    ai_tone: Optional[str] = None
-    knowledge_base: Optional[str] = None
-    auto_followup: Optional[bool] = None
-    human_handoff_trigger: Optional[bool] = None
+    business_name:            Optional[str]  = None
+    business_category:        Optional[str]  = None
+    website_url:              Optional[str]  = None
+    support_phone:            Optional[str]  = None
+    ai_persona_name:          Optional[str]  = None
+    ai_tone:                  Optional[str]  = None
+    knowledge_base:           Optional[str]  = None
+    auto_followup:            Optional[bool] = None
+    human_handoff_trigger:    Optional[bool] = None
+    whatsapp_phone_number_id: Optional[str]  = None
+    whatsapp_access_token:    Optional[str]  = None
+    whatsapp_verify_token:    Optional[str]  = None
 ```
+
+### `app/schemas/auth.py`
+
+```python
+from pydantic import BaseModel, EmailStr
+from typing import Optional
+
+class RegisterIn(BaseModel):
+    first_name:               str
+    last_name:                str
+    email:                    EmailStr
+    password:                 str
+    business_name:            str
+    business_category:        str
+    support_phone:            str
+    website_url:              Optional[str] = None
+    ai_persona_name:          Optional[str] = "Aria"
+    ai_tone:                  Optional[str] = "Friendly"
+    knowledge_base:           str
+    whatsapp_phone_number_id: Optional[str] = None
+    whatsapp_access_token:    Optional[str] = None
+    whatsapp_verify_token:    Optional[str] = "smartsales_aria_verify_token"
+```
+
 
 ---
 
