@@ -159,14 +159,14 @@ export default function RegisterPage() {
     <div className="flex min-h-screen items-center justify-center bg-dark text-text-primary relative selection:bg-brand-green/30 selection:text-white px-4 py-10">
       {/* Background Radial Glow */}
       <div
-        className="absolute top-0 left-0 right-0 h-[750px] pointer-events-none -z-10"
+        className="absolute top-0 left-0 right-0 h-[750px] pointer-events-none -z-10 animate-pulse"
         style={{
           background: "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(29,107,74,0.25) 0%, transparent 70%)"
         }}
       />
 
       {/* Glassmorphic Onboarding Card */}
-      <div className="w-full max-w-xl bg-dark-card/90 border border-slate-800 p-6 sm:p-8 rounded-2xl shadow-widget backdrop-blur-md space-y-6 hover:border-slate-700/80 duration-200 transition-colors z-10 animate-slide-up">
+      <div className="w-full max-w-xl bg-dark-card/90 border border-dark-border p-6 sm:p-8 rounded-2xl shadow-widget backdrop-blur-md space-y-6 hover:border-brand-green/20 duration-200 transition-colors z-10 animate-slide-up">
         
         {/* Logo and Titles */}
         <div className="flex flex-col items-center gap-1 text-center">
@@ -178,17 +178,17 @@ export default function RegisterPage() {
               SmartSales AI
             </span>
           </div>
-          <h2 className="text-base sm:text-lg font-bold text-slate-50 tracking-tight mt-3">
+          <h2 className="text-base sm:text-lg font-bold text-text-primary tracking-tight mt-3">
             Onboard Your Store Pipeline
           </h2>
-          <p className="text-xs text-slate-400 max-w-xs leading-relaxed">
+          <p className="text-xs text-text-muted max-w-xs leading-relaxed">
             Link WhatsApp numbers, train Aria AI prompts, and capture local SME payments.
           </p>
         </div>
 
         {/* Progress Tracker Banner */}
-        <div className="py-2 border-y border-slate-800/60">
-          <div className="flex items-center justify-between text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-2 px-1">
+        <div className="py-2 border-y border-dark-border/40">
+          <div className="flex items-center justify-between text-[10px] text-text-muted font-bold uppercase tracking-wider mb-2 px-1">
             <span>Step {step} of 4</span>
             <span>
               {step === 1 && "Account Credentials"}
@@ -198,11 +198,11 @@ export default function RegisterPage() {
             </span>
           </div>
           {/* Progress Indicators */}
-          <div className="grid grid-cols-4 gap-2 h-1.5 w-full bg-slate-900 rounded-full overflow-hidden p-0.5">
-            <div className={`h-full rounded-full transition-all duration-300 ${step >= 1 ? "bg-brand-green shadow-green" : "bg-slate-800"}`} />
-            <div className={`h-full rounded-full transition-all duration-300 ${step >= 2 ? "bg-brand-green shadow-green" : "bg-slate-800"}`} />
-            <div className={`h-full rounded-full transition-all duration-300 ${step >= 3 ? "bg-brand-green shadow-green" : "bg-slate-800"}`} />
-            <div className={`h-full rounded-full transition-all duration-300 ${step >= 4 ? "bg-brand-green shadow-green" : "bg-slate-800"}`} />
+          <div className="grid grid-cols-4 gap-2 h-1.5 w-full bg-dark rounded-full overflow-hidden p-0.5 border border-dark-border/30">
+            <div className={`h-full rounded-full transition-all duration-300 ${step >= 1 ? "bg-brand-green shadow-green" : "bg-dark-border/50"}`} />
+            <div className={`h-full rounded-full transition-all duration-300 ${step >= 2 ? "bg-brand-green shadow-green" : "bg-dark-border/50"}`} />
+            <div className={`h-full rounded-full transition-all duration-300 ${step >= 3 ? "bg-brand-green shadow-green" : "bg-dark-border/50"}`} />
+            <div className={`h-full rounded-full transition-all duration-300 ${step >= 4 ? "bg-brand-green shadow-green" : "bg-dark-border/50"}`} />
           </div>
         </div>
 
@@ -210,8 +210,8 @@ export default function RegisterPage() {
         {loading ? (
           <div className="py-12 flex flex-col items-center justify-center gap-4 text-center select-none animate-pulse">
             <div className="w-12 h-12 rounded-full border-2 border-brand-green/30 border-t-brand-green animate-spin" />
-            <p className="text-sm font-semibold text-slate-200 mt-2">{loadingText}</p>
-            <p className="text-xs text-slate-500">Please do not refresh this page.</p>
+            <p className="text-sm font-semibold text-text-primary mt-2">{loadingText}</p>
+            <p className="text-xs text-text-muted">Please do not refresh this page.</p>
           </div>
         ) : (
           <div className="space-y-5">
@@ -220,34 +220,34 @@ export default function RegisterPage() {
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                      <User size={10} className="text-slate-500" /> First Name
+                    <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1">
+                      <User size={10} className="text-text-muted" /> First Name
                     </label>
                     <Input
                       required
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                       placeholder="John"
-                      className="h-9.5 text-xs bg-dark border-slate-800 text-slate-100 placeholder:text-slate-600 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
+                      className="h-9.5 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/40 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
                     />
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                      <User size={10} className="text-slate-500" /> Last Name
+                    <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1">
+                      <User size={10} className="text-text-muted" /> Last Name
                     </label>
                     <Input
                       required
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
                       placeholder="Doe"
-                      className="h-9.5 text-xs bg-dark border-slate-800 text-slate-100 placeholder:text-slate-600 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
+                      className="h-9.5 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/40 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <Mail size={12} className="text-slate-500" /> Email Address
+                  <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
+                    <Mail size={12} className="text-text-muted" /> Email Address
                   </label>
                   <Input
                     type="email"
@@ -255,13 +255,13 @@ export default function RegisterPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="owner@yourstore.com"
-                    className="h-9.5 text-xs bg-dark border-slate-800 text-slate-100 placeholder:text-slate-600 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
+                    className="h-9.5 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/40 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <Key size={12} className="text-slate-500" /> Secure Password
+                  <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
+                    <Key size={12} className="text-text-muted" /> Secure Password
                   </label>
                   <Input
                     type="password"
@@ -269,7 +269,7 @@ export default function RegisterPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="h-9.5 text-xs bg-dark border-slate-800 text-slate-100 placeholder:text-slate-600 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
+                    className="h-9.5 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/40 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
                   />
                 </div>
               </div>
@@ -280,26 +280,26 @@ export default function RegisterPage() {
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                      <Building size={12} className="text-slate-500" /> Business Name
+                    <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
+                      <Building size={12} className="text-text-muted" /> Business Name
                     </label>
                     <Input
                       required
                       value={bizName}
                       onChange={(e) => setBizName(e.target.value)}
                       placeholder="e.g. Kene Fashion Hub"
-                      className="h-9.5 text-xs bg-dark border-slate-800 text-slate-100 placeholder:text-slate-600 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
+                      className="h-9.5 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/40 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                      <Briefcase size={12} className="text-slate-500" /> Industry Category
+                    <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
+                      <Briefcase size={12} className="text-text-muted" /> Industry Category
                     </label>
                     <select
                       value={bizCategory}
                       onChange={(e) => setBizCategory(e.target.value)}
-                      className="w-full h-9.5 px-3 bg-dark border border-slate-800 text-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-brand-green"
+                      className="w-full h-9.5 px-3 bg-dark border border-dark-border text-text-primary rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-brand-green"
                     >
                       <option value="Fashion & Apparel">Fashion & Apparel</option>
                       <option value="Skincare & Beauty">Skincare & Beauty</option>
@@ -312,27 +312,27 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <Phone size={12} className="text-slate-500" /> Support Contact Phone (WhatsApp Format)
+                  <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
+                    <Phone size={12} className="text-text-muted" /> Support Contact Phone (WhatsApp Format)
                   </label>
                   <Input
                     required
                     value={bizPhone}
                     onChange={(e) => setBizPhone(e.target.value)}
                     placeholder="e.g. +234 803 111 2222"
-                    className="h-9.5 text-xs bg-dark border-slate-800 text-slate-100 placeholder:text-slate-600 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
+                    className="h-9.5 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/40 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <Globe size={12} className="text-slate-500" /> Store Website URL (Optional)
+                  <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
+                    <Globe size={12} className="text-text-muted" /> Store Website URL (Optional)
                   </label>
                   <Input
                     value={website}
                     onChange={(e) => setWebsite(e.target.value)}
                     placeholder="e.g. https://yourstore.com"
-                    className="h-9.5 text-xs bg-dark border-slate-800 text-slate-100 placeholder:text-slate-600 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
+                    className="h-9.5 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/40 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
                   />
                 </div>
               </div>
@@ -343,26 +343,26 @@ export default function RegisterPage() {
               <div className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                      <Bot size={12} className="text-slate-500" /> AI Persona Name
+                    <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
+                      <Bot size={12} className="text-text-muted" /> AI Persona Name
                     </label>
                     <Input
                       required
                       value={aiName}
                       onChange={(e) => setAiName(e.target.value)}
                       placeholder="e.g. Aria"
-                      className="h-9.5 text-xs bg-dark border-slate-800 text-slate-100 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
+                      className="h-9.5 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/40 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                      <Sparkles size={12} className="text-slate-500" /> Tonal Tone
+                    <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
+                      <Sparkles size={12} className="text-text-muted" /> Tonal Tone
                     </label>
                     <select
                       value={aiTone}
                       onChange={(e) => setAiTone(e.target.value)}
-                      className="w-full h-9.5 px-3 bg-dark border border-slate-800 text-slate-200 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-brand-green"
+                      className="w-full h-9.5 px-3 bg-dark border border-dark-border text-text-primary rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-brand-green"
                     >
                       <option value="friendly">Friendly & Energetic</option>
                       <option value="professional">Strictly Professional</option>
@@ -372,7 +372,7 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
                     Catalogs & Store Knowledge Base
                   </label>
                   <textarea
@@ -380,10 +380,10 @@ export default function RegisterPage() {
                     value={aiKb}
                     onChange={(e) => setAiKb(e.target.value)}
                     rows={4}
-                    className="w-full p-2.5 bg-dark border border-slate-800 rounded-lg text-xs text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-brand-green font-sans leading-relaxed"
+                    className="w-full p-2.5 bg-dark border border-dark-border rounded-lg text-xs text-text-primary placeholder:text-text-muted/40 focus:outline-none focus:ring-1 focus:ring-brand-green font-sans leading-relaxed"
                     placeholder="Type details of your products, items list, prices, shipping rates, and return policies here. Aria uses this to talk with WhatsApp leads..."
                   />
-                  <span className="text-[9px] text-slate-500 block leading-tight">
+                  <span className="text-[9px] text-text-muted block leading-tight font-medium">
                     *Provide specific details like: 'Standard fabric costs ₦20,000. Nationwide shipping is ₦4,000.'
                   </span>
                 </div>
@@ -393,60 +393,60 @@ export default function RegisterPage() {
             {/* STEP 4: WHATSAPP CLOUD API SETUP */}
             {step === 4 && (
               <div className="space-y-4">
-                <div className="bg-brand-green/5 border border-brand-green/10 p-3 rounded-lg flex items-start gap-2.5">
+                <div className="bg-brand-green/10 border border-brand-green/20 p-3 rounded-lg flex items-start gap-2.5">
                   <HelpCircle size={15} className="text-brand-green shrink-0 mt-0.5" />
-                  <div className="text-[10px] text-slate-400 leading-relaxed">
-                    <p className="font-bold text-slate-300">How to get Meta API Parameters?</p>
+                  <div className="text-[10px] text-text-muted leading-relaxed">
+                    <p className="font-bold text-text-primary">How to get Meta API Parameters?</p>
                     <p className="mt-0.5">Create a Developer app in the Meta Developers dashboard under WhatsApp Cloud API. Link your business phone number to generate these parameters.</p>
                   </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <Link2 size={12} className="text-slate-500" /> WhatsApp Phone Number ID
+                  <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
+                    <Link2 size={12} className="text-text-muted" /> WhatsApp Phone Number ID
                   </label>
                   <Input
                     value={whatsappPhoneId}
                     onChange={(e) => setWhatsappPhoneId(e.target.value)}
                     placeholder="e.g. 109283746501928"
-                    className="h-9.5 text-xs bg-dark border-slate-800 text-slate-100 placeholder:text-slate-600 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
+                    className="h-9.5 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/40 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <Key size={12} className="text-slate-500" /> Meta API Permanent Token
+                  <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
+                    <Key size={12} className="text-text-muted" /> Meta API Permanent Token
                   </label>
                   <Input
                     value={whatsappAccessToken}
                     onChange={(e) => setWhatsappAccessToken(e.target.value)}
                     placeholder="EAAGy7ZCpB2t4BO8..."
-                    className="h-9.5 text-xs bg-dark border-slate-800 text-slate-100 placeholder:text-slate-600 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
+                    className="h-9.5 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/40 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
                     Custom Webhook Verification Token
                   </label>
                   <Input
                     value={whatsappVerifyToken}
                     onChange={(e) => setWhatsappVerifyToken(e.target.value)}
                     placeholder="smartsales_aria_verify_token"
-                    className="h-9.5 text-xs bg-dark border-slate-800 text-slate-100 placeholder:text-slate-600 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
+                    className="h-9.5 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/40 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
                   />
                 </div>
               </div>
             )}
 
             {/* Navigation Button Controls */}
-            <div className="flex items-center gap-3 pt-3 border-t border-slate-800/40">
+            <div className="flex items-center gap-3 pt-3 border-t border-dark-border/40">
               {step > 1 && (
                 <Button
                   type="button"
                   variant="outline"
                   onClick={handleBack}
-                  className="flex-1 h-9.5 text-xs font-semibold border-slate-800 hover:bg-slate-800/50 text-slate-300 rounded-lg flex items-center justify-center gap-1"
+                  className="flex-1 h-9.5 text-xs font-semibold border-dark-border hover:bg-dark-card/50 text-text-primary rounded-lg flex items-center justify-center gap-1"
                 >
                   <ChevronLeft size={14} /> Back
                 </Button>
@@ -470,7 +470,7 @@ export default function RegisterPage() {
                   <Button
                     type="button"
                     onClick={() => handleRegister(true)}
-                    className="flex-1 h-9.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700/50 rounded-lg flex items-center justify-center"
+                    className="flex-1 h-9.5 text-xs font-semibold bg-dark-card hover:bg-dark-border text-text-primary border border-dark-border rounded-lg flex items-center justify-center"
                   >
                     Skip & Connect Later 🧑‍💼
                   </Button>
@@ -493,9 +493,9 @@ export default function RegisterPage() {
           <div className="space-y-4 pt-1">
             <div className="relative flex items-center justify-center text-xs">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-850" />
+                <div className="w-full border-t border-dark-border/40" />
               </div>
-              <span className="relative px-3 bg-dark-card text-[9px] uppercase font-bold text-slate-500">
+              <span className="relative px-3 bg-dark-card text-[9px] uppercase font-bold text-text-muted">
                 Or experience the app
               </span>
             </div>
@@ -505,14 +505,14 @@ export default function RegisterPage() {
               type="button"
               onClick={handleDemoClick}
               disabled={loading}
-              className="w-full h-10 text-xs font-bold bg-brand-gradient hover:opacity-90 text-white rounded-lg shadow-green hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-1.5"
+              className="w-full h-10 text-xs font-bold bg-gradient-to-r from-brand-green to-brand-green-light hover:opacity-90 text-white rounded-lg shadow-green hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-1.5"
             >
               <Sparkles size={14} className="fill-white/20 animate-pulse text-white" />
               Start Instant Live Demo ⚡
             </Button>
 
             {/* Footnotes */}
-            <p className="text-center text-xs text-slate-400 pt-2 border-t border-slate-800/40">
+            <p className="text-center text-xs text-text-muted pt-2 border-t border-dark-border/40">
               Already have an account?{" "}
               <Link href="/login" className="font-semibold text-brand-green hover:underline">
                 Sign in
