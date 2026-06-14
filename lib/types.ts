@@ -28,6 +28,9 @@ export interface Lead {
   lastMessageTime: string;
   unreadCount: number;
   intentTags: IntentTag[];
+  isHumanMode?: boolean;
+  humanAssignedTo?: string | null;
+  leadScore?: number;
 }
 
 export interface Message {
