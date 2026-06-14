@@ -1,42 +1,74 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Topbar } from "@/components/layout/topbar";
 import { cn } from "@/lib/utils";
 import { useStore } from "@/store/useStore";
+import { getSocket } from "@/lib/socket";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { sidebarOpen, leads, sendMessage } = useStore();
+  const router = useRouter();
+  const {
+    sidebarOpen,
+    user,
+    loadInitialData,
+    handleSocketNewMessage,
+    handleSocketLeadUpdated,
+    handleSocketStatsUpdated,
+  } = useStore();
 
-  // Simulated Customer Message Influx Triggers
+  // Protect dashboard routes
   useEffect(() => {
-    const customerQuotes = [
-      { name: "Chinelo Obi", msg: "Can you confirm if you received my payment transfer? 💳" },
-      { name: "Babajide Alao", msg: "I want to purchase the standard Ankara bundle. Any discounts? 🏷️" },
-      { name: "Yetunde Sowemimo", msg: "Do you have the organic shea butter kits in stock today? 🧴" },
-      { name: "Kelechi Nnamdi", msg: "Can I do a pickup at your Lekki phase 1 showroom? 🚚" },
-      { name: "Bisi Akande", msg: "Are there other color designs for the bridal set? 🎨" }
-    ];
+    if (!user) {
+      router.push("/login");
+    }
+  }, [user, router]);
 
-    const interval = setInterval(() => {
-      // Pick a random customer quote
-      const quote = customerQuotes[Math.floor(Math.random() * customerQuotes.length)];
-      
-      // Find matching lead in store
-      const matchingLead = leads.find(l => l.name === quote.name);
-      if (matchingLead) {
-        // Send message in store (which automatically dispatches HSL Toasts when appropriate!)
-        sendMessage(matchingLead.id, quote.msg, "customer");
-      }
-    }, 28000); // Inject new message every 28 seconds
+  // Handle Backend integration and WebSocket subscriptions
+  useEffect(() => {
+    if (!user) return;
 
-    return () => clearInterval(interval);
-  }, [leads, sendMessage]);
+    // Load initial leads, sales & stats on mount
+    loadInitialData();
+
+    // Connect socket client
+    const socket = getSocket();
+    if (!socket.connected) {
+      socket.connect();
+    }
+
+    // Register event listeners
+    socket.on("new_message", handleSocketNewMessage);
+    socket.on("lead_updated", handleSocketLeadUpdated);
+    socket.on("stats_updated", handleSocketStatsUpdated);
+
+    // Clean up event listeners on unmount
+    return () => {
+      socket.off("new_message", handleSocketNewMessage);
+      socket.off("lead_updated", handleSocketLeadUpdated);
+      socket.off("stats_updated", handleSocketStatsUpdated);
+    };
+  }, [
+    user,
+    loadInitialData,
+    handleSocketNewMessage,
+    handleSocketLeadUpdated,
+    handleSocketStatsUpdated,
+  ]);
+
+  if (!user) {
+    return (
+      <div className="flex min-h-screen bg-dark items-center justify-center">
+        <div className="w-10 h-10 rounded-full border-2 border-brand-green/30 border-t-brand-green animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen bg-dark overflow-hidden selection:bg-brand-green/30 select-none text-text-primary">
