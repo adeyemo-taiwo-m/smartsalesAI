@@ -2,11 +2,33 @@
 
 import React from "react";
 import { Filter, ChevronRight } from "lucide-react";
-import { MOCK_FUNNEL_DATA } from "@/lib/mock-data";
+import { useStore } from "@/store/useStore";
 
 export function SalesFunnelWidget() {
-  const stages = MOCK_FUNNEL_DATA;
-  const maxCount = stages[0]?.count || 1;
+  const { leads } = useStore();
+
+  const stages = React.useMemo(() => {
+    const counts = {
+      new: 0,
+      warm: 0,
+      hot: 0,
+      closed: 0,
+    };
+    leads.forEach((l) => {
+      if (l.status === "new") counts.new++;
+      if (l.status === "warm") counts.warm++;
+      if (l.status === "hot") counts.hot++;
+      if (l.status === "closed") counts.closed++;
+    });
+    return [
+      { stage: "New Leads", count: counts.new, color: "#3b82f6" },
+      { stage: "Interested / Warm", count: counts.warm, color: "#8b5cf6" },
+      { stage: "Negotiating / Hot", count: counts.hot, color: "#f97316" },
+      { stage: "Converted / Closed", count: counts.closed, color: "#10b981" },
+    ];
+  }, [leads]);
+
+  const maxCount = Math.max(...stages.map((s) => s.count), 1);
 
   return (
     <div className="bg-dark-card rounded-xl border border-dark-border shadow-card flex flex-col justify-between h-full group hover:border-brand-green/30 transition-colors">
