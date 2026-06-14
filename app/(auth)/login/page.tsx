@@ -10,30 +10,61 @@ import { useStore } from "@/store/useStore";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login } = useStore();
+  const { login, signup } = useStore();
   
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("demo@smartsales.ai");
   const [password, setPassword] = useState("password");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate login API call
-    setTimeout(() => {
-      login(); // Set user in global store
-      setLoading(false);
+    setError("");
+    try {
+      await login({ business_email: email, password });
       router.push("/dashboard");
-    }, 1000);
+    } catch (err: any) {
+      setError(err.message || "Invalid credentials. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleDemoClick = () => {
+  const handleDemoClick = async () => {
     setLoading(true);
-    setTimeout(() => {
-      login(); // Automatically pre-qualifies and stores admin credentials
-      setLoading(false);
+    setError("");
+    try {
+      // Attempt login
+      await login({ business_email: "demo@smartsales.ai", password: "password" });
       router.push("/dashboard");
-    }, 800);
+    } catch (err) {
+      // If demo user does not exist on the backend, register them automatically
+      try {
+        await signup({
+          business: {
+            business_owner_name: "Aria Sales Team",
+            business_email: "demo@smartsales.ai",
+            business_name: "Aria Textiles & Skincare",
+            industry_category: "fashion_apparel",
+            support_whatsapp: "+2348030000000",
+            password: "password",
+          },
+          settings: {
+            business_name: "Aria Textiles & Skincare",
+            ai_persona_name: "Aria",
+            ai_tone: "Friendly",
+            auto_followup: true,
+            human_handoff_trigger: true,
+          }
+        });
+        router.push("/dashboard");
+      } catch (signupErr: any) {
+        setError("Failed to initialize demo sandbox: " + (signupErr.message || "Unknown error"));
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -69,6 +100,11 @@ export default function LoginPage() {
 
         {/* Form Details */}
         <form onSubmit={handleSubmit} className="space-y-4">
+          {error && (
+            <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-2.5 rounded-lg text-xs font-semibold text-center">
+              {error}
+            </div>
+          )}
           
           {/* Email */}
           <div className="space-y-1.5">
