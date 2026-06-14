@@ -42,9 +42,7 @@ export function ChatWindow({ className = "" }: ChatWindowProps) {
     e.preventDefault();
     if (!inputValue.trim() || !selectedLeadId) return;
 
-    // Sender is "agent" when human takeover is active (isAIMode is false), else "ai"
-    const sender = isAIMode ? "ai" : "agent";
-    sendMessage(selectedLeadId, inputValue, sender);
+    sendMessage(selectedLeadId, inputValue);
     setInputValue("");
   };
 
