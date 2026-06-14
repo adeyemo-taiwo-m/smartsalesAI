@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Sparkles, MessageCircle, Instagram, Globe, Bell, Save, Copy, Check, Upload, Store, User, ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,9 +8,10 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useStore } from "@/store/useStore";
 import { cn } from "@/lib/utils";
+import { api } from "@/lib/api";
 
 export default function SettingsPage() {
-  const { user } = useStore();
+  const { user, addToast } = useStore();
   const [activeTab, setActiveTab] = useState("business");
 
   // Profile Form States
@@ -38,6 +39,41 @@ export default function SettingsPage() {
   const [slackAlerts, setSlackAlerts] = useState(false);
   const [pushAlerts, setPushAlerts] = useState(true);
 
+  // Fetch settings from API
+  useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const data = await api.settings.get();
+        if (data) {
+          setBizName(data.business_name || "");
+          setAiName(data.ai_persona_name || "");
+          setAiTone(data.ai_tone || "friendly");
+          setAutoFollowUp(data.auto_followup ?? true);
+          setHandoffAlert(data.human_handoff_trigger ?? true);
+        }
+      } catch (error) {
+        console.error("Failed to fetch settings from API", error);
+      }
+    };
+    loadSettings();
+  }, []);
+
+  const handleSaveSettings = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await api.settings.update({
+        business_name: bizName,
+        ai_persona_name: aiName,
+        ai_tone: aiTone,
+        auto_followup: autoFollowUp,
+        human_handoff_trigger: handoffAlert,
+      });
+      addToast("success", "Settings Saved", "Workspace parameters have been updated.");
+    } catch (error: any) {
+      addToast("error", "Save Failed", error.message || "Failed to save settings.");
+    }
+  };
+
   const embedScript = `<script>
   window.SmartSalesConfig = {
     agentId: "aria-kene-fashion",
@@ -51,10 +87,6 @@ export default function SettingsPage() {
     navigator.clipboard.writeText(embedScript);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handleSaveAlert = (msg: string) => {
-    alert(`${msg} saved successfully! (Demo Simulation)`);
   };
 
   return (
@@ -109,7 +141,7 @@ export default function SettingsPage() {
             </div>
 
             {/* Form */}
-            <form onSubmit={(e) => { e.preventDefault(); handleSaveAlert("Business profile"); }} className="space-y-4">
+            <form onSubmit={handleSaveSettings} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Business Name</label>
@@ -163,7 +195,7 @@ export default function SettingsPage() {
             </div>
 
             {/* Persona Setup */}
-            <form onSubmit={(e) => { e.preventDefault(); handleSaveAlert("AI configuration"); }} className="space-y-5">
+            <form onSubmit={handleSaveSettings} className="space-y-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">AI Persona Name</label>
@@ -335,7 +367,7 @@ export default function SettingsPage() {
             </div>
 
             {/* Notification items */}
-            <form onSubmit={(e) => { e.preventDefault(); handleSaveAlert("Notifications"); }} className="space-y-5">
+            <form onSubmit={handleSaveSettings} className="space-y-5">
               <div className="space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-850 pb-3">
                   <div className="space-y-0.5">
