@@ -488,19 +488,14 @@ export default function RegisterPage() {
                   Next <ChevronRight size={14} />
                 </Button>
               ) : (
-                <div className="flex flex-col sm:flex-row gap-2 w-full">
+                <div className="w-full">
                   <Button
                     type="button"
-                    onClick={() => handleRegister(true)}
-                    className="flex-1 h-9.5 text-xs font-semibold bg-dark-card hover:bg-dark-border text-text-primary border border-dark-border rounded-lg flex items-center justify-center"
-                  >
-                    Skip & Connect Later 🧑‍💼
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={() => handleRegister(false)}
-                    disabled={!isStep4Valid}
-                    className="flex-1 h-9.5 text-xs font-bold bg-brand-green hover:bg-brand-green/80 text-white rounded-lg shadow-green flex items-center justify-center gap-1.5 disabled:opacity-40 disabled:pointer-events-none"
+                    onClick={() => {
+                      const hasWhatsApp = whatsappPhoneId.trim() && whatsappAccessToken.trim();
+                      handleRegister(!hasWhatsApp);
+                    }}
+                    className="w-full h-9.5 text-xs font-bold bg-brand-green hover:bg-brand-green/80 text-white rounded-lg shadow-green flex items-center justify-center gap-1.5"
                   >
                     <Check size={14} /> Complete Onboarding
                   </Button>
