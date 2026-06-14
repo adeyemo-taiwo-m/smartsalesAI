@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Channel } from "@/lib/types";
 
+import { api } from "@/lib/api";
+
 export default function SalesPage() {
   const { sales } = useStore();
 
@@ -45,24 +47,24 @@ export default function SalesPage() {
   const refundedSales = sales.filter((s) => s.status === "refunded");
   const refundRate = sales.length > 0 ? Math.round((refundedSales.length / sales.length) * 100) : 0;
 
-  // Simulate CSV Export
-  const handleExportCSV = () => {
-    const headers = "Transaction ID,Customer,Product,Amount (NGN),Channel,Status,Date\n";
-    const rows = filteredSales
-      .map(
-        (s) =>
-          `"${s.id}","${s.customer}","${s.product}",${s.amount},"${s.channel}","${s.status}","${new Date(
-            s.date
-          ).toLocaleDateString()}"`
-      )
-      .join("\n");
+  // Real API CSV Export
+  const handleExportCSV = async () => {
+    try {
+      const csvContent = await api.sales.export({
+        status: selectedStatus === "all" ? undefined : selectedStatus,
+        channel: selectedChannel === "all" ? undefined : selectedChannel,
+        search: searchTerm || undefined,
+      });
 
-    const blob = new Blob([headers + rows], { type: "text/csv" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.setAttribute("href", url);
-    a.setAttribute("download", `smartsales_ledger_${Date.now()}.csv`);
-    a.click();
+      const blob = new Blob([csvContent], { type: "text/csv" });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("href", url);
+      a.setAttribute("download", `smartsales_ledger_${Date.now()}.csv`);
+      a.click();
+    } catch (error) {
+      console.error("Failed to export sales", error);
+    }
   };
 
   const getInitialsBg = (name: string) => {
