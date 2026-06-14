@@ -26,11 +26,12 @@ import { useStore } from "@/store/useStore";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { setUser, login, addToast } = useStore();
+  const { signup, login, addToast } = useStore();
 
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("");
+  const [error, setError] = useState("");
 
   // Step 1: Admin Profile
   const [firstName, setFirstName] = useState("");
@@ -60,91 +61,107 @@ export default function RegisterPage() {
   const isStep3Valid = aiName.trim() && aiKb.trim();
   const isStep4Valid = whatsappPhoneId.trim() && whatsappAccessToken.trim();
 
-  // Run Onboarding Simulation
-  const handleRegister = (skipWhatsAppLinkage = false) => {
+  // Run Onboarding Registration
+  const handleRegister = async (skipWhatsAppLinkage = false) => {
     setLoading(true);
-    
-    // Simulate setup steps
-    const simulationSteps = [
-      { text: "Securing admin credentials...", duration: 800 },
-      { text: "Registering business profile...", duration: 800 },
-      { text: `Training AI persona '${aiName}'...`, duration: 1000 },
-      { text: skipWhatsAppLinkage ? "Skipping Meta linkage for now..." : "Linking WhatsApp Cloud API endpoints...", duration: 800 },
-      { text: "Finalizing sales pipeline settings...", duration: 600 }
-    ];
+    setError("");
 
-    let currentStepIndex = 0;
-    
-    const runStep = () => {
-      if (currentStepIndex < simulationSteps.length) {
-        setLoadingText(simulationSteps[currentStepIndex].text);
-        setTimeout(() => {
-          currentStepIndex++;
-          runStep();
-        }, simulationSteps[currentStepIndex].duration);
-      } else {
-        // Complete login
-        setUser({
-          id: `u-${Date.now()}`,
-          name: `${firstName} ${lastName}`,
-          email: email,
-          role: "admin",
-          avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(firstName + " " + lastName)}`
-        });
-        
-        addToast(
-          "success",
-          "Workspace Ready!",
-          `Welcome to SmartSales AI, ${firstName}! Your sales agent ${aiName} is active.`
-        );
-        
-        setLoading(false);
-        router.push("/dashboard");
+    const categoryMap: Record<string, string> = {
+      "Fashion & Apparel": "fashion_apparel",
+      "Skincare & Beauty": "skincare_beauty",
+      "Groceries & Food": "groceries_food",
+      "Electronics & Retail": "electronics_retail",
+      "Real Estate": "real_estate",
+      "Professional Services": "professional_services",
+    };
+
+    const signupData = {
+      business: {
+        business_owner_name: `${firstName} ${lastName}`,
+        business_email: email,
+        business_name: bizName,
+        industry_category: categoryMap[bizCategory] || "professional_services",
+        support_whatsapp: bizPhone,
+        website_url: website || null,
+        password: password,
+        timezone: "Africa/Lagos",
+      },
+      settings: {
+        business_name: bizName,
+        ai_persona_name: aiName,
+        ai_tone: aiTone,
+        auto_followup: true,
+        human_handoff_trigger: true,
+      },
+      whatsapp_connection: skipWhatsAppLinkage ? null : {
+        whatsapp_phone_number_id: whatsappPhoneId,
+        connected_at: new Date().toISOString(),
       }
     };
 
-    runStep();
-  };
-
-  // Instant Live Demo Autofill
-  const handleDemoClick = () => {
-    setLoading(true);
-    setLoadingText("Configuring Instant Live Demo Sandbox...");
-    
-    setTimeout(() => {
-      // Populates with high quality retail profile
-      setFirstName("Tunde");
-      setLastName("Bakare");
-      setEmail("tunde@smartsales.ai");
-      setPassword("demo1234");
+    try {
+      setLoadingText("Creating your store workspace...");
+      await signup(signupData);
       
-      setBizName("Kene Fashion Hub");
-      setBizPhone("+234 803 111 2222");
-      setWebsite("https://kenefashion.com.ng");
-      setBizCategory("Fashion & Apparel");
-      
-      setAiName("Aria");
-      setAiTone("friendly");
-      setAiKb(
-        "We are Kene Fashion Hub based in Lagos. We sell premium Ankara 6-yard bundles starting at ₦35,000, and standard fabrics starting at ₦20,000. Express delivery within Lagos takes 24 hours and costs ₦2,500. Standard shipping nationwide takes 2-3 business days and costs ₦4,000. All prices are in Nigerian Naira."
+      addToast(
+        "success",
+        "Workspace Ready!",
+        `Welcome to SmartSales AI, ${firstName}! Your sales agent ${aiName} is active.`
       );
       
-      setWhatsappPhoneId("109283746501928");
-      setWhatsappAccessToken("EAAGy7ZCpB2t4BO8...");
-      setWhatsappVerifyToken("smartsales_aria_verify_token");
-
-      setUser({
-        id: "demo-admin",
-        name: "Tunde Bakare",
-        email: "tunde@smartsales.ai",
-        role: "admin",
-        avatar: "https://api.dicebear.com/7.x/initials/svg?seed=Tunde%20Bakare"
-      });
-
-      addToast("success", "Demo Loaded!", "Loaded Kene Fashion Hub dashboard parameters.");
-      setLoading(false);
       router.push("/dashboard");
-    }, 1200);
+    } catch (err: any) {
+      setError(err.message || "Registration failed. Please check details.");
+      setStep(1); // Return to first step to display the error banner
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Instant Live Demo Autofill & Bootstrap
+  const handleDemoClick = async () => {
+    setLoading(true);
+    setError("");
+    setLoadingText("Configuring Instant Live Demo Sandbox...");
+    
+    try {
+      // Attempt demo login
+      await login({ business_email: "demo@smartsales.ai", password: "password" });
+      router.push("/dashboard");
+    } catch (err) {
+      // Create demo sandbox automatically
+      try {
+        await signup({
+          business: {
+            business_owner_name: "Tunde Bakare",
+            business_email: "demo@smartsales.ai",
+            business_name: "Kene Fashion Hub",
+            industry_category: "fashion_apparel",
+            support_whatsapp: "+2348031112222",
+            website_url: "https://kenefashion.com.ng",
+            password: "password",
+            timezone: "Africa/Lagos"
+          },
+          settings: {
+            business_name: "Kene Fashion Hub",
+            ai_persona_name: "Aria",
+            ai_tone: "Friendly",
+            auto_followup: true,
+            human_handoff_trigger: true
+          },
+          whatsapp_connection: {
+            whatsapp_phone_number_id: "109283746501928",
+            connected_at: new Date().toISOString()
+          }
+        });
+        router.push("/dashboard");
+      } catch (signupErr: any) {
+        setError("Failed to initialize demo: " + (signupErr.message || "Unknown error"));
+        setStep(1);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleNext = () => {
@@ -215,6 +232,11 @@ export default function RegisterPage() {
           </div>
         ) : (
           <div className="space-y-5">
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-2.5 rounded-lg text-xs font-semibold text-center">
+                {error}
+              </div>
+            )}
             {/* STEP 1: ADMIN ACCOUNT */}
             {step === 1 && (
               <div className="space-y-4">
