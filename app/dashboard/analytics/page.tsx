@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts";
 import { BarChart2, TrendingUp, Sparkles, MessageCircle, ArrowUpRight, ArrowDownRight, Smartphone, Globe, Info } from "lucide-react";
-import { MOCK_REVENUE_CHART, MOCK_FUNNEL_DATA } from "@/lib/mock-data";
 import { useStore } from "@/store/useStore";
 
 export default function AnalyticsPage() {
@@ -61,8 +60,66 @@ export default function AnalyticsPage() {
     ];
   }, [leads]);
 
-  // Double area chart data logic
-  const revenueChartData = MOCK_REVENUE_CHART;
+  // Derived double area chart data logic
+  const revenueChartData = React.useMemo(() => {
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const chartMap: Record<string, { day: string; revenue: number; leads: number }> = {};
+    
+    // Last 7 days
+    const today = new Date();
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(today.getDate() - i);
+      const dayLabel = days[d.getDay()];
+      chartMap[dayLabel] = {
+        day: dayLabel,
+        revenue: 0,
+        leads: 0,
+      };
+    }
+    
+    sales.forEach((sale) => {
+      if (sale.status === "completed") {
+        const saleDate = new Date(sale.date);
+        const dayLabel = days[saleDate.getDay()];
+        if (chartMap[dayLabel]) {
+          chartMap[dayLabel].revenue += sale.amount;
+        }
+      }
+    });
+
+    leads.forEach((lead) => {
+      const leadDate = new Date(lead.lastMessageTime);
+      const dayLabel = days[leadDate.getDay()];
+      if (chartMap[dayLabel]) {
+        chartMap[dayLabel].leads += 1;
+      }
+    });
+
+    return Object.values(chartMap);
+  }, [sales, leads]);
+
+  // Derived funnel data logic
+  const funnelData = React.useMemo(() => {
+    const counts = {
+      new: 0,
+      warm: 0,
+      hot: 0,
+      closed: 0,
+    };
+    leads.forEach((l) => {
+      if (l.status === "new") counts.new++;
+      if (l.status === "warm") counts.warm++;
+      if (l.status === "hot") counts.hot++;
+      if (l.status === "closed") counts.closed++;
+    });
+    return [
+      { stage: "New Leads", count: counts.new, color: "#3b82f6" },
+      { stage: "Interested / Warm", count: counts.warm, color: "#8b5cf6" },
+      { stage: "Negotiating / Hot", count: counts.hot, color: "#f97316" },
+      { stage: "Converted / Closed", count: counts.closed, color: "#10b981" },
+    ];
+  }, [leads]);
 
   return (
     <div className="space-y-6 select-none">
@@ -274,8 +331,8 @@ export default function AnalyticsPage() {
 
           {/* Progress List */}
           <div className="space-y-4">
-            {MOCK_FUNNEL_DATA.map((stage, i) => {
-              const maxVal = MOCK_FUNNEL_DATA[0].count;
+            {funnelData.map((stage, i) => {
+              const maxVal = Math.max(funnelData[0]?.count || 1, 1);
               const percent = Math.round((stage.count / maxVal) * 100);
               return (
                 <div key={stage.stage} className="space-y-1.5">
