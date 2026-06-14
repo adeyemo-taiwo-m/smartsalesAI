@@ -36,14 +36,14 @@ This document summarizes all integration changes implemented to connect the Next
 
 ## 4. Authentication & Onboarding
 - **[app/(auth)/login/page.tsx](file:///app/(auth)/login/page.tsx)**: Connected the login credentials form to `/api/auth/login`. Wired the "Start Instant Live Demo" button to automatically register the default workspace if it is not found on the live backend.
-- **[app/(auth)/register/page.tsx](file:///app/(auth)/register/page.tsx)**: Mapped onboarding registration steps (Credentials, Business Profile, AI training, and WhatsApp parameters) to `/api/auth/signup`.
+- **[app/(auth)/register/page.tsx](file:///app/(auth)/register/page.tsx)**: Redesigned the onboarding registration to be a 3-step flow (Credentials, Business Profile, AI training), shifting the optional WhatsApp connection to the post-signup settings page.
 - **[app/dashboard/layout.tsx](file:///app/dashboard/layout.tsx)**: Configured client-side route protection (redirects to `/login`), loaded the dashboard state on mount, and managed the registration/cleanup of Socket.IO listeners.
 
 ---
 
 ## 5. Dashboard Page Wiring
 - **[components/dashboard/ChatWindow.tsx](file:///components/dashboard/ChatWindow.tsx)**: Connected the manual takeover switch and agent text input to invoke the handoff and send-reply endpoints.
-- **[app/dashboard/settings/page.tsx](file:///app/dashboard/settings/page.tsx)**: Wired settings forms to fetch AI agent settings on mount and push configurations (personas, tone, auto-followup) to `/api/settings/`.
+- **[app/dashboard/settings/page.tsx](file:///app/dashboard/settings/page.tsx)**: Wired settings forms to fetch AI agent settings on mount, update settings configurations, and handle dynamic WhatsApp API connection (with interactive connect/disconnect states and input validation).
 - **[app/dashboard/sales/page.tsx](file:///app/dashboard/sales/page.tsx)**: Replaced simulated CSV downloads with actual CSV file streams fetched from the backend export endpoints.
 - **[app/dashboard/analytics/page.tsx](file:///app/dashboard/analytics/page.tsx)** & **[components/dashboard/SalesFunnelWidget.tsx](file:///components/dashboard/SalesFunnelWidget.tsx)**: Replaced mock chart arrays with dynamic calculations derived in real-time from the leads and sales lists in the store.
 

@@ -1,42 +1,40 @@
-# Walkthrough — Backend Endpoint Integration
+# Walkthrough — Post-Signup WhatsApp Integration
 
-We have successfully integrated the Next.js frontend of **SmartSales AI** with the FastAPI backend at `http://178.62.40.106:8000`. 
+We have successfully updated the registration flow and Settings configuration to make WhatsApp connection post-signup and completely optional.
 
 ---
 
 ## Changes Made
 
-### 1. Configuration & Core Clients
-- **[.env.local](file:///c:/Users/HP/Desktop/react/SmartSales-AI/.env.local):** Added environment variable configuration pointing `NEXT_PUBLIC_API_URL` to the live backend server.
-- **[api.ts](file:///c:/Users/HP/Desktop/react/SmartSales-AI/lib/api.ts):** Implemented a complete type-safe API client wrapper around the native `fetch` API. It maps backend snake_case properties to frontend camelCase structures (leads, messages, sales), handles authorization header injection, and automatically performs JWT token refreshes upon encountering a `401 Unauthorized`.
-- **[socket.ts](file:///c:/Users/HP/Desktop/react/SmartSales-AI/lib/socket.ts):** Initialized `socket.io-client` to communicate with the FastAPI Socket.IO server.
+### 1. Onboarding / Signup Flow
+- **[register/page.tsx](file:///c:/Users/HP/Desktop/react/SmartSales-AI/app/(auth)/register/page.tsx):** 
+  - Reduced the onboarding steps strictly to 3 (Account Credentials, Business Details, AI Agent Settings).
+  - Completely removed the old Step 4 inputs for WhatsApp credentials.
+  - Placed the "Complete Onboarding" button directly on Step 3.
+  - Cleaned up all unused imports, state variables (`whatsappPhoneId`, `whatsappAccessToken`, `whatsappVerifyToken`), validation rules (`isStep4Valid`), and helper parameters.
 
-### 2. State & Layout Integration
-- **[useStore.ts](file:///c:/Users/HP/Desktop/react/SmartSales-AI/store/useStore.ts):** Refactored the Zustand state store. Replaced mock initialization with actual API fetching (`loadInitialData()`, `loadConversations()`), synced manual takeover triggers with the backend human handoff API, and implemented reactive handlers for real-time WebSocket events (`handleSocketNewMessage`, `handleSocketLeadUpdated`, `handleSocketStatsUpdated`).
-- **[layout.tsx (Dashboard)](file:///c:/Users/HP/Desktop/react/SmartSales-AI/app/dashboard/layout.tsx):** Configured client-side route protection (redirecting unauthorized users to `/login`), loaded the dashboard state on mount, and managed the registration/cleanup of Socket.IO listeners.
-
-### 3. Pages & Form Actions
-- **[login/page.tsx](file:///c:/Users/HP/Desktop/react/SmartSales-AI/app/(auth)/login/page.tsx):** Wired the login form to `/api/auth/login` and configured the "Start Instant Live Demo" button to automatically register a default sandbox account on the backend if it does not already exist.
-- **[register/page.tsx](file:///c:/Users/HP/Desktop/react/SmartSales-AI/app/(auth)/register/page.tsx):** Integrated the onboarding form steps to submit business, user, and settings payloads to `/api/auth/signup`.
-- **[ChatWindow.tsx](file:///c:/Users/HP/Desktop/react/SmartSales-AI/components/dashboard/ChatWindow.tsx):** Connected the manual takeover switch to trigger the handoff endpoint, and configured the reply button to call `/api/messages/{lead_id}/agent-reply`.
-- **[settings/page.tsx](file:///c:/Users/HP/Desktop/react/SmartSales-AI/app/dashboard/settings/page.tsx):** Configured settings tabs to load AI persona parameters from the settings endpoints and persist changes to the database.
-- **[sales/page.tsx](file:///c:/Users/HP/Desktop/react/SmartSales-AI/app/dashboard/sales/page.tsx):** Integrated the sales CSV export button with the `/api/sales/export` endpoint.
-- **[analytics/page.tsx](file:///c:/Users/HP/Desktop/react/SmartSales-AI/app/dashboard/analytics/page.tsx) & [SalesFunnelWidget.tsx](file:///c:/Users/HP/Desktop/react/SmartSales-AI/components/dashboard/SalesFunnelWidget.tsx):** Replaced static mock charts with charts derived dynamically in real-time from the leads and sales stored in the state.
+### 2. Settings Dashboard
+- **[settings/page.tsx](file:///c:/Users/HP/Desktop/react/SmartSales-AI/app/dashboard/settings/page.tsx):**
+  - Refactored the **Integrations** tab to dynamically load and display WhatsApp API configuration parameters from the backend settings.
+  - Implemented real-time check of WhatsApp connection status (displays `Connected` with details if configured, or `Not Connected` otherwise).
+  - Added an inline interactive configuration form to allow users to input parameters (*Phone Number ID*, *Permanent Access Token*, and *Verify Token*) with validation and helpful links/guides on obtaining these tokens from Meta Developers dashboard.
+  - Integrated save action to call settings PUT API (`api.settings.update(...)`) to connect the channel.
+  - Integrated disconnect action to clear credentials from settings on the backend and transition the UI status back to disconnected.
 
 ---
 
 ## Verification Results
 
-We verified the build by running the Next.js compiler in production mode:
+We verified that the changes do not break compilation or static generation by running the Next.js production build:
 ```bash
 npm run build
 ```
-The application compiled cleanly with Turbopack in **20.1 seconds** and generated all static routes correctly without any TypeScript compiler errors or linter warnings:
+The application compiled cleanly with Turbopack in **20.5 seconds** and generated all static routes correctly without any TypeScript compiler errors or linter warnings:
 ```
- ✓ Compiled successfully in 20.1s
+ ✓ Compiled successfully in 20.5s
    Running TypeScript ...
    Collecting page data using 3 workers ...
- ✓ Generating static pages using 3 workers (12/12) in 2.9s
+ ✓ Generating static pages using 3 workers (12/12) in 3.1s
 ```
 
-All incremental steps have been added and committed to the Git repository.
+All incremental changes have been successfully staged and committed to the Git repository.
