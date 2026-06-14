@@ -1,7 +1,24 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Sparkles, MessageCircle, Instagram, Globe, Bell, Save, Copy, Check, Upload, Store, User, ShieldAlert } from "lucide-react";
+import { 
+  Sparkles, 
+  MessageCircle, 
+  Instagram, 
+  Globe, 
+  Bell, 
+  Save, 
+  Copy, 
+  Check, 
+  Upload, 
+  Store, 
+  User, 
+  ShieldAlert,
+  Link2,
+  HelpCircle,
+  Lock,
+  Settings
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -30,9 +47,16 @@ export default function SettingsPage() {
   const [handoffAlert, setHandoffAlert] = useState(true);
 
   // Connection Indicator States
-  const [whatsappConnected, setWhatsappConnected] = useState(true);
+  const [whatsappConnected, setWhatsappConnected] = useState(false);
   const [instagramConnected, setInstagramConnected] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  // WhatsApp Configuration States
+  const [whatsappPhoneId, setWhatsappPhoneId] = useState("");
+  const [whatsappAccessToken, setWhatsappAccessToken] = useState("");
+  const [whatsappVerifyToken, setWhatsappVerifyToken] = useState("smartsales_aria_verify_token");
+  const [isEditingWhatsApp, setIsEditingWhatsApp] = useState(false);
+  const [whatsappLoading, setWhatsappLoading] = useState(false);
 
   // Notification Toggles
   const [emailAlerts, setEmailAlerts] = useState(true);
@@ -50,6 +74,15 @@ export default function SettingsPage() {
           setAiTone(data.ai_tone || "friendly");
           setAutoFollowUp(data.auto_followup ?? true);
           setHandoffAlert(data.human_handoff_trigger ?? true);
+
+          // Load WhatsApp settings
+          const phoneId = data.whatsapp_phone_number_id || "";
+          const token = data.whatsapp_access_token || "";
+          const verify = data.whatsapp_verify_token || "smartsales_aria_verify_token";
+          setWhatsappPhoneId(phoneId);
+          setWhatsappAccessToken(token);
+          setWhatsappVerifyToken(verify);
+          setWhatsappConnected(!!(phoneId && token));
         }
       } catch (error) {
         console.error("Failed to fetch settings from API", error);
@@ -57,6 +90,53 @@ export default function SettingsPage() {
     };
     loadSettings();
   }, []);
+
+  const handleConnectWhatsApp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!whatsappPhoneId.trim() || !whatsappAccessToken.trim()) {
+      addToast("error", "Validation Error", "Phone Number ID and Permanent Access Token are required.");
+      return;
+    }
+    
+    setWhatsappLoading(true);
+    try {
+      await api.settings.update({
+        whatsapp_phone_number_id: whatsappPhoneId.trim(),
+        whatsapp_access_token: whatsappAccessToken.trim(),
+        whatsapp_verify_token: whatsappVerifyToken.trim() || "smartsales_aria_verify_token",
+      });
+      setWhatsappConnected(true);
+      setIsEditingWhatsApp(false);
+      addToast("success", "WhatsApp Connected", "WhatsApp Business API channel is now active.");
+    } catch (error: any) {
+      addToast("error", "Connection Failed", error.message || "Failed to save WhatsApp parameters.");
+    } finally {
+      setWhatsappLoading(false);
+    }
+  };
+
+  const handleDisconnectWhatsApp = async () => {
+    if (!confirm("Are you sure you want to disconnect your WhatsApp channel? This will stop AI Aria from auto-replying to customer inquiries.")) {
+      return;
+    }
+
+    setWhatsappLoading(true);
+    try {
+      await api.settings.update({
+        whatsapp_phone_number_id: null,
+        whatsapp_access_token: null,
+      });
+      setWhatsappPhoneId("");
+      setWhatsappAccessToken("");
+      setWhatsappConnected(false);
+      setIsEditingWhatsApp(false);
+      addToast("success", "WhatsApp Disconnected", "WhatsApp Business API channel has been disabled.");
+    } catch (error: any) {
+      addToast("error", "Disconnect Failed", error.message || "Failed to disconnect WhatsApp.");
+    } finally {
+      setWhatsappLoading(false);
+    }
+  };
 
   const handleSaveSettings = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -278,28 +358,132 @@ export default function SettingsPage() {
               </div>
 
               {/* Whatsapp Slot */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-dark/20 border border-slate-800 rounded-xl gap-3">
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400 border border-green-500/20 shrink-0">
-                    <MessageCircle size={18} className="fill-green-400/10" />
+              <div className="space-y-4 p-4 bg-dark/20 border border-slate-800 rounded-xl">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400 border border-green-500/20 shrink-0">
+                      <MessageCircle size={18} className="fill-green-400/10" />
+                    </div>
+                    <div className="min-w-0">
+                      <h4 className="text-xs font-bold text-slate-200 truncate">WhatsApp Business API</h4>
+                      {whatsappConnected ? (
+                        <span className="flex items-center gap-1 text-[9px] text-green-400 font-semibold mt-0.5 truncate">
+                          <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse shrink-0" /> 
+                          Phone ID: {whatsappPhoneId} (Connected)
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-1 text-[9px] text-slate-500 font-semibold mt-0.5 truncate">
+                          <span className="w-1.5 h-1.5 rounded-full bg-slate-650 shrink-0" />
+                          Not Connected
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <div className="min-w-0">
-                    <h4 className="text-xs font-bold text-slate-200 truncate">WhatsApp Business API</h4>
-                    <span className="flex items-center gap-1 text-[9px] text-green-400 font-semibold mt-0.5 truncate">
-                      <span className="w-1 h-1 rounded-full bg-green-400 animate-pulse shrink-0" /> +234 803 111 2222 Connected
-                    </span>
+
+                  <div className="flex items-center gap-2 w-full sm:w-auto shrink-0 justify-end">
+                    {whatsappConnected && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={() => setIsEditingWhatsApp(!isEditingWhatsApp)}
+                        className="h-7.5 px-2.5 rounded-lg text-[10px] font-semibold text-slate-400 hover:text-white hover:bg-slate-800/40"
+                      >
+                        <Settings size={12} className="mr-1" />
+                        {isEditingWhatsApp ? "Hide Settings" : "Configure"}
+                      </Button>
+                    )}
+                    
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={whatsappConnected ? handleDisconnectWhatsApp : () => setIsEditingWhatsApp(!isEditingWhatsApp)}
+                      disabled={whatsappLoading}
+                      className={cn(
+                        "h-7.5 px-3 rounded-lg text-[10px] font-semibold border-slate-700 w-full sm:w-auto",
+                        whatsappConnected ? "text-red-400 hover:bg-red-500/10 border-red-500/20" : "text-green-400 hover:bg-green-500/10 border-green-500/20"
+                      )}
+                    >
+                      {whatsappConnected ? "Disconnect" : (isEditingWhatsApp ? "Cancel" : "Connect")}
+                    </Button>
                   </div>
                 </div>
-                <Button
-                  variant="outline"
-                  onClick={() => { setWhatsappConnected(!whatsappConnected); }}
-                  className={cn(
-                    "h-7.5 px-3 rounded-lg text-[10px] font-semibold border-slate-700 w-full sm:w-auto shrink-0",
-                    whatsappConnected ? "text-red-400 hover:bg-red-500/10" : "text-green-400 hover:bg-green-500/10"
-                  )}
-                >
-                  {whatsappConnected ? "Disconnect" : "Connect"}
-                </Button>
+
+                {!whatsappConnected && !isEditingWhatsApp && (
+                  <p className="text-[10.5px] text-slate-500 leading-normal mt-2 border-t border-slate-800/40 pt-2">
+                    Configure WhatsApp to allow AI Aria to automatically message customers and process orders in real-time.
+                  </p>
+                )}
+
+                {/* Inline Configuration Form */}
+                {isEditingWhatsApp && (
+                  <form onSubmit={handleConnectWhatsApp} className="border-t border-slate-800/60 pt-4 mt-3 space-y-4 animate-slide-up">
+                    <div className="bg-brand-green/10 border border-brand-green/20 p-3 rounded-lg flex items-start gap-2.5">
+                      <HelpCircle size={15} className="text-brand-green shrink-0 mt-0.5" />
+                      <div className="text-[10px] text-slate-400 leading-relaxed">
+                        <p className="font-bold text-slate-200">How to get Meta API Parameters?</p>
+                        <p className="mt-0.5">Create a Developer app in the Meta Developers dashboard under WhatsApp Cloud API. Link your business phone number to generate these parameters.</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <Link2 size={12} className="text-slate-500" /> WhatsApp Phone Number ID
+                      </label>
+                      <Input
+                        required
+                        value={whatsappPhoneId}
+                        onChange={(e) => setWhatsappPhoneId(e.target.value)}
+                        placeholder="e.g. 109283746501928"
+                        className="h-9.5 text-xs bg-dark border-slate-800 text-slate-200 placeholder:text-slate-600 rounded-lg focus:border-brand-green/60"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <Lock size={12} className="text-slate-500" /> Meta API Permanent Token
+                      </label>
+                      <Input
+                        type="password"
+                        required
+                        value={whatsappAccessToken}
+                        onChange={(e) => setWhatsappAccessToken(e.target.value)}
+                        placeholder="EAAGy7ZCpB2t4BO8..."
+                        className="h-9.5 text-xs bg-dark border-slate-800 text-slate-200 placeholder:text-slate-600 rounded-lg focus:border-brand-green/60"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                        Custom Webhook Verification Token
+                      </label>
+                      <Input
+                        required
+                        value={whatsappVerifyToken}
+                        onChange={(e) => setWhatsappVerifyToken(e.target.value)}
+                        placeholder="smartsales_aria_verify_token"
+                        className="h-9.5 text-xs bg-dark border-slate-800 text-slate-200 placeholder:text-slate-600 rounded-lg focus:border-brand-green/60"
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-800/40">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={() => setIsEditingWhatsApp(false)}
+                        className="h-8 text-xs font-semibold text-slate-400 hover:text-white"
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type="submit"
+                        disabled={whatsappLoading}
+                        className="h-8 px-4 text-xs font-bold bg-brand-green hover:bg-brand-green/80 text-white rounded-lg shadow-green"
+                      >
+                        {whatsappLoading ? "Connecting..." : "Save WhatsApp Settings"}
+                      </Button>
+                    </div>
+                  </form>
+                )}
               </div>
 
               {/* Instagram Slot */}

@@ -13,11 +13,9 @@ import {
   Phone, 
   Globe, 
   Bot, 
-  Link2, 
   ChevronRight, 
   ChevronLeft, 
   Check, 
-  HelpCircle,
   Briefcase
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -50,19 +48,13 @@ export default function RegisterPage() {
   const [aiTone, setAiTone] = useState("friendly");
   const [aiKb, setAiKb] = useState("");
 
-  // Step 4: Connect Channel (WhatsApp)
-  const [whatsappPhoneId, setWhatsappPhoneId] = useState("");
-  const [whatsappAccessToken, setWhatsappAccessToken] = useState("");
-  const [whatsappVerifyToken, setWhatsappVerifyToken] = useState("smartsales_aria_verify_token");
-
   // Step Validations
   const isStep1Valid = firstName.trim() && lastName.trim() && email.trim() && password.trim();
   const isStep2Valid = bizName.trim() && bizPhone.trim();
   const isStep3Valid = aiName.trim() && aiKb.trim();
-  const isStep4Valid = whatsappPhoneId.trim() && whatsappAccessToken.trim();
 
   // Run Onboarding Registration
-  const handleRegister = async (skipWhatsAppLinkage = false) => {
+  const handleRegister = async () => {
     setLoading(true);
     setError("");
 
@@ -93,10 +85,7 @@ export default function RegisterPage() {
         auto_followup: true,
         human_handoff_trigger: true,
       },
-      whatsapp_connection: skipWhatsAppLinkage ? null : {
-        whatsapp_phone_number_id: whatsappPhoneId,
-        connected_at: new Date().toISOString(),
-      }
+      whatsapp_connection: null
     };
 
     try {
@@ -206,20 +195,18 @@ export default function RegisterPage() {
         {/* Progress Tracker Banner */}
         <div className="py-2 border-y border-dark-border/40">
           <div className="flex items-center justify-between text-[10px] text-text-muted font-bold uppercase tracking-wider mb-2 px-1">
-            <span>Step {step} of 4</span>
+            <span>Step {step} of 3</span>
             <span>
               {step === 1 && "Account Credentials"}
               {step === 2 && "Business Settings"}
               {step === 3 && "AI Prompt Training"}
-              {step === 4 && "WhatsApp Integration"}
             </span>
           </div>
           {/* Progress Indicators */}
-          <div className="grid grid-cols-4 gap-2 h-1.5 w-full bg-dark rounded-full overflow-hidden p-0.5 border border-dark-border/30">
+          <div className="grid grid-cols-3 gap-2 h-1.5 w-full bg-dark rounded-full overflow-hidden p-0.5 border border-dark-border/30">
             <div className={`h-full rounded-full transition-all duration-300 ${step >= 1 ? "bg-brand-green shadow-green" : "bg-dark-border/50"}`} />
             <div className={`h-full rounded-full transition-all duration-300 ${step >= 2 ? "bg-brand-green shadow-green" : "bg-dark-border/50"}`} />
             <div className={`h-full rounded-full transition-all duration-300 ${step >= 3 ? "bg-brand-green shadow-green" : "bg-dark-border/50"}`} />
-            <div className={`h-full rounded-full transition-all duration-300 ${step >= 4 ? "bg-brand-green shadow-green" : "bg-dark-border/50"}`} />
           </div>
         </div>
 
@@ -412,55 +399,6 @@ export default function RegisterPage() {
               </div>
             )}
 
-            {/* STEP 4: WHATSAPP CLOUD API SETUP */}
-            {step === 4 && (
-              <div className="space-y-4">
-                <div className="bg-brand-green/10 border border-brand-green/20 p-3 rounded-lg flex items-start gap-2.5">
-                  <HelpCircle size={15} className="text-brand-green shrink-0 mt-0.5" />
-                  <div className="text-[10px] text-text-muted leading-relaxed">
-                    <p className="font-bold text-text-primary">How to get Meta API Parameters?</p>
-                    <p className="mt-0.5">Create a Developer app in the Meta Developers dashboard under WhatsApp Cloud API. Link your business phone number to generate these parameters.</p>
-                  </div>
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
-                    <Link2 size={12} className="text-text-muted" /> WhatsApp Phone Number ID
-                  </label>
-                  <Input
-                    value={whatsappPhoneId}
-                    onChange={(e) => setWhatsappPhoneId(e.target.value)}
-                    placeholder="e.g. 109283746501928"
-                    className="h-9.5 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/40 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
-                    <Key size={12} className="text-text-muted" /> Meta API Permanent Token
-                  </label>
-                  <Input
-                    value={whatsappAccessToken}
-                    onChange={(e) => setWhatsappAccessToken(e.target.value)}
-                    placeholder="EAAGy7ZCpB2t4BO8..."
-                    className="h-9.5 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/40 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-text-muted uppercase tracking-wider flex items-center gap-1.5">
-                    Custom Webhook Verification Token
-                  </label>
-                  <Input
-                    value={whatsappVerifyToken}
-                    onChange={(e) => setWhatsappVerifyToken(e.target.value)}
-                    placeholder="smartsales_aria_verify_token"
-                    className="h-9.5 text-xs bg-dark border-dark-border text-text-primary placeholder:text-text-muted/40 rounded-lg focus:border-brand-green/60 focus:ring-brand-green/20"
-                  />
-                </div>
-              </div>
-            )}
-
             {/* Navigation Button Controls */}
             <div className="flex items-center gap-3 pt-3 border-t border-dark-border/40">
               {step > 1 && (
@@ -474,32 +412,27 @@ export default function RegisterPage() {
                 </Button>
               )}
 
-              {step < 4 ? (
+              {step < 3 ? (
                 <Button
                   type="button"
                   onClick={handleNext}
                   disabled={
                     (step === 1 && !isStep1Valid) ||
-                    (step === 2 && !isStep2Valid) ||
-                    (step === 3 && !isStep3Valid)
+                    (step === 2 && !isStep2Valid)
                   }
                   className="flex-1 h-9.5 text-xs font-bold bg-brand-green hover:bg-brand-green/80 text-white rounded-lg shadow-green flex items-center justify-center gap-1 disabled:opacity-40 disabled:pointer-events-none"
                 >
                   Next <ChevronRight size={14} />
                 </Button>
               ) : (
-                <div className="w-full">
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      const hasWhatsApp = whatsappPhoneId.trim() && whatsappAccessToken.trim();
-                      handleRegister(!hasWhatsApp);
-                    }}
-                    className="w-full h-9.5 text-xs font-bold bg-brand-green hover:bg-brand-green/80 text-white rounded-lg shadow-green flex items-center justify-center gap-1.5"
-                  >
-                    <Check size={14} /> Complete Onboarding
-                  </Button>
-                </div>
+                <Button
+                  type="button"
+                  onClick={() => handleRegister()}
+                  disabled={!isStep3Valid}
+                  className="flex-1 h-9.5 text-xs font-bold bg-brand-green hover:bg-brand-green/80 text-white rounded-lg shadow-green flex items-center justify-center gap-1.5 disabled:opacity-40 disabled:pointer-events-none"
+                >
+                  <Check size={14} /> Complete Onboarding
+                </Button>
               )}
             </div>
           </div>
