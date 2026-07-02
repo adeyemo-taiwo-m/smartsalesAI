@@ -23,16 +23,23 @@ export default function DashboardLayout({
     handleSocketStatsUpdated,
   } = useStore();
 
+  const [mounted, setMounted] = React.useState(false);
+
+  // Set mounted state
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Protect dashboard routes
   useEffect(() => {
-    if (!user) {
+    if (mounted && !user) {
       router.push("/login");
     }
-  }, [user, router]);
+  }, [user, router, mounted]);
 
   // Handle Backend integration and WebSocket subscriptions
   useEffect(() => {
-    if (!user) return;
+    if (!mounted || !user) return;
 
     // Load initial leads, sales & stats on mount
     loadInitialData();
@@ -56,13 +63,14 @@ export default function DashboardLayout({
     };
   }, [
     user,
+    mounted,
     loadInitialData,
     handleSocketNewMessage,
     handleSocketLeadUpdated,
     handleSocketStatsUpdated,
   ]);
 
-  if (!user) {
+  if (!mounted || !user) {
     return (
       <div className="flex min-h-screen bg-dark items-center justify-center">
         <div className="w-10 h-10 rounded-full border-2 border-brand-green/30 border-t-brand-green animate-spin" />
