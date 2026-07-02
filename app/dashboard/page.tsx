@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { Plus, HelpCircle, Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { StatsCards } from "@/components/dashboard/StatsCards";
@@ -10,6 +11,8 @@ import { SalesFunnelWidget } from "@/components/dashboard/SalesFunnelWidget";
 import { RecentSalesTable } from "@/components/dashboard/RecentSalesTable";
 
 export default function DashboardPage() {
+  const router = useRouter();
+
   return (
     <div className="space-y-6">
       {/* Demo Warning Banner */}
@@ -35,7 +38,10 @@ export default function DashboardPage() {
         </div>
         <div className="flex items-center gap-2 shrink-0">
           {/* Create new simulation context trigger */}
-          <Button className="h-9 text-xs font-semibold bg-brand-green hover:bg-brand-green/80 text-white rounded-lg shadow-green hover:-translate-y-0.5 transition-all duration-200">
+          <Button
+            onClick={() => router.push("/dashboard/leads")}
+            className="h-9 text-xs font-semibold bg-brand-green hover:bg-brand-green/80 text-white rounded-lg shadow-green hover:-translate-y-0.5 transition-all duration-200"
+          >
             <Plus size={14} className="mr-1.5" /> Add New Lead
           </Button>
         </div>
