@@ -1,4 +1,5 @@
 import { Lead, Message, Sale, DashboardStats, Channel, LeadStatus, IntentTag } from "./types";
+import { MOCK_SALES } from "./mock-data";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://178.62.40.106:8000";
 
@@ -210,6 +211,26 @@ export const api = {
       return res;
     },
     export: async (filters: { status?: string; channel?: Channel; search?: string } = {}) => {
+      if (typeof window !== "undefined" && localStorage.getItem("user")) {
+        try {
+          const user = JSON.parse(localStorage.getItem("user")!);
+          if (user.email === "demo@smartsales.ai") {
+            let sales = [...MOCK_SALES];
+            if (filters.status) sales = sales.filter((s) => s.status === filters.status);
+            if (filters.channel) sales = sales.filter((s) => s.channel === filters.channel);
+            if (filters.search) {
+              const search = filters.search.toLowerCase();
+              sales = sales.filter((s) => s.customer.toLowerCase().includes(search) || s.product.toLowerCase().includes(search));
+            }
+            const csvHeader = "ID,Customer,Product,Amount,Status,Date,Channel\n";
+            const csvRows = sales.map((s) => `${s.id},"${s.customer}","${s.product}",${s.amount},${s.status},"${s.date}",${s.channel}`).join("\n");
+            return csvHeader + csvRows;
+          }
+        } catch (e) {
+          console.error("Failed to parse user for demo check", e);
+        }
+      }
+
       const params = new URLSearchParams();
       if (filters.status) params.append("status", filters.status);
       if (filters.channel) params.append("channel", filters.channel);
@@ -221,10 +242,52 @@ export const api = {
 
   settings: {
     get: async () => {
+      if (typeof window !== "undefined" && localStorage.getItem("user")) {
+        try {
+          const user = JSON.parse(localStorage.getItem("user")!);
+          if (user.email === "demo@smartsales.ai") {
+            const localSettingsStr = localStorage.getItem("smartsales_settings");
+            if (localSettingsStr) {
+              return JSON.parse(localSettingsStr);
+            }
+            return {
+              business_name: "Aria Textiles & Skincare",
+              ai_persona_name: "Aria",
+              ai_tone: "Friendly",
+              auto_followup: true,
+              human_handoff_trigger: true,
+              whatsapp_phone_number_id: "+2348030000000",
+              whatsapp_access_token: "mock_demo_access_token",
+              whatsapp_verify_token: "smartsales_aria_verify_token"
+            };
+          }
+        } catch (e) {
+          console.error("Failed to parse user for demo check", e);
+        }
+      }
+
       const res = await apiFetch("/api/settings/");
       return res; // returns BusinessSettingsRead
     },
     update: async (settingsData: any) => {
+      if (typeof window !== "undefined" && localStorage.getItem("user")) {
+        try {
+          const user = JSON.parse(localStorage.getItem("user")!);
+          if (user.email === "demo@smartsales.ai") {
+            const localSettingsStr = localStorage.getItem("smartsales_settings");
+            let current = {};
+            if (localSettingsStr) {
+              current = JSON.parse(localSettingsStr);
+            }
+            const updated = { ...current, ...settingsData };
+            localStorage.setItem("smartsales_settings", JSON.stringify(updated));
+            return updated;
+          }
+        } catch (e) {
+          console.error("Failed to parse user for demo check", e);
+        }
+      }
+
       const res = await apiFetch("/api/settings/", {
         method: "PUT",
         body: JSON.stringify(settingsData),

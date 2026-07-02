@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { User, Lead, Message, Sale, DashboardStats, LeadStatus, Channel, IntentTag } from "@/lib/types";
 import { api } from "@/lib/api";
 import { getSocket } from "@/lib/socket";
+import { MOCK_LEADS, MOCK_SALES, MOCK_STATS, MOCK_MESSAGES } from "@/lib/mock-data";
 
 export interface ToastItem {
   id: string;
@@ -184,6 +185,9 @@ export const useStore = create<AppState>((set, get) => ({
       ),
     }));
 
+    const user = get().user;
+    if (user?.email === "demo@smartsales.ai") return;
+
     try {
       await api.leads.update(leadId, { unreadCount: 0 });
     } catch (error) {
@@ -193,6 +197,96 @@ export const useStore = create<AppState>((set, get) => ({
 
   // Send Agent Reply Message
   sendMessage: async (leadId, content) => {
+    const user = get().user;
+    const isDemo = user?.email === "demo@smartsales.ai";
+
+    if (isDemo) {
+      const timestamp = new Date().toISOString();
+      const newMessage: Message = {
+        id: `mock-msg-${Date.now()}`,
+        leadId,
+        sender: "agent",
+        content,
+        timestamp,
+      };
+
+      set((state) => {
+        const previousMessages = state.conversations[leadId] || [];
+        const updatedMessages = [...previousMessages, newMessage];
+
+        // Update lead preview details
+        const updatedLeads = state.leads.map((l) => {
+          if (l.id === leadId) {
+            return {
+              ...l,
+              lastMessage: content,
+              lastMessageTime: timestamp,
+            };
+          }
+          return l;
+        });
+
+        return {
+          conversations: {
+            ...state.conversations,
+            [leadId]: updatedMessages,
+          },
+          leads: updatedLeads,
+        };
+      });
+
+      // Simulate a customer reply after 2 seconds
+      setTimeout(() => {
+        const currentSelectedLead = get().selectedLeadId;
+        if (currentSelectedLead !== leadId) return;
+
+        const customerReplies = [
+          "Alright, that works for me. How do I make the payment?",
+          "Can you send the invoice? I want to finalize this.",
+          "Perfect! Please ship it to my office address in Lagos.",
+          "Awesome service, thanks for the quick response! 👍",
+          "Okay, let me check with my partner and get back to you.",
+        ];
+        const randomReply = customerReplies[Math.floor(Math.random() * customerReplies.length)];
+        const custTimestamp = new Date().toISOString();
+        const customerMsg: Message = {
+          id: `mock-msg-${Date.now()}-cust`,
+          leadId,
+          sender: "customer",
+          content: randomReply,
+          timestamp: custTimestamp,
+        };
+
+        set((state) => {
+          const previousMessages = state.conversations[leadId] || [];
+          return {
+            conversations: {
+              ...state.conversations,
+              [leadId]: [...previousMessages, customerMsg],
+            },
+            leads: state.leads.map((l) =>
+              l.id === leadId
+                ? {
+                    ...l,
+                    lastMessage: randomReply,
+                    lastMessageTime: custTimestamp,
+                  }
+                : l
+            ),
+          };
+        });
+
+        const lead = get().leads.find((l) => l.id === leadId);
+        get().addToast(
+          "info",
+          `Reply from ${lead?.name || "Client"}`,
+          `"${randomReply}"`
+        );
+      }, 2000);
+
+      return;
+    }
+
     try {
       const newMessage = await api.messages.sendAgentReply(leadId, content);
       
@@ -232,6 +326,23 @@ export const useStore = create<AppState>((set, get) => ({
 
     const nextMode = !get().isAIMode;
     const isHuman = !nextMode;
+
+    const user = get().user;
+    if (user?.email === "demo@smartsales.ai") {
+      set({ isAIMode: nextMode });
+      set((state) => ({
+        leads: state.leads.map((l) =>
+          l.id === leadId ? { ...l, isHumanMode: isHuman } : l
+        )
+      }));
+
+      get().addToast(
+        "info",
+        nextMode ? "🤖 AI Mode Activated" : "🧑‍💼 Human Takeover Mode",
+        nextMode ? "Aria will now automatically reply to incoming messages." : "You have full control of all replies now."
+      );
+      return;
+    }
 
     try {
       await api.messages.toggleHandoff(leadId, isHuman);
@@ -297,6 +408,14 @@ export const useStore = create<AppState>((set, get) => ({
       };
     });
 
+    const user = get().user;
+    if (user?.email === "demo@smartsales.ai") {
+      if (lead) {
+        get().addToast("success", "Stage Moved", `${lead.name} updated to ${status.toUpperCase()} stage.`);
+      }
+      return;
+    }
+
     try {
       await api.leads.update(leadId, { status });
       if (lead) {
@@ -329,6 +448,66 @@ export const useStore = create<AppState>((set, get) => ({
 
   // Fetch leads, sales, and stats summary on dashboard load
   loadInitialData: async () => {
+    const user = get().user;
+    const isDemo = user?.email === "demo@smartsales.ai";
+
+    if (isDemo) {
+      if (get().leads.length === 0) {
+        set({
+          leads: MOCK_LEADS,
+          sales: MOCK_SALES,
+          stats: MOCK_STATS,
+          conversations: MOCK_MESSAGES,
+        });
+
+        if (MOCK_LEADS.length > 0 && !get().selectedLeadId) {
+          const firstLead = MOCK_LEADS[0];
+          set({ selectedLeadId: firstLead.id, isAIMode: !firstLead.isHumanMode });
+          get().loadConversations(firstLead.id);
+        }
+      }
+
+      // Start real-time WhatsApp message simulator for demo mode (if not already started)
+      if (typeof window !== "undefined" && !(window as any).demoSimulatorActive) {
+        (window as any).demoSimulatorActive = true;
+        
+        setInterval(() => {
+          const currentUser = get().user;
+          if (currentUser?.email !== "demo@smartsales.ai") return;
+
+          const randomLead = MOCK_LEADS[Math.floor(Math.random() * MOCK_LEADS.length)];
+          const customerMessages = [
+            "Hi, is this product still available?",
+            "Do you have a physical shop in Lagos?",
+            "What is the price of the wholesale bundle?",
+            "Can you deliver to Ibadan today?",
+            "I would like to order one skincare set."
+          ];
+          const randomMsg = customerMessages[Math.floor(Math.random() * customerMessages.length)];
+          
+          const aiReplies: Record<string, string> = {
+            "Hi, is this product still available?": "Hello! Yes, all items are currently in stock! We have direct delivery. What product are you interested in? 😊",
+            "Do you have a physical shop in Lagos?": "We operate primarily online with fast courier delivery to Lagos! We also offer pickup at our central hub in Surulere. 📍",
+            "What is the price of the wholesale bundle?": "Our wholesale bundles start at ₦150,000 with a minimum of 10 items. Would you like us to send the price list? 📈",
+            "Can you deliver to Ibadan today?": "Standard delivery to Ibadan takes 24-48 hours. However, we can arrange same-day interstate transport if you order before 10 AM! 🚚",
+            "I would like to order one skincare set.": "Excellent choice! The skincare set is ₦27,000. Let me get your details for delivery. 🧴"
+          };
+          
+          const currentLeadState = get().leads.find(l => l.id === randomLead.id);
+          const isAIModeForLead = currentLeadState ? !currentLeadState.isHumanMode : true;
+          const aiReply = isAIModeForLead ? aiReplies[randomMsg] : undefined;
+
+          get().handleSocketNewMessage({
+            leadId: randomLead.id,
+            customerMessage: randomMsg,
+            aiReply,
+            leadName: randomLead.name
+          });
+        }, 45000);
+      }
+      return;
+    }
+
     try {
       const leadsRes = await api.leads.list();
       const salesRes = await api.sales.list();
@@ -349,7 +528,6 @@ export const useStore = create<AppState>((set, get) => ({
         },
       });
 
-      // Select first lead automatically if none selected
       if (leadsRes.items.length > 0 && !get().selectedLeadId) {
         const firstLead = leadsRes.items[0];
         set({ selectedLeadId: firstLead.id, isAIMode: !firstLead.isHumanMode });
@@ -362,6 +540,22 @@ export const useStore = create<AppState>((set, get) => ({
 
   // Load conversation messages for a selected lead
   loadConversations: async (leadId) => {
+    const user = get().user;
+    if (user?.email === "demo@smartsales.ai") {
+      set((state) => {
+        if (!state.conversations[leadId]) {
+          return {
+            conversations: {
+              ...state.conversations,
+              [leadId]: [],
+            },
+          };
+        }
+        return {};
+      });
+      return;
+    }
+
     try {
       const messages = await api.messages.list(leadId);
       set((state) => ({
